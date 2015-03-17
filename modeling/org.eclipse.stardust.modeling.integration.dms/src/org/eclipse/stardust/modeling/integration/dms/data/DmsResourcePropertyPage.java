@@ -15,7 +15,6 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.*;
@@ -23,7 +22,6 @@ import org.eclipse.swt.widgets.*;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
@@ -40,7 +38,6 @@ import org.eclipse.stardust.modeling.common.ui.jface.databinding.BindingManager;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledWidget;
 import org.eclipse.stardust.modeling.common.ui.jface.widgets.LabelWithStatus;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.properties.ReferencedModelSorter;
 import org.eclipse.stardust.modeling.core.utils.ExtensibleElementAdapter;
@@ -69,13 +66,9 @@ public class DmsResourcePropertyPage extends AbstractModelElementPropertyPage
    private Button groupingCheckbox;
    private ReferencedModelSorter refSorter = new ReferencedModelSorter();
    private StructLabelProvider typesViewerLabelProvider = new StructLabelProvider();
-
-   private Button volatileCheckBox;   
    
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement node)
    {
-      volatileCheckBox.setSelection(AttributeUtil.getBooleanValue((IExtensibleElement) node, PredefinedConstants.VOLATILE_DATA));      
-      
       WidgetBindingManager wBndMgr = getWidgetBindingManager();
 
       final ModelType model = ModelUtils.findContainingModel(node);
@@ -146,24 +139,6 @@ public class DmsResourcePropertyPage extends AbstractModelElementPropertyPage
    public Control createBody(Composite parent)
    {
       Composite composite = FormBuilder.createComposite(parent, 2);
-      volatileCheckBox = FormBuilder.createCheckBox(composite, Diagram_Messages.LBL_Volatile_Data, 2);
-      volatileCheckBox.addSelectionListener(new SelectionAdapter()
-      {
-         public void widgetSelected(SelectionEvent e)
-         {
-            DataType data = (DataType) getModelElement();
-            boolean selection = ((Button) e.widget).getSelection();
-            if(selection)
-            {
-               AttributeUtil.setBooleanAttribute(data, PredefinedConstants.VOLATILE_DATA, true);
-            }
-            else
-            {
-               AttributeUtil.setAttribute(data, PredefinedConstants.VOLATILE_DATA, null);               
-            }
-         }
-      });
-
       LabelWithStatus typesLabel = FormBuilder.createLabelWithLeftAlignedStatus(composite,
             org.eclipse.stardust.modeling.data.structured.Structured_Messages.DataStructPropertyPage_DeclaredTypesLabel);
       FormBuilder.createLabel(composite,
