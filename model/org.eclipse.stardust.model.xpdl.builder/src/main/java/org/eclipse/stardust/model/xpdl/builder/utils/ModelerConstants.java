@@ -118,6 +118,7 @@ public class ModelerConstants
    public static final String EVENT_KEY = "event";
    public static final String EVENT_SYMBOLS = "eventSymbols";
    public static final String EVENT_TYPE_PROPERTY = "eventType";
+   public static final String EVENT_ACTION_KEY = "eventAction";
    public static final String START_EVENT = "startEvent";
    public static final String STOP_EVENT = "stopEvent";
    public static final String DATA = "data";
@@ -220,7 +221,7 @@ public class ModelerConstants
    public static final String INTERMEDIATE_EVENT = "intermediateEvent";
    public static final String BINDING_ACTIVITY_UUID = "bindingActivityUuid";
    public static final String LOG_HANDLER_PROPERTY = "logHandler";
-   public static final String CONSUME_ON_MATCH_PROPERTY = "consumeOnMatch";   
+   public static final String CONSUME_ON_MATCH_PROPERTY = "consumeOnMatch";
    public static final String INTERRUPTING_PROPERTY = "interrupting";
    public static final String THROWING_PROPERTY = "throwing";
    public static final String TIMER_EVENT_CLASS_KEY = "timer";
@@ -250,8 +251,8 @@ public class ModelerConstants
    public static final String QC_CODES = "codes";
    public static final String EU_EXCLUDE_USER = "excludeUser";
    public static final String EU_EXCLUDE_USER_INTERNAL = "_excludeUser_";
-   public static final String EU_EXCLUDE_PERFORMER_DATA = "excludedPerformerData";
-   public static final String EU_EXCLUDE_PERFORMER_DATA_PATH = "excludedPerformerDataPath";
+   public static final String EU_EXCLUDE_PERFORMER_DATA = "data";
+   public static final String EU_EXCLUDE_PERFORMER_DATA_PATH = "dataPath";
    public static final String SD_SET_DATA_ACTION = "setDataAction";
    public static final String SD_SET_DATA_ACTION_INTERNAL = "_setDataAction_";
    public static final String SD_SET_DATA_ACTION_DATA_ID = "dataId";
