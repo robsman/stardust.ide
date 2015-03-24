@@ -18,23 +18,24 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.runtime.DocumentManagementService;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
+import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.builder.utils.PepperIconFactory;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -72,6 +73,27 @@ public class WebModelerConnectionHandler implements ConnectionHandler
       if (model == null)
       {
          model = strategy.loadModel(id.split("\\.")[0]);
+      }
+      if (model == null)
+      {
+         String uuid = connection.getAttribute("connectionUUID");
+         if (uuid != null)
+         {
+            for (Iterator<ModelType> i = strategy.getModels().values().iterator(); i
+                  .hasNext();)
+            {
+               ModelType uuidModel = i.next();
+               AttributeType attribute = AttributeUtil.getAttribute(uuidModel,
+                     "carnot:model:uuid");
+               if (attribute != null)
+               {
+                  if (attribute.getValue().equals(uuid))
+                  {
+                     model = uuidModel;
+                  }
+               }
+            }
+         }
       }
       return model;
    }

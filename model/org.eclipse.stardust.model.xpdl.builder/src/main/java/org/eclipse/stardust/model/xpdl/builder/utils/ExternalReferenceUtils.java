@@ -499,6 +499,9 @@ public class ExternalReferenceUtils
          if (modelType != null)
          {
             ModelType refModel = models.get(modelType.getId());
+
+            fixConnection(connection, refModel);
+
             for (Iterator<EObject> j = references.iterator(); j.hasNext();)
             {
                EObject ref = j.next();
@@ -526,6 +529,44 @@ public class ExternalReferenceUtils
                 * if (ref instanceof XSDImport) { fixXSDImport((XSDImport) ref, refModel);
                 * }
                 */
+            }
+         }
+      }
+   }
+
+   private static void fixConnection(Connection connection, ModelType refModel)
+   {
+      String connectionUUID = connection.getAttribute("connectionUUID");
+      if (null != connectionUUID)
+      {
+         AttributeType attribute = AttributeUtil.getAttribute(refModel,
+               "carnot:model:uuid");
+         if (null != attribute)
+         {
+            if (attribute.getValue().equals(connectionUUID))
+            {
+               String filename = connection.getAttribute("filename");
+               if (null != filename)
+               {
+                  String lastSegment = null;
+                  try
+                  {
+                     lastSegment = filename.substring(filename.lastIndexOf("/") + 1);
+                  }
+                  catch (Throwable t)
+                  {
+                     return;
+                  }
+                  if (null != lastSegment && null != refModel.eResource())
+                  {
+                     String realFilename = refModel.eResource().getURI().toString();
+                     if (!lastSegment.equals(realFilename))
+                     {
+                        filename = filename.replaceAll(lastSegment, realFilename);
+                        connection.setAttribute("filename", filename);
+                     }
+                  }
+               }
             }
          }
       }
