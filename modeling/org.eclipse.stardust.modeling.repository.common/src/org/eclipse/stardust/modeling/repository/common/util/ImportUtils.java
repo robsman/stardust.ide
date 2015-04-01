@@ -33,6 +33,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ImportCancelledException;
 import org.eclipse.stardust.modeling.repository.common.ImportStrategy;
 import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
 import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
@@ -58,6 +59,9 @@ public final class ImportUtils
             if (null != action)
             {
                reuseReplace.put(original, action);
+            } else
+            {
+               throw new ImportCancelledException();
             }
          }
       }

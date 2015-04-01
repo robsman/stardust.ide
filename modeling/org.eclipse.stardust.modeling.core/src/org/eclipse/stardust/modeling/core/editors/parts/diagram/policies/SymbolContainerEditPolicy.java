@@ -18,7 +18,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -31,28 +30,13 @@ import org.eclipse.gef.editpolicies.ContainerEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
-import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
+
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.editors.figures.LaneFigure;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.AbstractNodeSymbolEditPart;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.AbstractSwimlaneEditPart;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.DiagramEditPart;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.LaneEditPart;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.PoolEditPart;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateSymbolCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IDiagramCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.MoveLaneCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.MoveNodeSymbolCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.MoveSymbolCommandUtils;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetSymbolContainerCommand;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.*;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.*;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 
 
@@ -321,6 +305,10 @@ public class SymbolContainerEditPolicy extends ContainerEditPolicy
                      && DiagramUtil.getDefaultPool(diagram) != null)
                {
                   boolean isLane = false;
+                  if (null == createSymbolCommand)
+                  {
+                     return UnexecutableCommand.INSTANCE;
+                  }
                   EClass eClass = createSymbolCommand.getEClass();
                   if(eClass.equals(PKG.getLaneSymbol()))
                   {

@@ -194,7 +194,7 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
             reuseReplace = ImportUtils.reuseReplaceMap(map, strategy);
          }
          // CANCEL pressed
-         if (reuseReplace == null || reuseReplace.isEmpty())
+         if (reuseReplace == null) // || reuseReplace.isEmpty())
          {
             throw new ImportCancelledException();
          }
