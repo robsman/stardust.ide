@@ -434,6 +434,27 @@ public class ExternalReferenceUtils
                }
             }
          }
+         if (modelElement instanceof ProcessDefinitionType)
+         {
+            {
+               ProcessDefinitionType processDefinition = (ProcessDefinitionType) modelElement;
+               if (processDefinition.getExternalRef() != null)
+               {
+                  ExternalPackages packs = model.getExternalPackages();
+                  if (packs != null)
+                  {
+                     ExternalPackage pack = processDefinition.getExternalRef().getPackageRef();
+                     if (pack != null)
+                     {
+                        String uri = ExtendedAttributeUtil.getAttributeValue(pack,
+                              IConnectionManager.URI_ATTRIBUTE_NAME);
+                        checkConnectionUsed(connectionManager, list, connectionId,
+                              modelElement, uri == null ? null : URI.createURI(uri));
+                     }
+                  }
+               }
+            }
+         }
       }
       return list;
    }
