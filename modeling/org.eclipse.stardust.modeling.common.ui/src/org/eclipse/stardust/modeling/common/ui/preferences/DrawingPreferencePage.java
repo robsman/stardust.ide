@@ -39,6 +39,8 @@ import org.eclipse.ui.PlatformUI;
 public class DrawingPreferencePage extends PreferencePage
       implements IWorkbenchPreferencePage
 {
+   private LabeledText transitionConditionLength;
+   
    private Button chkHorizontalModeling;
 
    private Button chkVerticalModeling;
@@ -98,6 +100,12 @@ public class DrawingPreferencePage extends PreferencePage
             setErrorMessage(UI_Messages.WorkbenchPreferencePage_SnapGridValidationErrorMessage);
             setValid(false);
          }
+
+         else if(!validateTransitionConditionSize(transitionConditionLength.getText().getText()))
+         {
+            setErrorMessage(UI_Messages.WorkbenchPreferencePage_TransitionConditionValidationErrorMessage);
+            setValid(false);
+         }
          else
          {
             setValid(true);
@@ -105,7 +113,39 @@ public class DrawingPreferencePage extends PreferencePage
          }
       }
    };
-
+   
+   // validate if values for transition condition length and not empty
+   private boolean validateTransitionConditionSize(String input)
+   {
+      boolean valid = true;
+      Pattern pattern = Pattern.compile("^\\d+$"); //$NON-NLS-1$
+      if(StringUtils.isEmpty(input))
+      {
+         valid = false;
+      }
+      else if(input.length() > 4)
+      {
+         valid = false;
+      }
+      else
+      {
+         Matcher pixelMatcher = pattern.matcher(input);
+         if(!pixelMatcher.matches())
+         {
+            valid = false;
+         }
+         else
+         {
+            int value = Integer.parseInt(input);
+            if(value <= 0 || value > 1000)
+            {
+               valid = false;
+            }
+         }
+      }
+      return valid;
+   }
+      
    // validate if values for snap grid are of type integer and not empty
    private boolean validateSnapGridValues(String input)
    {
@@ -142,6 +182,8 @@ public class DrawingPreferencePage extends PreferencePage
    {
       Composite panel = FormBuilder.createComposite(parent, 3);
 
+      transitionConditionLength = FormBuilder.createLabeledText(panel, UI_Messages.WorkbenchPreferencePage_VisibleTransitionConditionLength);
+            
       this.chkViewForkOnTraversal = FormBuilder.createCheckBox(panel,
             UI_Messages.WorkbenchPreferencePage_ViewForkOnTraversalLabel, 3);
 
@@ -253,6 +295,10 @@ public class DrawingPreferencePage extends PreferencePage
       chkViewForkOnTraversal.setSelection(PlatformUI.getPreferenceStore()
             .getBoolean(BpmProjectNature.PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE));
 
+      transitionConditionLength.getText().setText(PlatformUI.getPreferenceStore()
+            .getString(BpmProjectNature.PREFERENCE_TRANSITION_CONDITION_LENGTH));
+      transitionConditionLength.getText().addModifyListener(snapGridListener);
+            
       // Snap To Grid
       chkEnableSnapGrid.setSelection(PlatformUI.getPreferenceStore()
             .getBoolean(BpmProjectNature.PREFERENCE_SNAP_GRID_MODE));
@@ -285,6 +331,10 @@ public class DrawingPreferencePage extends PreferencePage
             BpmProjectNature.PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE,
             chkViewForkOnTraversal.getSelection());
 
+      PlatformUI.getPreferenceStore().setValue(
+            BpmProjectNature.PREFERENCE_TRANSITION_CONDITION_LENGTH,
+            transitionConditionLength.getText().getText());
+            
       // Snap To Grid
       PlatformUI.getPreferenceStore().setValue(
             BpmProjectNature.PREFERENCE_SNAP_GRID_MODE,

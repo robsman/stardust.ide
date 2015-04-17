@@ -78,6 +78,11 @@ public class BpmProjectNature implements IProjectNature
    public static final String PREFERENCE_FOCUS_MODE_EDITOR = "focusModeEditor"; //$NON-NLS-1$
    public static final String DEFAULT_PREFERENCE_FOCUS_MODE = PREFERENCE_FOCUS_MODE_ELEMENT;
 
+   // Transition Condition length
+   public static final String PREFERENCE_TRANSITION_CONDITION_LENGTH = ModelingCoreActivator.PLUGIN_ID
+         + ".transitionConditionLength"; //$NON-NLS-1$
+   public static final int DEFAULT_PREFERENCE_TRANSITION_CONDITION_LENGTH = 200;
+      
    // SnapGrid
    public static final String PREFERENCE_SNAP_GRID_MODE = ModelingCoreActivator.PLUGIN_ID
          + ".snapGridMode"; //$NON-NLS-1$

@@ -18,9 +18,11 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.core.utils.TransitionConnectionUtils;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Color;
@@ -42,6 +44,8 @@ public class TransitionConnectionFigure extends AbstractConnectionSymbolFigure i
 
    private static final boolean USE_TOOLTIP_COLORS = true;
 
+   private int transitionConditionLength;
+   
    /**
     * The following constants specify how connection segment endpoints have to be modified
     * to support rounded corners. Each row corresponds to one of the eight possible corner
@@ -85,6 +89,9 @@ public class TransitionConnectionFigure extends AbstractConnectionSymbolFigure i
    public TransitionConnectionFigure(TransitionConnectionType transition)
    {
       this.transition = transition;
+      
+      transitionConditionLength = PlatformUI.getPreferenceStore().getInt(BpmProjectNature.PREFERENCE_TRANSITION_CONDITION_LENGTH);
+      
       setDefaultBorderColor(FG_COLOR);
       setDefaultFillColor(FG_COLOR);
       setDefaultRouting(ROUTING_MANHATTAN);
@@ -124,10 +131,10 @@ public class TransitionConnectionFigure extends AbstractConnectionSymbolFigure i
    {
       transitionLabel = text;
       int preferredWidth = ((startPoint != null && endPoint != null)
-            && (Math.abs(startPoint.x - endPoint.x) < 200)
+            && (Math.abs(startPoint.x - endPoint.x) < transitionConditionLength)
                   && (Math.abs(startPoint.y - endPoint.y) < 60))
             ? Math.abs(startPoint.x - endPoint.x) - 20
-            : 200;
+            : transitionConditionLength;
 
       if (text == null || text.length() == 0)
       {
@@ -149,7 +156,7 @@ public class TransitionConnectionFigure extends AbstractConnectionSymbolFigure i
                {
                   public Dimension getPreferredSize(int wHint, int hHint)
                   {
-                     return super.getPreferredSize(wHint == -1 ? 200 : wHint, hHint);
+                     return super.getPreferredSize(wHint == -1 ? transitionConditionLength : wHint, hHint);
                   }
                };
             }
@@ -159,15 +166,13 @@ public class TransitionConnectionFigure extends AbstractConnectionSymbolFigure i
                {
                   public Dimension getPreferredSize(int wHint, int hHint)
                   {
-                     return super.getPreferredSize(wHint == -1 ? 200 : wHint, hHint);
+                     return super.getPreferredSize(wHint == -1 ? transitionConditionLength : wHint, hHint);
                   }
                };
             }
             rect.setOutline(SHOW_BORDER);
             label = new Label(text)
             {
-               private Dimension longestText;
-
                public String getSubStringText()
                {
                   String[] splitText = text.split("\n"); //$NON-NLS-1$
@@ -294,7 +299,7 @@ public class TransitionConnectionFigure extends AbstractConnectionSymbolFigure i
                         // first segment is vertical
                         plOverride.addPoint(p0);
                         plOverride.addPoint(p1);
-         }
+                     }
                      else if (0 == (p2.x - p1.x))
                      {
                         // second segment is vertical
@@ -327,7 +332,8 @@ public class TransitionConnectionFigure extends AbstractConnectionSymbolFigure i
                label.setToolTip(new Label(text));
             }
          }
-         if (preferredWidth < 200)
+         
+         if (preferredWidth < transitionConditionLength)
          {
             rect.setSize(preferredWidth, rect.getPreferredSize().height);
             rect.setLocation(new Point(startPoint.x + 5, rect.getLocation().y));
@@ -530,6 +536,13 @@ public class TransitionConnectionFigure extends AbstractConnectionSymbolFigure i
 
    public void propertyChange(PropertyChangeEvent event)
    {
+      if(event.getProperty().equals(BpmProjectNature.PREFERENCE_TRANSITION_CONDITION_LENGTH))
+      {
+         transitionConditionLength = Integer.parseInt(((String) event.getNewValue()));
+         label = null;
+         layout();
+      }
+      
       if(event.getProperty().equals(BpmProjectNature.PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE))
       {      
          updateForkOnTraversal(null);      
