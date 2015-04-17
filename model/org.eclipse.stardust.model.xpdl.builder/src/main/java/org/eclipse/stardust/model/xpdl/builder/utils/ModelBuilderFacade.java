@@ -974,7 +974,7 @@ public class ModelBuilderFacade
     *
     * @return local or referenced data
     */
-   public DataType importData(ModelType model, String dataFullID)
+   public DataType importData(ModelType model, String dataFullID) throws IllegalArgumentException
    {
       DataType data = null;
       String dataModelId = getModelId(dataFullID);
@@ -989,6 +989,12 @@ public class ModelBuilderFacade
          data = createProcessAttachementData(model);
       }
 
+      DataType consumerData = XPDLFinderUtils.findData(model, stripFullId(dataFullID));
+      if(consumerData != null)
+      {
+         throw new IllegalArgumentException("Data with same Id already exists.");         
+      }
+      
       if (!dataModelId.equals(model.getId()))
       {
          data = EObjectProxyHandler.importElement(model, data);
