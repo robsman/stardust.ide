@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.data.structured.annotations;
 
-
-public interface IAnnotationChangedListener {
-	public void annotationChanged(IAnnotation annotation, Object oldValue, Object newValue);
+public interface IAnnotationChangedListener
+{
+   public void annotationChanged(IAnnotation annotation, Object oldValue, Object newValue);
 }

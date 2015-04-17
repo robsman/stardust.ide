@@ -20,19 +20,18 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.stardust.modeling.core.Verifier;
 import org.eclipse.stardust.modeling.core.VerifierFactory;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
-import org.eclipse.xsd.XSDElementDeclaration;
-
+import org.eclipse.xsd.XSDFeature;
 
 public class DefaultAnnotationModifier implements IAnnotationModifier
 {
    private static boolean notify;
 
-private List<IAnnotationChangedListener> listeners = new ArrayList<IAnnotationChangedListener>();
-   
+   private List<IAnnotationChangedListener> listeners = new ArrayList<IAnnotationChangedListener>();
+
    public static final IAnnotationModifier INSTANCE = new DefaultAnnotationModifier();
 
    // implementation of IAnnotationModifier
-   
+
    public boolean exists(IAnnotation annotation)
    {
       return annotation.exists();
@@ -51,8 +50,8 @@ private List<IAnnotationChangedListener> listeners = new ArrayList<IAnnotationCh
    {
       return getValue(annotation, annotation.getElement());
    }
-   
-   public Object getValue(IAnnotation annotation, XSDElementDeclaration element)
+
+   public Object getValue(IAnnotation annotation, XSDFeature element)
    {
       String rawValue = getRawValue(annotation, element);
       if (DefaultAnnotationModifier.isSelectionBased(annotation))
@@ -73,76 +72,60 @@ private List<IAnnotationChangedListener> listeners = new ArrayList<IAnnotationCh
       }
       return rawValue == null ? "" : rawValue; //$NON-NLS-1$
    }
-   
-   public void setValue(IAnnotation annotation, XSDElementDeclaration element, Object value)
-   {
-      if (value != null) {
-    	  annotation.setRawValue(element, value.toString());  
-      } else {
-    	  this.delete(annotation);
-      }
-	  
-	  /*String rawValue = getRawValue(annotation, element);
-      if (DefaultAnnotationModifier.isSelectionBased(annotation))
-      {
-         if (rawValue != null)
-         {
-            List<Object> items = DefaultAnnotationModifier.getAnnotationAllowedValues(annotation);
-            for (int i = 0; i < items.size(); i++)
-            {
-               EnumerationItem item = (EnumerationItem) items.get(i);
-               if (rawValue.equals(item.getValue()))
-               {
-                  return item;
-               }
-            }
-         }
-         return null;
-      }
-      return rawValue == null ? "" : rawValue;*/
-   }   
 
-   private String getRawValue(IAnnotation annotation, XSDElementDeclaration element)
+   public void setValue(IAnnotation annotation, XSDFeature element, Object value)
+   {
+      if (value != null)
+      {
+         annotation.setRawValue(element, value.toString());
+      }
+      else
+      {
+         delete(annotation);
+      }
+   }
+
+   private String getRawValue(IAnnotation annotation, XSDFeature element)
    {
       return annotation.getRawValue(element);
    }
 
    public void setValue(IAnnotation annotation, Object value)
    {
-	  Object oldValue = null;
-	  if (DefaultAnnotationModifier.isSelectionBased(annotation))
+      Object oldValue = null;
+      if (DefaultAnnotationModifier.isSelectionBased(annotation))
       {
-		 EnumerationItem item = (EnumerationItem) DefaultAnnotationModifier.getAnnotationValue(annotation); 
-		 if (item != null)
-		 {
-			 oldValue = item;			 
-		 }
-		 item = (EnumerationItem) value;         
+         EnumerationItem item = (EnumerationItem) DefaultAnnotationModifier.getAnnotationValue(annotation);
+         if (item != null)
+         {
+            oldValue = item;
+         }
+         item = (EnumerationItem) value;
          annotation.setRawValue(item.getValue());
       }
       else
       {
-    	 if (DefaultAnnotationModifier.getAnnotationValue(annotation) != null) 
-    	 {
-    		 oldValue = (String)DefaultAnnotationModifier.getAnnotationValue(annotation); 
-    	 }
-    	 annotation.setRawValue((String) value);
+         if (DefaultAnnotationModifier.getAnnotationValue(annotation) != null)
+         {
+            oldValue = (String)DefaultAnnotationModifier.getAnnotationValue(annotation);
+         }
+         annotation.setRawValue((String) value);
       }
       fireAnnotationChanged(annotation, oldValue, value);
    }
 
    public boolean delete(IAnnotation annotation)
-   {	 	
-	  fireAnnotationChanged(annotation, DefaultAnnotationModifier.getAnnotationValue(annotation), null);		  
-	 
-	  if (annotation instanceof ElementAnnotation)
+   {
+      fireAnnotationChanged(annotation, DefaultAnnotationModifier.getAnnotationValue(annotation), null);
+
+      if (annotation instanceof ElementAnnotation)
       {
          return ((ElementAnnotation) annotation).delete();
       }
       if (annotation instanceof AttributeAnnotation)
       {
          return ((AttributeAnnotation) annotation).delete();
-      }      
+      }
       return false;
    }
    public List<Object> getAllowedValues(IAnnotation annotation)
@@ -184,9 +167,8 @@ private List<IAnnotationChangedListener> listeners = new ArrayList<IAnnotationCh
       }
       return labels;
    }
-   
-   // static helpers
 
+   // static helpers
 
    public static boolean annotationExists(IAnnotation annotation)
    {
@@ -212,7 +194,7 @@ private List<IAnnotationChangedListener> listeners = new ArrayList<IAnnotationCh
       return modifier == null ? INSTANCE.getValue(annotation) : modifier.getValue(annotation);
    }
 
-   public static Object getAnnotationValue(IAnnotation annotation, XSDElementDeclaration element)
+   public static Object getAnnotationValue(IAnnotation annotation, XSDFeature element)
    {
       IAnnotationModifier modifier = getModifier(annotation);
       return modifier == null ? INSTANCE.getValue(annotation, element) : modifier.getValue(annotation, element);
@@ -281,30 +263,37 @@ private List<IAnnotationChangedListener> listeners = new ArrayList<IAnnotationCh
    {
       return annotation.getConfiguration().getAttribute("type"); //$NON-NLS-1$
    }
-   
-   public void addAnnotationChangedListener(IAnnotationChangedListener listener) {	   
-	   listeners.add(listener);
-	   startNotifying();
+
+   public void addAnnotationChangedListener(IAnnotationChangedListener listener)
+   {
+      listeners.add(listener);
+      startNotifying();
    }
-   
-   public void removeAnnotationChangedListener(IAnnotationChangedListener listener) {
-	   listeners.remove(listener);
+
+   public void removeAnnotationChangedListener(IAnnotationChangedListener listener)
+   {
+      listeners.remove(listener);
    }
-   
-   public void fireAnnotationChanged(IAnnotation annotation, Object oldValue, Object newValue) {
-	   if (notify) {
-		   for (Iterator<IAnnotationChangedListener> i = listeners.iterator(); i.hasNext();) {
-			   IAnnotationChangedListener listener = i.next();
-			   listener.annotationChanged(annotation, oldValue, newValue);
-		   }		   
-	   }	 	   
+
+   public void fireAnnotationChanged(IAnnotation annotation, Object oldValue, Object newValue)
+   {
+      if (notify)
+      {
+         for (Iterator<IAnnotationChangedListener> i = listeners.iterator(); i.hasNext();)
+         {
+            IAnnotationChangedListener listener = i.next();
+            listener.annotationChanged(annotation, oldValue, newValue);
+         }
+      }
    }
-   
-   public static void stopNotifying() {
-	   notify = false;	
+
+   public static void stopNotifying()
+   {
+      notify = false;
    }
-   
-   public static void startNotifying() {
-	   notify = true;	
-   }   
+
+   public static void startNotifying()
+   {
+      notify = true;
+   }
 }

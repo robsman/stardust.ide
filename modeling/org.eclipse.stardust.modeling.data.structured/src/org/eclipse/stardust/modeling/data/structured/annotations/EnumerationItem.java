@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.data.structured.annotations;
 
-
 public class EnumerationItem
 {
    private String name;

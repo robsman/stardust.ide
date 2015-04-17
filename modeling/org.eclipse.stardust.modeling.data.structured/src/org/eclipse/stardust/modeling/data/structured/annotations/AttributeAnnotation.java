@@ -14,14 +14,14 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFeature;
 import org.w3c.dom.Attr;
 
 public class AttributeAnnotation extends ConfigurationItem
    implements IAnnotation
 {
    private ElementAnnotation parentElement;
-   
+
    public AttributeAnnotation(ElementAnnotation parentElement,
          IConfigurationElement config)
    {
@@ -36,7 +36,7 @@ public class AttributeAnnotation extends ConfigurationItem
 
    public boolean exists()
    {
-      XSDElementDeclaration element = getElement();
+      XSDFeature element = getElement();
       return getAttribute(element, false, false) != null || getAttribute(element, false, true) != null;
    }
 
@@ -49,8 +49,8 @@ public class AttributeAnnotation extends ConfigurationItem
    {
       return parentElement;
    }
-   
-   private Attr getAttribute(XSDElementDeclaration element, boolean create, boolean forceInternal)
+
+   private Attr getAttribute(XSDFeature element, boolean create, boolean forceInternal)
    {
       if (create && forceInternal)
       {
@@ -76,7 +76,7 @@ public class AttributeAnnotation extends ConfigurationItem
       return getRawValue(getElement());
    }
 
-   public String getRawValue(XSDElementDeclaration element)
+   public String getRawValue(XSDFeature element)
    {
       Attr attribute = getAttribute(element, false, false);
       if (attribute == null)
@@ -88,11 +88,11 @@ public class AttributeAnnotation extends ConfigurationItem
 
    public void setRawValue(String value)
    {
-      XSDElementDeclaration element = getElement();
+      XSDFeature element = getElement();
       setRawValue(element, value);
    }
 
-   public void setRawValue(XSDElementDeclaration element, String value)
+   public void setRawValue(XSDFeature element, String value)
    {
       if (value == null)
       {
@@ -115,7 +115,7 @@ public class AttributeAnnotation extends ConfigurationItem
 
    public boolean delete()
    {
-      XSDElementDeclaration element = getElement();
+      XSDFeature element = getElement();
       GenericElementAdapter parentAdapter = parentElement.getElementAdapter(element, false, false);
       if (parentAdapter != null)
       {
@@ -130,7 +130,7 @@ public class AttributeAnnotation extends ConfigurationItem
       return false;
    }
 
-   public XSDElementDeclaration getElement()
+   public XSDFeature getElement()
    {
       IAnnotation parent = getParent();
       return parent == null ? null : parent.getElement();

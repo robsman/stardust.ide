@@ -32,16 +32,9 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Item;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFeature;
 
 public class AnnotationViewer
 {
@@ -56,12 +49,12 @@ public class AnnotationViewer
    private boolean changeAllMode;
 
    public boolean isChangeAllMode() {
-	return changeAllMode;
+   return changeAllMode;
 }
 
    public AnnotationCellEditor getAnnotationEditor() {
-		return annotationEditor;
-	}
+      return annotationEditor;
+   }
 
 private AnnotationCellEditor annotationEditor;
 
@@ -69,7 +62,7 @@ private AnnotationCellEditor annotationEditor;
 private AnnotationContentProvider annotationContentProvider;
 
    public AnnotationContentProvider getAnnotationContentProvider() {
-	return annotationContentProvider;
+   return annotationContentProvider;
 }
 
 private Map<IAnnotation, Boolean> changeAllValues = CollectionUtils.newMap();
@@ -306,9 +299,9 @@ private Map<IAnnotation, Boolean> changeAllValues = CollectionUtils.newMap();
       {
          for (int i = 0; i < elements.length; i++)
          {
-            if (elements[i] instanceof XSDElementDeclaration)
+            if (elements[i] instanceof XSDFeature)
             {
-               XSDElementDeclaration element = (XSDElementDeclaration) elements[i];
+               XSDFeature element = (XSDFeature) elements[i];
                if (element.eContainer() != null && !(element.getType() instanceof XSDComplexTypeDefinition))
                {
                   annotation.setRawValue(element, rawValue);
@@ -386,7 +379,7 @@ private Map<IAnnotation, Boolean> changeAllValues = CollectionUtils.newMap();
       };
    }
 
-   public void setInput(XSDElementDeclaration element)
+   public void setInput(XSDFeature element)
    {
       annotationEditor.stopEditing();
       if (element != null && element.getType() instanceof XSDComplexTypeDefinition)
@@ -408,7 +401,7 @@ private Map<IAnnotation, Boolean> changeAllValues = CollectionUtils.newMap();
       }
    }
 
-   public void createDefaultAnnotations(XSDElementDeclaration xsdElement)
+   public void createDefaultAnnotations(XSDFeature xsdElement)
    {
       // we don't create default annotations
    }

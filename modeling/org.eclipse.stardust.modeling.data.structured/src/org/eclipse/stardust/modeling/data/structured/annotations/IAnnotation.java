@@ -13,7 +13,7 @@ package org.eclipse.stardust.modeling.data.structured.annotations;
 import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFeature;
 
 public interface IAnnotation
 {
@@ -27,13 +27,13 @@ public interface IAnnotation
    
    String getRawValue();
    
-   String getRawValue(XSDElementDeclaration element);
+   String getRawValue(XSDFeature element);
 
    void setRawValue(String value);
 
-   void setRawValue(XSDElementDeclaration elementDeclaration, String value);
+   void setRawValue(XSDFeature elementDeclaration, String value);
 
    IConfigurationElement getConfiguration();
 
-   XSDElementDeclaration getElement();
+   XSDFeature getElement();
 }

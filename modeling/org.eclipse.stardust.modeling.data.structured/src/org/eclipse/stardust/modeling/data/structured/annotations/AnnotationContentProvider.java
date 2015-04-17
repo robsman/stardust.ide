@@ -20,22 +20,21 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFeature;
 import org.eclipse.xsd.XSDNamedComponent;
-
 
 public class AnnotationContentProvider implements ITreeContentProvider
 {
    private static final String NAME_ATTRIBUTE = "name"; //$NON-NLS-1$
    private static final String ID_ATTRIBUTE = "id"; //$NON-NLS-1$
    private static final String STORAGE_ELEMENT = "storage"; //$NON-NLS-1$
-   private static final String CATEGORY_ELEMENT = "category"; //$NON-NLS-1$
-   
-   private static final String APPLICATION_INFO_EXTENSION_ID = 
+   //private static final String CATEGORY_ELEMENT = "category"; //$NON-NLS-1$
+
+   private static final String APPLICATION_INFO_EXTENSION_ID =
          "org.eclipse.stardust.modeling.data.structured.applicationInfo"; //$NON-NLS-1$
-   private static final String IPP_CATEGORY_ID = APPLICATION_INFO_EXTENSION_ID.substring(0, 
+   private static final String IPP_CATEGORY_ID = APPLICATION_INFO_EXTENSION_ID.substring(0,
          APPLICATION_INFO_EXTENSION_ID.lastIndexOf('.')); //$NON-NLS-1$
-   
+
    private TypeDeclarationType declaration;
    private boolean isInternalSchema;
    private XSDNamedComponent root;
@@ -90,7 +89,7 @@ public class AnnotationContentProvider implements ITreeContentProvider
    {
    }
 
-   public void setCurrentElement(XSDElementDeclaration decl)
+   public void setCurrentElement(XSDFeature decl)
    {
       filter = decl != null && decl.getType() instanceof XSDComplexTypeDefinition;
       if (elements == null)
@@ -116,7 +115,7 @@ public class AnnotationContentProvider implements ITreeContentProvider
       }
    }
 
-   public void removeIPPAnnotations(XSDElementDeclaration decl)
+   public void removeIPPAnnotations(XSDFeature decl)
    {
       CategoryAnnotation ippCategory = getIPPCategory(decl);
       ElementAnnotation annotation = getStorageAnnotation(ippCategory);
@@ -140,7 +139,7 @@ public class AnnotationContentProvider implements ITreeContentProvider
       return null;
    }
 
-   private CategoryAnnotation getIPPCategory(XSDElementDeclaration decl)
+   private CategoryAnnotation getIPPCategory(XSDFeature decl)
    {
       String extensionId = APPLICATION_INFO_EXTENSION_ID; //$NON-NLS-1$
       IConfigurationElement[] configs = Platform.getExtensionRegistry().getConfigurationElementsFor(extensionId);

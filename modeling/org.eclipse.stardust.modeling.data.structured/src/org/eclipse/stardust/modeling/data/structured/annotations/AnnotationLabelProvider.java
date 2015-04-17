@@ -21,7 +21,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
-
 public class AnnotationLabelProvider extends LabelProvider
    implements ITableLabelProvider, IColorProvider
 {
