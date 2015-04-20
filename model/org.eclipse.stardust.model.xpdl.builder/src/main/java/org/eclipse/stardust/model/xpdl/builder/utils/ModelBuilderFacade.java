@@ -989,12 +989,15 @@ public class ModelBuilderFacade
          data = createProcessAttachementData(model);
       }
 
-      DataType consumerData = XPDLFinderUtils.findData(model, stripFullId(dataFullID));
-      if(consumerData != null)
+      if (model != dataModel)
       {
-         throw new IllegalArgumentException("Data with same Id already exists.");         
+         DataType consumerData = XPDLFinderUtils.findData(model, stripFullId(dataFullID));
+         if (consumerData != null)
+         {
+            throw new IllegalArgumentException("Data with same Id already exists.");
+         }
       }
-      
+
       if (!dataModelId.equals(model.getId()))
       {
          data = EObjectProxyHandler.importElement(model, data);
