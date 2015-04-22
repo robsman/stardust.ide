@@ -10,17 +10,17 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl;
 
-
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.impl.XSDAnnotationImpl;
+import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,35 +32,35 @@ import org.eclipse.xsd.impl.XSDAnnotationImpl;
  * @generated
  */
 public class ExtendedAnnotationTypeImpl extends XSDAnnotationImpl implements ExtendedAnnotationType {
-	/**
+   /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
-	
+   public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated NOT
      */
-	private XSDSchema hiddenSchema = null;
+   private XSDSchema hiddenSchema = null;
 
-	/**
+   /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	protected ExtendedAnnotationTypeImpl() {
+   protected ExtendedAnnotationTypeImpl() {
       super();
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	@Override
+   @Override
    protected EClass eStaticClass() {
       return ExtensionPackage.Literals.EXTENDED_ANNOTATION_TYPE;
    }
@@ -85,13 +85,57 @@ public class ExtendedAnnotationTypeImpl extends XSDAnnotationImpl implements Ext
 
    /**
     * <!-- begin-user-doc -->
-    * Overwritten to allow creation/updating of elements
+    * Overridden to allow creation/updating of elements
     * <!-- end-user-doc -->
     * @generated NOT
     */
-  public XSDConcreteComponent getContainer()
+   @Override
+   public XSDConcreteComponent getContainer()
   {
      return getSchema();
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * Overridden to allow cloning
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+   @Override
+   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
+   {
+      ExtendedAnnotationType clonedAnnotation = getExtensionFactory().createExtendedAnnotationType();
+
+      if (shareDOM)
+      {
+         Element element = getElement();
+         if (element != null)
+         {
+            clonedAnnotation.setElement(element);
+         }
+
+         clonedAnnotation.getApplicationInformation().addAll(getApplicationInformation());
+         clonedAnnotation.getUserInformation().addAll(getUserInformation());
+         clonedAnnotation.getAttributes().addAll(getAttributes());
+      }
+
+      return clonedAnnotation;
+   }
+
+   /**
+    * @generated NOT
+    */
+   private ExtensionFactory getExtensionFactory()
+   {
+      return getExtensionPackage().getExtensionFactory();
+   }
+
+   /**
+    * @generated NOT
+    */
+   private ExtensionPackage getExtensionPackage()
+   {
+      return (ExtensionPackage) eClass().getEPackage();
+   }
 
 } //ExtendedAnnotationTypeImpl
