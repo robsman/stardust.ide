@@ -80,6 +80,11 @@ public interface ModelManagementStrategy {
 	 */
 	void saveModel(ModelType model);
 
+   /*
+   *
+   */
+  void saveModel(ModelType model, String oldModelId);
+		
 	/**
 	 *
 	 * @param model
