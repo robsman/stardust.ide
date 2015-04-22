@@ -331,7 +331,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
             IModelElementNodeSymbol.class);
       IModelElement modelElement = (IModelElement) (symbol == null ? getElement()
             .getAdapter(IModelElement.class) : symbol.getModelElement());
-      if (modelElement == null)
+      if (modelElement == null && getModelElement() instanceof IModelElement)
       {
          modelElement = (IModelElement) getModelElement();
       }
