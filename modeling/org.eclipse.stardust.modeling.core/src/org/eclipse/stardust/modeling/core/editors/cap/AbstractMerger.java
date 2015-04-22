@@ -79,12 +79,8 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelVariable;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContext;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -1541,9 +1537,9 @@ public abstract class AbstractMerger
       }
 
       // if files must be copied, open a dialog
-	  if(!xsdFiles.isEmpty())
-	  {
-	     String message = Diagram_Messages.FileCopyMessage_Text;
+   if(!xsdFiles.isEmpty())
+   {
+      String message = Diagram_Messages.FileCopyMessage_Text;
          for (Iterator i = xsdFiles.iterator(); i.hasNext();)
          {
             message += i.next();
@@ -1556,7 +1552,7 @@ public abstract class AbstractMerger
          messageBox.setMessage(message);
          messageBox.open();
          return false;
-	  }
+   }
 
 /////
 
@@ -1626,24 +1622,24 @@ public abstract class AbstractMerger
                 if(xsdImports != null)
                 {
                    Iterator imports = xsdImports.iterator();
-	             	while (imports.hasNext())
-	             	{
-	             		XSDImport xsdImport = (XSDImport) imports.next();
-	             		String xsdNameSpace = xsdImport.getNamespace();
-	                    int idx = xsdNameSpace.lastIndexOf("/") + 1;  //$NON-NLS-1$
-	                    String elementName = xsdNameSpace.substring(idx, xsdNameSpace.length());
-	                    String newElementName = (String) structuredDataChangedCache.get(elementName);
-	                    if(newElementName == null)
-	                    {
-	                       newElementName = elementName;
-	                    }
-	                    else
-	                    {
-	                        xsdImport.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX + newElementName);
-	                    }
-	                    String newValue = TypeDeclarationUtils.computeTargetNamespace(targetModel.getId(), newElementName);
-	             		xsdImport.setNamespace(newValue);
-	             	}
+                  while (imports.hasNext())
+                  {
+                     XSDImport xsdImport = (XSDImport) imports.next();
+                     String xsdNameSpace = xsdImport.getNamespace();
+                     int idx = xsdNameSpace.lastIndexOf("/") + 1;  //$NON-NLS-1$
+                     String elementName = xsdNameSpace.substring(idx, xsdNameSpace.length());
+                     String newElementName = (String) structuredDataChangedCache.get(elementName);
+                     if(newElementName == null)
+                     {
+                        newElementName = elementName;
+                     }
+                     else
+                     {
+                           xsdImport.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX + newElementName);
+                     }
+                     String newValue = TypeDeclarationUtils.computeTargetNamespace(targetModel.getId(), newElementName);
+                     xsdImport.setNamespace(newValue);
+                  }
                 }
                 SchemaTypeType schemaTypeType = XpdlFactory.eINSTANCE.createSchemaTypeType();
                 schemaTypeType.setSchema(clone);
@@ -1663,7 +1659,7 @@ public abstract class AbstractMerger
                       // maybe we need to set the new type definition
                       if (typeDefinition != null && typeDefinition.getSchema() == clone)
                       {
-                    	  typeDefinition.setName(newDeclaration.getId());
+                        typeDefinition.setName(newDeclaration.getId());
                       }
                    }
                 }
@@ -1681,6 +1677,13 @@ public abstract class AbstractMerger
             {
                 ExternalReferenceType copy = (ExternalReferenceType) copier.copy(type);
                 newDeclaration.setExternalReference(copy);
+            }
+            if (raw.getExtendedAttributes() != null)
+            {
+               ExtendedAttributesType copy = (ExtendedAttributesType) copier.copy(raw.getExtendedAttributes());
+               newDeclaration.setExtendedAttributes(copy);
+               // (fh) remove vcs uuid as this is a new object
+               ExtendedAttributeUtil.setAttribute(newDeclaration, "infinity:vcs:uuid", null);
             }
 
             targetDeclarations.getTypeDeclaration().add(newDeclaration);
