@@ -125,14 +125,25 @@ public class EObjectProxyHandler implements EObjectReference, InvocationHandler,
       ModelType otherModel = ModelUtils.findContainingModel(identifiable);
       String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, otherModel);
 
-      String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-      URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+      String baseUri = "cnx://" + fileConnectionId + "/";
+      URI uri = MergeUtils.createQualifiedUri(URI.createURI(baseUri), identifiable, true);
+      Collection<Object> destination = (Collection<Object>) model.eGet(identifiable.eContainingFeature());
+      for (Object object : destination)
+      {
+         if ((object instanceof InternalEObject) && ((EObject) object).eIsProxy()
+               && uri.equals(((InternalEObject) object).eProxyURI()))
+         {
+            return (T) object;
+         }
+      }
 
       T local = (T) CarnotWorkflowModelFactory.eINSTANCE.create(identifiable.eClass());
-      ((Collection<Object>) model.eGet(identifiable.eContainingFeature())).add(local);
       local.setId(identifiable.getId());
+      destination.add(local);
 
-      ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(uri, local, bundleId, null, true);
+      uri = URI.createURI(baseUri);
+      ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(uri, local,
+            CarnotConstants.DIAGRAM_PLUGIN_ID, null, true);
       LinkAttribute linkAttribute = new LinkAttribute(descriptor.getRootURI(), true, true, IConnectionManager.URI_ATTRIBUTE_NAME);
       ImportUtils.getPackageRef(descriptor, model, otherModel);
       linkAttribute.setLinkInfo(local, true);
