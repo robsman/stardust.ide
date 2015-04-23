@@ -191,14 +191,6 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 	 */
 	public abstract void saveModel(ModelType model);
 
-   /**
-   * method currently only needed by LM implementation with oldModelId
-   */
-  public void saveModel(ModelType model, String oldModelId)
-  {
-     saveModel(model);
-  }
-	
 	/**
 	 *
 	 */
