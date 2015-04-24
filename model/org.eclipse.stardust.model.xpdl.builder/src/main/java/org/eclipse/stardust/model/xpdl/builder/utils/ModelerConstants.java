@@ -65,6 +65,7 @@ public class ModelerConstants
    public static final String BOOLEAN_ATTRIBUTES_PROPERTY = "booleanAttributes";
    public static final String OID_PROPERTY = "oid";
    public static final String UUID_PROPERTY = "uuid";
+   public static final String REF_UUID_PROPERTY = "refUUID";
    public static final String MODEL_UUID_PROPERTY = "modelUUID";
    public static final String PARENT_UUID_PROPERTY = "parentUUID";
    public static final String NEW_OBJECT_PROPERTY = "newObject";
