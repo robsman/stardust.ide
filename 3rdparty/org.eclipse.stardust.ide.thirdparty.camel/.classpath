@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/camel-smpp.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/org.apache.servicemix.bundles.jsmpp.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry exported="true" kind="lib" path="lib/jdom.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/camel-core.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/camel-spring.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/camel-jms.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/camel-quartz.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/camel-script.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/camel-sql.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/camel-http.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/camel-mail.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/camel-script.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/quartz.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
