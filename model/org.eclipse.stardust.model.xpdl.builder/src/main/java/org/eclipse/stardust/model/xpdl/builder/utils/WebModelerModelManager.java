@@ -16,10 +16,16 @@ import static org.eclipse.stardust.common.StringUtils.isEmpty;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import javax.xml.transform.TransformerFactory;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.utils.xml.XmlProperties;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
@@ -31,7 +37,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 public class WebModelerModelManager extends WorkflowModelManager
 {
    private static final String TRAX_KEY = TransformerFactory.class.getName();
-   
+
    private WebModelerConnectionManager manager;
    private ModelManagementStrategy strategy;
 
@@ -54,6 +60,7 @@ public class WebModelerModelManager extends WorkflowModelManager
    @Override
    public void resolve(ModelType model)
    {
+      cleanupDuplicateReferences(model);
       if (model != null && model.getId() != null)
       {
          manager = (WebModelerConnectionManager) model.getConnectionManager();
@@ -64,6 +71,47 @@ public class WebModelerModelManager extends WorkflowModelManager
          manager.resolve();
       }
       super.resolve(model);
+      //BusinessObjectModelingUtils.adapt(model);
+   }
+
+   private static void cleanupDuplicateReferences(ModelType model)
+   {
+      for (EStructuralFeature feature : model.eClass().getEAllStructuralFeatures())
+      {
+         if (feature.isMany())
+         {
+            Object o = model.eGet(feature);
+            if (o instanceof Collection<?>)
+            {
+               cleanupDuplicateReferences((Collection<?>)o);
+            }
+         }
+      }
+   }
+
+   private static void cleanupDuplicateReferences(Collection<?> list)
+   {
+      Set<URI> uris = CollectionUtils.newSet();
+      List<InternalEObject> toRemove = CollectionUtils.newList();
+      for (Object eObject : list)
+      {
+         if (eObject instanceof InternalEObject && ((InternalEObject) eObject).eIsProxy())
+         {
+            URI uri = ((InternalEObject) eObject).eProxyURI();
+            if (uris.contains(uri))
+            {
+               toRemove.add((InternalEObject) eObject);
+            }
+            else
+            {
+               uris.add(uri);
+            }
+         }
+      }
+      if (!toRemove.isEmpty())
+      {
+         list.removeAll(toRemove);
+      }
    }
 
    @Override
@@ -73,7 +121,7 @@ public class WebModelerModelManager extends WorkflowModelManager
       {
          // create resource and attach model
          getResource(uri, false);
-         
+
          CarnotWorkflowModelFactory cwmFactory = getFactory();
          DocumentRoot documentRoot = cwmFactory.createDocumentRoot();
          resource.getContents().add(documentRoot);
@@ -92,7 +140,7 @@ public class WebModelerModelManager extends WorkflowModelManager
          manager = (WebModelerConnectionManager) model.getConnectionManager();
          if(manager == null)
          {
-            manager = new WebModelerConnectionManager(model, strategy);            
+            manager = new WebModelerConnectionManager(model, strategy);
          }
       }
       manager.save();
@@ -117,7 +165,7 @@ public class WebModelerModelManager extends WorkflowModelManager
          {
             System.setProperty(TRAX_KEY, ippTraxFactory);
          }
-   
+
          try
          {
             super.doLoad(is);
