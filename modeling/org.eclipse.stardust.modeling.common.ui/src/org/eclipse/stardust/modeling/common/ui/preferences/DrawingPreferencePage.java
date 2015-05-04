@@ -418,6 +418,9 @@ public class DrawingPreferencePage extends PreferencePage
    protected void performDefaults()
    {
       PlatformUI.getPreferenceStore().setToDefault(
+            BpmProjectNature.PREFERENCE_TRANSITION_CONDITION_LENGTH);
+            
+      PlatformUI.getPreferenceStore().setToDefault(
             BpmProjectNature.PREFERENCE_MODELING_DIRECTION);
       PlatformUI.getPreferenceStore().setToDefault(
             BpmProjectNature.PREFERENCE_CLASSIC_MODE);
