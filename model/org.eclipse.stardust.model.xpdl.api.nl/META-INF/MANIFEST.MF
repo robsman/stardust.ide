@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: %nlsFragmentName
-Bundle-SymbolicName: org.eclipse.stardust.model.xpdl.api.nl
-Bundle-Version: 9.9.9.qualifier
-Bundle-Vendor: %nlsProviderName
-Fragment-Host: org.eclipse.stardust.model.xpdl.api
-Bundle-Localization: fragment
