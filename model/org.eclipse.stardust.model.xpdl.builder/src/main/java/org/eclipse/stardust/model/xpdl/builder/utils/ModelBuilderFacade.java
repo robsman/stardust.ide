@@ -2563,6 +2563,7 @@ public class ModelBuilderFacade
       dataMapping.setName(id);
       dataMapping.setDirection(direction);
       dataMapping.setData(data);
+      modelManagementStrategy.uuidMapper().map(dataMapping);
 
       if (context.equalsIgnoreCase(PredefinedConstants.DEFAULT_CONTEXT))
       {
