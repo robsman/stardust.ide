@@ -244,12 +244,8 @@ public class ModelerConstants
    public static final String SCAN_TRIGGER_TYPE_ID = "scan";
    public static final String DATA_TYPE = "carnot:engine:dataType";
    public static final String DATA_TYPE_SIMPLENAME = "simpleName";
+   public static final String QUALITYASSURANCECODES = "qualityAssuranceCodes";   
    public static final String QUALITYCONTROL = "qualityControl";
-   public static final String QC_CODE = "code";
-   public static final String QC_NAME = "name";
-   public static final String QC_VALUE = "value";
-   public static final String QC_VALID_CODES = "validCodes";
-   public static final String QC_CODES = "codes";
    public static final String EU_EXCLUDE_USER = "excludeUser";
    public static final String EU_EXCLUDE_USER_INTERNAL = "_excludeUser_";
    public static final String EU_EXCLUDE_PERFORMER_DATA = "data";
