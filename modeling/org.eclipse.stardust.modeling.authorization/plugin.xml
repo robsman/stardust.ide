@@ -103,6 +103,10 @@
             defaultParticipant="All"
             name="%processDefinition.readProcessInstanceData"
             scope="processDefinition"/>
+      <permission id="startProcesses"
+            defaultParticipant="All"
+            name="%processDefinition.startProcesses"
+            scope="processDefinition"/>
       <permission id="manageEventHandlers"
             defaultParticipant="Administrator"
             name="%processDefinition.manageEventHandlers"
