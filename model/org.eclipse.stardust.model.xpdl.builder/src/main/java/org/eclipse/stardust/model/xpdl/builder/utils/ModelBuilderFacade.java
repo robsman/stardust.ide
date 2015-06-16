@@ -17,7 +17,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.xsd.*;
@@ -994,7 +996,36 @@ public class ModelBuilderFacade
          DataType consumerData = XPDLFinderUtils.findData(model, stripFullId(dataFullID));
          if (consumerData != null)
          {
-            throw new IllegalArgumentException("Data with same Id already exists.");
+            if (!dataModelId.equals(model.getId()))
+            {
+               if(isExternalReference(consumerData))
+               {
+                  URI proxyUri = ((InternalEObject) consumerData).eProxyURI();
+
+                  if (proxyUri == null)
+                  {
+                     String uri = AttributeUtil.getAttributeValue(consumerData, IConnectionManager.URI_ATTRIBUTE_NAME);
+                     try
+                     {
+                        proxyUri = URI.createURI(uri);
+                     }
+                     catch (Exception ex)
+                     {
+                     }
+                  }
+
+                  ModelType referencedModel = ModelUtils.getModelByProxyURI(model, proxyUri);
+                  if(referencedModel != null)
+                  {                  
+                     if(!referencedModel.getId().equals(dataModelId))
+                     {
+                        throw new IllegalArgumentException("Data with same Id already exists.");                        
+                     }
+                  }
+               }
+            }
+            
+            return consumerData;
          }
       }
 
