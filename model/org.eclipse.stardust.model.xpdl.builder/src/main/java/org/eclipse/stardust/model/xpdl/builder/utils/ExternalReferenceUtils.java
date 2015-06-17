@@ -16,6 +16,7 @@ import org.eclipse.xsd.XSDImport;
 
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.EObjectProxyHandler;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
@@ -508,6 +509,28 @@ public class ExternalReferenceUtils
 
    public static void fixExternalReferences(Map<String, ModelType> models, ModelType model)
    {
+      //Fix Local Data first - make sure the reference functionality is active after model load
+      for (Iterator<DataType> i = model.getData().iterator(); i.hasNext();)
+      {
+         DataType data = i.next();
+         if (data.getType() != null && !data.eIsProxy() && data.getExternalReference() == null)
+         {
+            if (data.getType().getId().equals("struct"))
+            {
+               AttributeType attribute = AttributeUtil.getAttribute(data,
+                     StructuredDataConstants.TYPE_DECLARATION_ATT);
+               ModelUtils.setReference(attribute, model, "struct");
+            }
+            if (data.getType().getId().equals("dmsDocument"))
+            {
+               AttributeType attribute = AttributeUtil.getAttribute(data,
+                     DmsConstants.RESOURCE_METADATA_SCHEMA_ATT);
+               ModelUtils.setReference(attribute, model, "struct");
+            }
+         }
+      }
+
+
       List<String> uris = ModelUtils.getURIsForExternalPackages(model);
       for (Iterator<String> i = uris.iterator(); i.hasNext();)
       {
@@ -592,20 +615,47 @@ public class ExternalReferenceUtils
 
             if (refModel != null)
             {
-
                for (Iterator<EObject> j = references.iterator(); j.hasNext();)
                {
                   EObject ref = j.next();
+
+                  //Data Type which refers a type declaration
                   if (ref instanceof DataType)
                   {
-                     DataType data = (DataType)ref;
-                     if (data.getType().getId() != null
-                           && data.getType().getId().equalsIgnoreCase("struct"))
+                     DataType data = (DataType) ref;
+                     if (data.getType().getId() != null)
                      {
-                        boolean changed = fixStructuredData((DataType) ref, refModel);
+                        boolean changed = false;
+                        if (data.getType().getId().equalsIgnoreCase("struct"))
+                        {
+                           changed = fixStructuredData((DataType) ref, refModel);
+                        }
+                        if (data.getType().getId().equalsIgnoreCase("dmsDocument"))
+                        {
+                           changed = fixDocumentData((DataType) ref, refModel);
+                        }
                         if (changed)
                         {
                            referingObjects.add(ref);
+                        }
+                     }
+                  }
+
+                  // Formal Parameter (respectively its DataTypeType) which refers a type declaration
+                  if (ref instanceof DataTypeType)
+                  {
+                     DataTypeType dataType = (DataTypeType) ref;
+                     if (dataType.eContainer() instanceof FormalParameterType
+                           && dataType.getCarnotType() != null
+                           && (dataType.getCarnotType().equals("struct") || dataType
+                                 .getCarnotType().equals("dmsDocument")))
+                     {
+                        boolean changed = fixDataTypeType((DataTypeType) ref, refModel);
+                        if (changed)
+                        {
+                           ProcessDefinitionType process = ModelUtils
+                                 .findContainingProcess(ref);
+                           referingObjects.add(process);
                         }
                      }
                   }
@@ -713,8 +763,9 @@ public class ExternalReferenceUtils
       }
    }
 
-   private static void fixDataTypeType(DataTypeType dataTypeType, ModelType refModel)
+   public static boolean fixDataTypeType(DataTypeType dataTypeType, ModelType refModel)
    {
+      boolean changed = false;
       ExternalReferenceType ref = dataTypeType.getExternalReference();
       if (ref != null && ref.getUuid() != null)
       {
@@ -725,10 +776,11 @@ public class ExternalReferenceUtils
             if (!declaration.getId().equals(ref.getXref()))
             {
                ref.setXref(declaration.getId());
+               changed = true;
             }
          }
       }
-
+      return changed;
    }
 
    private static void fixData(DataType data, ModelType refModel)
@@ -746,8 +798,9 @@ public class ExternalReferenceUtils
       }
    }
 
-   public static void fixDocumentData(DataType data, ModelType refModel)
+   public static boolean fixDocumentData(DataType data, ModelType refModel)
    {
+      boolean changed = false;
       ExternalReferenceType ref = data.getExternalReference();
       if (ref != null && ref.getUuid() != null)
       {
@@ -780,6 +833,7 @@ public class ExternalReferenceUtils
 
                   }
                }
+               changed = true;
             }
             if (!refModel.getId().equals(ref.getLocation()))
             {
@@ -796,9 +850,11 @@ public class ExternalReferenceUtils
                         "carnot:engine:dms:resourceMetadataSchema", metaData);
 
                }
+               changed = true;
             }
          }
       }
+      return changed;
    }
 
    public static boolean fixStructuredData(DataType data, ModelType refModel)
