@@ -87,7 +87,6 @@
     <module>org.eclipse.stardust.modeling.diagramexport.servlet.nl</module>
 
     <module>org.eclipse.stardust.modeling.core-feature</module>
-    <module>org.eclipse.stardust.modeling.messages-feature</module>
     <module>org.eclipse.stardust.modeling.diagramexport-feature</module>
   </modules>
 

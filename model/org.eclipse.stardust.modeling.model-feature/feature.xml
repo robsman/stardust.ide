@@ -30,20 +30,22 @@
       %license
    </license>
 
+
+   <includes
+         id="org.eclipse.stardust.ide.3rdparty-feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.stardust.modeling.engine-feature"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.stardust.ide.engine.base"/>
-      <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.stardust.ide.engine.core"/>
-      <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.xsd"/>
-      <import plugin="org.eclipse.jdt.core"/>
-      <import plugin="org.eclipse.team.core"/>
-      <import plugin="org.eclipse.emf.edit"/>
-      <import plugin="org.eclipse.emf.edit.ui"/>
-      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.stardust.ide.engine.core"/>
+      <import plugin="org.eclipse.stardust.ide.thirdparty.javascript"/>
    </requires>
 
    <plugin
