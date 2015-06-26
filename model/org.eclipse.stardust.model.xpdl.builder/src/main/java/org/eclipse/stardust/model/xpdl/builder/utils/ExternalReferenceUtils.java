@@ -519,13 +519,19 @@ public class ExternalReferenceUtils
             {
                AttributeType attribute = AttributeUtil.getAttribute(data,
                      StructuredDataConstants.TYPE_DECLARATION_ATT);
-               ModelUtils.setReference(attribute, model, "struct");
+               if (attribute != null)
+               {
+                  ModelUtils.setReference(attribute, model, "struct");
+               }
             }
             if (data.getType().getId().equals("dmsDocument"))
             {
                AttributeType attribute = AttributeUtil.getAttribute(data,
                      DmsConstants.RESOURCE_METADATA_SCHEMA_ATT);
-               ModelUtils.setReference(attribute, model, "struct");
+               if (attribute != null)
+               {
+                  ModelUtils.setReference(attribute, model, "struct");
+               }
             }
          }
       }
