@@ -26,6 +26,7 @@ public class ModelerConstants
    public static final String PRIMITIVE_TYPE = "primitiveType";
    public static final String STRING_PRIMITIVE_DATA_TYPE = "string";
    public static final String DATE_PRIMITIVE_DATA_TYPE = "date";
+   public static final String TIMESTAMP_PRIMITIVE_DATA_TYPE = "timestamp";
    public static final String INTEGER_PRIMITIVE_DATA_TYPE = "integer";
    public static final String BOOLEAN_PRIMITIVE_DATA_TYPE = "boolean";
    public static final String DOUBLE_PRIMITIVE_DATA_TYPE = "double";
@@ -244,7 +245,7 @@ public class ModelerConstants
    public static final String SCAN_TRIGGER_TYPE_ID = "scan";
    public static final String DATA_TYPE = "carnot:engine:dataType";
    public static final String DATA_TYPE_SIMPLENAME = "simpleName";
-   public static final String QUALITYASSURANCECODES = "qualityAssuranceCodes";   
+   public static final String QUALITYASSURANCECODES = "qualityAssuranceCodes";
    public static final String QUALITYCONTROL = "qualityControl";
    public static final String EU_EXCLUDE_USER = "excludeUser";
    public static final String EU_EXCLUDE_USER_INTERNAL = "_excludeUser_";

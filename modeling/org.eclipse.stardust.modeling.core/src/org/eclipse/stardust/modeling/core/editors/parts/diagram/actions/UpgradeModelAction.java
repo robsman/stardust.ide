@@ -61,25 +61,10 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateM
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetMapValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ModelTreeEditPart;
-
-import org.eclipse.xsd.XSDComplexTypeContent;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDFactory;
-import org.eclipse.xsd.XSDImport;
-import org.eclipse.xsd.XSDPackage;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDSchemaContent;
-import org.eclipse.xsd.XSDTerm;
-import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.xsd.*;
 
 public class UpgradeModelAction extends SelectionAction
 {
-   private static final String BASE_INFINITY_NAMESPACE = "http://www.infinity.com/bpm/model/"; //$NON-NLS-1$
-
-   private static final String PATH_SEPARATOR = "/"; //$NON-NLS-1$
-
    private static final String TNS_PREFIX = "tns"; //$NON-NLS-1$
 
    private static final String STANDARD_CARNOT_WORKSPACE = "http://www.carnot.ag/workflowmodel/3.1/struct"; //$NON-NLS-1$
@@ -90,7 +75,7 @@ public class UpgradeModelAction extends SelectionAction
 
    private final WorkflowModelEditor editor;
 
-   private HashMap schemas2namespace = new HashMap();
+   private HashMap<XSDSchema, String> schemas2namespace = new HashMap<XSDSchema, String>();
 
    public UpgradeModelAction(WorkflowModelEditor editor)
    {
@@ -225,21 +210,20 @@ public class UpgradeModelAction extends SelectionAction
          // TODO: change the cwm struct data objects
       }
 
-      List list = declarations.getTypeDeclaration();
+      List<TypeDeclarationType> list = declarations.getTypeDeclaration();
       // upgrade needed if all declarations are schema types and all schema types
       // have schemas in standard carnot namespace.
       boolean needUpgrade = true;
-      for (int i = 0; i < list.size(); i++)
+      for (TypeDeclarationType decl : list)
       {
-         TypeDeclarationType decl = (TypeDeclarationType) list.get(i);
          XpdlTypeType type = decl.getDataType();
          if (type instanceof SchemaTypeType)
          {
             XSDSchema schema = ((SchemaTypeType) type).getSchema();
             if (schema == null)
             {
-            	String error = Diagram_Messages.ERR_NULL_SCHEMA_FOR_DECL_NULL;
-            	System.err.println(MessageFormat.format(error, new Object[]{decl.getId()}));
+               String error = Diagram_Messages.ERR_NULL_SCHEMA_FOR_DECL_NULL;
+               System.err.println(MessageFormat.format(error, new Object[]{decl.getId()}));
             }
             else
             {
@@ -261,18 +245,16 @@ public class UpgradeModelAction extends SelectionAction
       {
          // we must patch all namespaces before resolving types
          // otherwise undesired namespace declarations will be added with prefix Qnnn
-         for (int i = 0; i < list.size(); i++)
+         for (TypeDeclarationType decl : list)
          {
-            TypeDeclarationType decl = (TypeDeclarationType) list.get(i);
             XSDSchema schema = decl.getSchemaType().getSchema();
             if (schema != null)
             {
                patchSchemaNamespaces(command, decl, schema);
             }
          }
-         for (int i = 0; i < list.size(); i++)
+         for (TypeDeclarationType decl : list)
          {
-            TypeDeclarationType decl = (TypeDeclarationType) list.get(i);
             XSDSchema schema = decl.getSchemaType().getSchema();
             if (schema != null)
             {
@@ -305,20 +287,16 @@ public class UpgradeModelAction extends SelectionAction
    private void resolveTypes(CompoundCommand command, TypeDeclarationType declaration,
          XSDSchema schema)
    {
-      List elements = schema.getElementDeclarations();
-      for (int i = 0; i < elements.size(); i++)
+      for (XSDElementDeclaration element : schema.getElementDeclarations())
       {
-         XSDElementDeclaration element = (XSDElementDeclaration) elements.get(i);
          // we need to be sure that the element is defined in this schema and not in an imported one
          if (CompareHelper.areEqual(schema, element.getSchema()))
          {
             patchElement(command, declaration, element);
          }
       }
-      List types = schema.getTypeDefinitions();
-      for (int i = 0; i < types.size(); i++)
+      for (XSDTypeDefinition type : schema.getTypeDefinitions())
       {
-         XSDTypeDefinition type = (XSDTypeDefinition) types.get(i);
          // we need to be sure that the type is defined in this schema and not in an imported one
          if (type instanceof XSDComplexTypeDefinition && CompareHelper.areEqual(schema, type.getSchema()))
          {
@@ -351,15 +329,11 @@ public class UpgradeModelAction extends SelectionAction
       {
          patchElement(command, declaration, (XSDElementDeclaration) term);
       }
-      // TODO: use instanceof XSDModelGroup once we switch to java 5
-      else if ("XSDModelGroup".equals(term.eClass().getName())) //$NON-NLS-1$
+      else if (term instanceof XSDModelGroup)
       {
-         // must use ecore reflection and not cast to XSDModelGroup to avoid java 5 dependencies
-         EStructuralFeature feature = term.eClass().getEStructuralFeature("contents"); //$NON-NLS-1$
-         List particles = (List) term.eGet(feature);
-         for (int i = 0; i < particles.size(); i++)
+         for (XSDParticle particle : ((XSDModelGroup) term).getContents())
          {
-            patchParticle(command, declaration, (XSDParticle) particles.get(i));
+            patchParticle(command, declaration, particle);
          }
       }
    }
@@ -434,10 +408,8 @@ public class UpgradeModelAction extends SelectionAction
    {
       if (schema != null)
       {
-         List types = schema.getTypeDefinitions();
-         for (int i = 0; i < types.size(); i++)
+         for (XSDTypeDefinition def : schema.getTypeDefinitions())
          {
-            XSDTypeDefinition def = (XSDTypeDefinition) types.get(i);
             // we need to be sure that the type is defined in this schema and not in an imported one
             if (name.equals(def.getName()) && CompareHelper.areEqual(schema, def.getSchema()))
             {
@@ -454,10 +426,8 @@ public class UpgradeModelAction extends SelectionAction
       {
          return;
       }
-      List contents = schema.getContents();
-      for (int i = 0; i < contents.size(); i++)
+      for (XSDSchemaContent item : schema.getContents())
       {
-         XSDSchemaContent item = (XSDSchemaContent) contents.get(i);
          if (item instanceof XSDImport)
          {
             XSDImport imported = (XSDImport) item;
@@ -483,20 +453,18 @@ public class UpgradeModelAction extends SelectionAction
    private void createUpdateControllingAttributes(CompoundCommand command,
          ModelType model)
    {
-      List processes = model.getProcessDefinition();
-      for (int i = 0; i < processes.size(); i++)
+      for (ProcessDefinitionType process : model.getProcessDefinition())
       {
-         createUpdateControllingAttributes(command, (ProcessDefinitionType) processes.get(i));
+         createUpdateControllingAttributes(command, process);
       }
    }
 
    private void createUpdateControllingAttributes(CompoundCommand command,
          ProcessDefinitionType process)
    {
-      List activities = process.getActivity();
-      for (int i = 0; i < activities.size(); i++)
+      for (ActivityType activity : process.getActivity())
       {
-         createUpdateControllingAttributes(command, (ActivityType) activities.get(i));
+         createUpdateControllingAttributes(command, activity);
       }
    }
 
@@ -571,8 +539,16 @@ public class UpgradeModelAction extends SelectionAction
    private void createMissingDataCmd(CompoundCommand command)
    {
       ModelType model = editor.getWorkflowModel();
-      DataType data = (DataType) ModelUtils.findIdentifiableElement(model.getData(),
-            PredefinedConstants.PROCESS_PRIORITY);
+      createMissingPrimitiveDataCmd(command, model, PredefinedConstants.PROCESS_PRIORITY,
+            "Process Priority", "Priority assigned to the current process.", "int");
+      createMissingPrimitiveDataCmd(command, model, PredefinedConstants.BUSINESS_DATE,
+            Diagram_Messages.NAME_BusinessDate, Diagram_Messages.DESC_BusinessDate, "Timestamp");
+   }
+
+   protected void createMissingPrimitiveDataCmd(CompoundCommand command, ModelType model,
+         String id, String name, String description, String subtype)
+   {
+      DataType data = (DataType) ModelUtils.findIdentifiableElement(model.getData(), id);
       if (data == null)
       {
          DataTypeType primitiveDataType = (DataTypeType) ModelUtils.findIdentifiableElement(
@@ -581,13 +557,12 @@ public class UpgradeModelAction extends SelectionAction
          {
             CarnotWorkflowModelFactory factory = CarnotWorkflowModelFactory.eINSTANCE;
             data = factory.createDataType();
-            data.setId(PredefinedConstants.PROCESS_PRIORITY);
-            data.setName("Process Priority"); //$NON-NLS-1$
-            data.setDescription(ModelUtils.createDescription("Priority assigned to the current process.")); //$NON-NLS-1$
+            data.setId(id);
+            data.setName(name);
+            data.setDescription(ModelUtils.createDescription(description));
             data.setPredefined(true);
-   //         AttributeUtil.setAttribute(data, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
             AttributeUtil.setAttribute(data, PredefinedConstants.TYPE_ATT,
-                  "ag.carnot.workflow.spi.providers.data.java.Type", "int"); //$NON-NLS-1$ //$NON-NLS-2$
+                  "ag.carnot.workflow.spi.providers.data.java.Type", subtype); //$NON-NLS-1$
             command.add(new SetValueCmd(editor.getWorkflowModel(),
                   CarnotWorkflowModelPackage.eINSTANCE.getModelType_Data(),
                   data));
@@ -719,7 +694,7 @@ public class UpgradeModelAction extends SelectionAction
    {
       if (data != null)
       {
-         Map map = new HashMap();
+         Map<String, String> map = new HashMap<String, String>();
          map.put(PredefinedConstants.HOME_INTERFACE_ATT,
                "ag.carnot.workflow.runtime.UserHome"); //$NON-NLS-1$
          map.put(PredefinedConstants.REMOTE_INTERFACE_ATT,
@@ -727,9 +702,8 @@ public class UpgradeModelAction extends SelectionAction
          map.put(PredefinedConstants.PRIMARY_KEY_ATT, "ag.carnot.workflow.runtime.UserPK"); //$NON-NLS-1$
          map.put(PredefinedConstants.JNDI_PATH_ATT, "ag.carnot.workflow.runtime.User"); //$NON-NLS-1$
 
-         for (Iterator iter = map.keySet().iterator(); iter.hasNext();)
+         for (String attName : map.keySet())
          {
-            String attName = (String) iter.next();
             String attValue = (String) map.get(attName);
 
             AttributeType attribute = AttributeUtil.getAttribute(data, attName);

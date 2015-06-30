@@ -907,6 +907,10 @@ public class ModelBuilderFacade
       {
          type = Type.Calendar;
       }
+      else if (primitiveTypeID.equals(ModelerConstants.TIMESTAMP_PRIMITIVE_DATA_TYPE))
+      {
+         type = Type.Timestamp;
+      }
       else if (primitiveTypeID.equals(ModelerConstants.INTEGER_PRIMITIVE_DATA_TYPE))
       {
          type = Type.Integer;
@@ -1016,15 +1020,15 @@ public class ModelBuilderFacade
 
                   ModelType referencedModel = ModelUtils.getModelByProxyURI(model, proxyUri);
                   if(referencedModel != null)
-                  {                  
+                  {
                      if(!referencedModel.getId().equals(dataModelId))
                      {
-                        throw new IllegalArgumentException("Data with same Id already exists.");                        
+                        throw new IllegalArgumentException("Data with same Id already exists.");
                      }
                   }
                }
             }
-            
+
             return consumerData;
          }
       }

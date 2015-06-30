@@ -19,10 +19,9 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.*;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.merge.LinkAttribute;
@@ -60,13 +59,26 @@ public class EObjectProxyHandler implements EObjectReference, InvocationHandler,
       EObject instance = object;
       if (name.startsWith("get"))
       {
-         EStructuralFeature feature = target.eClass().getEStructuralFeature(
+         EClass eClass = target.eClass();
+         EStructuralFeature feature = eClass.getEStructuralFeature(
                Introspector.decapitalize(name.substring(3)));
          if (feature != null)
          {
-            if (!feature.isMany() && !object.eIsSet(feature) || target.eClass().getEAllContainments().contains(feature))
+            if (!feature.isMany() && !object.eIsSet(feature) || eClass.getEAllContainments().contains(feature))
             {
                instance = target;
+            }
+         }
+         else
+         {
+            EList<EOperation> operations = eClass.getEAllOperations();
+            for (EOperation eOperation : operations)
+            {
+               if (name.equals(eOperation.getName()))
+               {
+                  instance = target;
+                  break;
+               }
             }
          }
       }

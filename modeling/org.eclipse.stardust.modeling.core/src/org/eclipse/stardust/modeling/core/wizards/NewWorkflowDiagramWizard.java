@@ -251,45 +251,27 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
    private void createDefaultPerformers(ModelType model)
    {
       CarnotWorkflowModelFactory factory = CarnotWorkflowModelFactory.eINSTANCE;
-/*
-      ModelerType modeler = factory.createModelerType();
-      modeler.setElementOid(ModelUtils.getElementOid(modeler, model));
-      modeler.setId("motu"); //$NON-NLS-1$
-      modeler.setName("motu"); //$NON-NLS-1$
-      modeler.setPassword("motu"); //$NON-NLS-1$
-      modeler.setDescription(ModelUtils
-            .createDescription(Diagram_Messages.DESC_MasterForWorkflowModeling));
-      model.getModeler().add(modeler);
-*/
       RoleType administrator = factory.createRoleType();
       administrator.setId("Administrator"); //$NON-NLS-1$
       administrator.setName(Diagram_Messages.BASENAME_Administrator);
       administrator.setDescription(ModelUtils
             .createDescription(Diagram_Messages.DESC_InChargeAdministrationActivities));
       model.getRole().add(administrator);
-
-/*      RoleType all = factory.createRoleType();
-      all.setElementOid(ModelUtils.getElementOid(all, model));
-      all.setId("All"); //$NON-NLS-1$
-      all.setName(Diagram_Messages.BASENAME_All);*/
-/*      all.setDescription(ModelUtils
-            .createDescription(Diagram_Messages.DESC_InChargeAdministrationActivities));*/
-//      model.getRole().add(all);
    }
 
    private void createDefaultData(ModelType model)
    {
-      DataTypeType dataType0 = (DataTypeType) ModelUtils.findIdentifiableElement(model,
+      DataTypeType primitiveDataType = (DataTypeType) ModelUtils.findIdentifiableElement(model,
             CarnotWorkflowModelPackage.eINSTANCE.getModelType_DataType(),
             defaultDataTypes[0]);
-      DataTypeType dataType1 = (DataTypeType) ModelUtils.findIdentifiableElement(model,
+      DataTypeType serializableDataType = (DataTypeType) ModelUtils.findIdentifiableElement(model,
             CarnotWorkflowModelPackage.eINSTANCE.getModelType_DataType(),
             defaultDataTypes[1]);
-      DataTypeType dataType2 = (DataTypeType) ModelUtils.findIdentifiableElement(model,
+      DataTypeType entityBeanDataType = (DataTypeType) ModelUtils.findIdentifiableElement(model,
             CarnotWorkflowModelPackage.eINSTANCE.getModelType_DataType(),
             defaultDataTypes[2]);
 
-      DataType lastActivityPerformer = createData(model, dataType2,
+      DataType lastActivityPerformer = createData(model, entityBeanDataType,
             "LAST_ACTIVITY_PERFORMER", Diagram_Messages.NAME_LastActivityPerformer, //$NON-NLS-1$
             Diagram_Messages.DESC_LastActivityPerformer);
       createAttribute(lastActivityPerformer, PredefinedConstants.BROWSABLE_ATT,
@@ -305,7 +287,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       createAttribute(lastActivityPerformer, PredefinedConstants.REMOTE_INTERFACE_ATT,
             null, "org.eclipse.stardust.engine.core.runtime.beans.IUser"); //$NON-NLS-1$
 
-      DataType startingUser = createData(model, dataType2,
+      DataType startingUser = createData(model, entityBeanDataType,
             "STARTING_USER", Diagram_Messages.NAME_StartingUser, //$NON-NLS-1$
             Diagram_Messages.DESC_StartingUser);
       createAttribute(startingUser, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -319,7 +301,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       createAttribute(startingUser, PredefinedConstants.REMOTE_INTERFACE_ATT, null,
             "org.eclipse.stardust.engine.core.runtime.beans.IUser"); //$NON-NLS-1$
 
-      DataType currentUser = createData(model, dataType2,
+      DataType currentUser = createData(model, entityBeanDataType,
             PredefinedConstants.CURRENT_USER, Diagram_Messages.NAME_CurrentUser,
             Diagram_Messages.DESC_CurrentUser);
       createAttribute(currentUser, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -333,41 +315,46 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       createAttribute(currentUser, PredefinedConstants.REMOTE_INTERFACE_ATT, null,
             "org.eclipse.stardust.engine.core.runtime.beans.IUser"); //$NON-NLS-1$
 
-      DataType processId = createData(model, dataType0, PredefinedConstants.PROCESS_ID,
+      DataType processId = createData(model, primitiveDataType, PredefinedConstants.PROCESS_ID,
             Diagram_Messages.NAME_ProcessOID, Diagram_Messages.DESC_ProcessOID);
       createAttribute(processId, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(processId, PredefinedConstants.TYPE_ATT,
             "ag.carnot.workflow.spi.providers.data.java.Type", "long"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      DataType processPriority = createData(model, dataType0,
+      DataType processPriority = createData(model, primitiveDataType,
             PredefinedConstants.PROCESS_PRIORITY, Diagram_Messages.NAME_ProcessPriority,
             Diagram_Messages.DESC_ProcessPriority);
-
       createAttribute(processPriority, PredefinedConstants.TYPE_ATT,
             "ag.carnot.workflow.spi.providers.data.java.Type", "int"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      DataType rootProcessId = createData(model, dataType0,
+      DataType rootProcessId = createData(model, primitiveDataType,
             PredefinedConstants.ROOT_PROCESS_ID, Diagram_Messages.NAME_RootProcessOID,
             Diagram_Messages.DESC_RootProcessOID);
       createAttribute(rootProcessId, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(rootProcessId, PredefinedConstants.TYPE_ATT,
             "ag.carnot.workflow.spi.providers.data.java.Type", "long"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      DataType currentDate = createData(model, dataType0,
+      DataType currentDate = createData(model, primitiveDataType,
             PredefinedConstants.CURRENT_DATE, Diagram_Messages.NAME_CurrentDate,
             Diagram_Messages.DESC_CurrentDate);
       createAttribute(currentDate, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(currentDate, PredefinedConstants.TYPE_ATT,
             "ag.carnot.workflow.spi.providers.data.java.Type", "Calendar"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      DataType currentLocale = createData(model, dataType0,
+      DataType businessDate = createData(model, primitiveDataType,
+            PredefinedConstants.BUSINESS_DATE, Diagram_Messages.NAME_BusinessDate,
+            Diagram_Messages.DESC_BusinessDate);
+      createAttribute(businessDate, PredefinedConstants.TYPE_ATT,
+            "ag.carnot.workflow.spi.providers.data.java.Type", "Timestamp"); //$NON-NLS-1$ //$NON-NLS-2$
+
+      DataType currentLocale = createData(model, primitiveDataType,
             PredefinedConstants.CURRENT_LOCALE, Diagram_Messages.NAME_CurrentLocale,
             Diagram_Messages.DESC_CurrentLocale);
       createAttribute(currentLocale, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(currentLocale, PredefinedConstants.TYPE_ATT,
             "ag.carnot.workflow.spi.providers.data.java.Type", "String"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      DataType currentModel = createData(model, dataType1,
+      DataType currentModel = createData(model, serializableDataType,
             PredefinedConstants.CURRENT_MODEL, Diagram_Messages.NAME_CurrentModel,
             Diagram_Messages.DESC_CurrentModel);
       createAttribute(currentModel, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -485,7 +472,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
    private static final String[] defaultApplicationTypes = {
          PredefinedConstants.SESSIONBEAN_APPLICATION,
          PredefinedConstants.PLAINJAVA_APPLICATION, PredefinedConstants.JMS_APPLICATION,
-         PredefinedConstants.WS_APPLICATION 
+         PredefinedConstants.WS_APPLICATION
    };
 
    private static final String[] defaultContextTypes = {

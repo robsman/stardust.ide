@@ -45,7 +45,6 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.config.CurrentVersion;
@@ -343,20 +342,25 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       initializeExtensions();
       try
       {
-         if (initialized && null != getWorkflowModel())
+         ModelType model = getWorkflowModel();
+         if (initialized && model != null)
          {
             if (checkUpgradeModel())
             {
                removeUpgradePage();
-               for (Iterator<DiagramType> i = getWorkflowModel().getDiagram().iterator(); i.hasNext();)
+               List<DiagramType> modelDiagrams = model.getDiagram();
+               if (modelDiagrams != null)
                {
-                  showDiagramPage((DiagramType) i.next());
+                  for (DiagramType diagram : modelDiagrams)
+                  {
+                     showDiagramPage(diagram);
+                  }
                }
-               if (!getWorkflowModel().getProcessDefinition().isEmpty())
+               List<ProcessDefinitionType> processDefinitions = model.getProcessDefinition();
+               if (processDefinitions != null && !processDefinitions.isEmpty())
                {
-                  List<DiagramType> processDiagrams = ((ProcessDefinitionType) getWorkflowModel()
-                        .getProcessDefinition().get(0)).getDiagram();
-                  if (!processDiagrams.isEmpty())
+                  List<DiagramType> processDiagrams = ((ProcessDefinitionType) processDefinitions.get(0)).getDiagram();
+                  if (processDiagrams != null && !processDiagrams.isEmpty())
                   {
                      showDiagramPage((DiagramType) processDiagrams.get(0));
                   }
@@ -433,8 +437,8 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
                }
                else if (modelVersion.compareTo(carnotVersion, true) > 0)
                {
-            	  message = MessageFormat.format(Diagram_Messages.MSG_DIA_MODEL_NULL_WAS_CREATED_USING_A_NEWER_VERSION_OF_THE_MODELER_ONE
-            			  + "\n" + Diagram_Messages.MSG_DIA_CHANGING_MODEL_IS_NOT_RECOMMENDED, new Object[]{cwmModel.getName(), modelVersion.toString()}); //$NON-NLS-1$
+               message = MessageFormat.format(Diagram_Messages.MSG_DIA_MODEL_NULL_WAS_CREATED_USING_A_NEWER_VERSION_OF_THE_MODELER_ONE
+                     + "\n" + Diagram_Messages.MSG_DIA_CHANGING_MODEL_IS_NOT_RECOMMENDED, new Object[]{cwmModel.getName(), modelVersion.toString()}); //$NON-NLS-1$
 
                   MessageDialog dialog = new MessageDialog(getSite().getShell(),
                         Diagram_Messages.LB_UpgradeModel, null, message, MessageDialog.INFORMATION,

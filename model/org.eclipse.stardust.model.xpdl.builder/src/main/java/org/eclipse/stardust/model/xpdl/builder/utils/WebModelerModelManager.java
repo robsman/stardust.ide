@@ -26,12 +26,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.Predicate;
 import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.utils.xml.XmlProperties;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 
 public class WebModelerModelManager extends WorkflowModelManager
@@ -60,7 +59,7 @@ public class WebModelerModelManager extends WorkflowModelManager
    @Override
    public void resolve(ModelType model)
    {
-      cleanupDuplicateReferences(model);
+      cleanup(model, new DuplicateReferencesFilter());
       if (model != null && model.getId() != null)
       {
          manager = (WebModelerConnectionManager) model.getConnectionManager();
@@ -71,10 +70,11 @@ public class WebModelerModelManager extends WorkflowModelManager
          manager.resolve();
       }
       super.resolve(model);
+      //cleanup(model, new UntypedItemsFilter());
       //BusinessObjectModelingUtils.adapt(model);
    }
 
-   private static void cleanupDuplicateReferences(ModelType model)
+   private static void cleanup(ModelType model, Predicate<Object> filter)
    {
       for (EStructuralFeature feature : model.eClass().getEAllStructuralFeatures())
       {
@@ -83,29 +83,20 @@ public class WebModelerModelManager extends WorkflowModelManager
             Object o = model.eGet(feature);
             if (o instanceof Collection<?>)
             {
-               cleanupDuplicateReferences((Collection<?>)o);
+               cleanup((Collection<?>)o, filter);
             }
          }
       }
    }
 
-   private static void cleanupDuplicateReferences(Collection<?> list)
+   private static void cleanup(Collection<?> list, Predicate<Object> filter)
    {
-      Set<URI> uris = CollectionUtils.newSet();
-      List<InternalEObject> toRemove = CollectionUtils.newList();
-      for (Object eObject : list)
+      List<Object> toRemove = CollectionUtils.newList();
+      for (Object o : list)
       {
-         if (eObject instanceof InternalEObject && ((InternalEObject) eObject).eIsProxy())
+         if (!filter.accept(o))
          {
-            URI uri = ((InternalEObject) eObject).eProxyURI();
-            if (uris.contains(uri))
-            {
-               toRemove.add((InternalEObject) eObject);
-            }
-            else
-            {
-               uris.add(uri);
-            }
+            toRemove.add(o);
          }
       }
       if (!toRemove.isEmpty())
@@ -113,6 +104,37 @@ public class WebModelerModelManager extends WorkflowModelManager
          list.removeAll(toRemove);
       }
    }
+
+   private static class DuplicateReferencesFilter implements Predicate<Object>
+   {
+      Set<URI> uris = CollectionUtils.newSet();
+
+      @Override
+      public boolean accept(Object o)
+      {
+         if (o instanceof InternalEObject && ((InternalEObject) o).eIsProxy())
+         {
+            URI uri = ((InternalEObject) o).eProxyURI();
+            if (uris.contains(uri))
+            {
+               return false;
+            }
+            uris.add(uri);
+         }
+         return true;
+      }
+   }
+
+   /*private static class UntypedItemsFilter implements Predicate<Object>
+   {
+      @Override
+      public boolean accept(Object o)
+      {
+         return (!(o instanceof ITypedElement))
+               || (((ITypedElement) o).getMetaType() != null)
+               || (o instanceof ApplicationType) && ((ApplicationType) o).isInteractive();
+      }
+   }*/
 
    @Override
    public void save(URI uri, OutputStream os) throws IOException
