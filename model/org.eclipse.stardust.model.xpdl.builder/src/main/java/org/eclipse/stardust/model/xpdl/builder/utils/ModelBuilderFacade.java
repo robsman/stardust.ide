@@ -1268,7 +1268,6 @@ public class ModelBuilderFacade
       LaneSymbol parentLaneSymbol = XPDLFinderUtils.findLaneInProcess(processDefinition, parentLaneID);
 
       dataSymbol.setData(data);
-      data.getSymbols().add(dataSymbol);
 
       processDefinition.getDiagram().get(0).getDataSymbol().add(dataSymbol);
       dataSymbol.setXPos(xProperty - parentLaneSymbol.getXPos());

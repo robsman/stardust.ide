@@ -69,7 +69,7 @@ public class EObjectProxyHandler implements EObjectReference, InvocationHandler,
                instance = target;
             }
          }
-         else
+         /*else @Florin - This makes fail the testcase "TestCrossModelSupport".
          {
             EList<EOperation> operations = eClass.getEAllOperations();
             for (EOperation eOperation : operations)
@@ -80,7 +80,7 @@ public class EObjectProxyHandler implements EObjectReference, InvocationHandler,
                   break;
                }
             }
-         }
+         }*/
       }
       return method.invoke(instance, args);
    }
