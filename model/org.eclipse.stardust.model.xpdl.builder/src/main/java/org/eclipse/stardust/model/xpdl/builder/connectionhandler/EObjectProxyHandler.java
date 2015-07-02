@@ -69,18 +69,39 @@ public class EObjectProxyHandler implements EObjectReference, InvocationHandler,
                instance = target;
             }
          }
-         /*else @Florin - This makes fail the testcase "TestCrossModelSupport".
+         else // @Florin - This makes fail the testcase "TestCrossModelSupport".
          {
             EList<EOperation> operations = eClass.getEAllOperations();
             for (EOperation eOperation : operations)
             {
                if (name.equals(eOperation.getName()))
                {
-                  instance = target;
+                  EClassifier eType = eOperation.getEType();
+                  boolean isNodeSymbol = INodeSymbol.class.isAssignableFrom(eType.getInstanceClass());
+                  boolean isListOfNodeSymbol = false;
+                  if (!isNodeSymbol)
+                  {
+                     boolean isList = Collection.class.isAssignableFrom(eType.getInstanceClass());
+                     if (isList)
+                     {
+                        for (EGenericType eGenericType : eOperation.getEGenericType().getETypeArguments())
+                        {
+                           isListOfNodeSymbol = INodeSymbol.class.isAssignableFrom(eGenericType.getEClassifier().getInstanceClass());
+                           if (isListOfNodeSymbol)
+                           {
+                              break;
+                           }
+                        }
+                     }
+                  }
+                  if (!isNodeSymbol && !isListOfNodeSymbol)
+                  {
+                     instance = target;
+                  }
                   break;
                }
             }
-         }*/
+         }
       }
       return method.invoke(instance, args);
    }

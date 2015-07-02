@@ -62,13 +62,6 @@ public class DefaultElementsInitializer implements ModelInitializer
          data.setPredefined(true);
       }
 
-      if (!existsData(model, PredefinedConstants.BUSINESS_DATE))
-      {
-         data = facade.createPrimitiveData(model, PredefinedConstants.BUSINESS_DATE, "Business Date",
-               ModelerConstants.TIMESTAMP_PRIMITIVE_DATA_TYPE);
-         data.setPredefined(true);
-      }
-
       if (!existsData(model, PredefinedConstants.CURRENT_MODEL))
       {
          data = facade.createSerializableData(model, PredefinedConstants.CURRENT_MODEL,
@@ -109,6 +102,13 @@ public class DefaultElementsInitializer implements ModelInitializer
          AttributeUtil.setAttribute(data, PredefinedConstants.JNDI_PATH_ATT, null, "org.eclipse.stardust.engine.api.runtime.User");
          AttributeUtil.setAttribute(data, PredefinedConstants.PRIMARY_KEY_ATT, null, "org.eclipse.stardust.engine.api.runtime.UserPK");
          AttributeUtil.setAttribute(data, PredefinedConstants.REMOTE_INTERFACE_ATT, null, "org.eclipse.stardust.engine.core.runtime.beans.IUser");
+         data.setPredefined(true);
+      }
+
+      if (!existsData(model, PredefinedConstants.BUSINESS_DATE))
+      {
+         data = facade.createPrimitiveData(model, PredefinedConstants.BUSINESS_DATE, "Business Date",
+               ModelerConstants.TIMESTAMP_PRIMITIVE_DATA_TYPE);
          data.setPredefined(true);
       }
    }
