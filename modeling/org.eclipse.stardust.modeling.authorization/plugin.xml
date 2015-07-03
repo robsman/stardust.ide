@@ -91,6 +91,10 @@
             defaultParticipant="Administrator"
             name="%processDefinition.abortProcessInstances"
             scope="processDefinition"/>
+      <permission id="modifyAttributes"
+            defaultParticipant="All"
+            name="%processDefinition.modifyAttributes"
+            scope="processDefinition"/>
       <permission id="modifyProcessInstances"
             defaultParticipant="Administrator"
             name="%processDefinition.modifyProcessInstances"
@@ -133,6 +137,10 @@
       <permission id="manageEventHandlers"
             defaultParticipant="All"
             name="%activity.manageEventHandlers"
+            scope="activity"/>
+      <permission id="modifyAttributes"
+            defaultParticipant="All"
+            name="%activity.modifyAttributes"
             scope="activity"/>
       <permission id="readActivityInstanceData"
             defaultParticipant="All"
