@@ -275,4 +275,5 @@ public class ModelerConstants
    public static final String READ_ONLY_LITERAL = "readOnly";
 
    public static final String IS_REFERENCED_LITERAL = "isReferencedModel";
+   public static final String IS_UPGRADE_NEEDED = "isUpgradeNeeded";   
 }
