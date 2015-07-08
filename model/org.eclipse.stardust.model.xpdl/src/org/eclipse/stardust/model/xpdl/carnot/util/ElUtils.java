@@ -40,7 +40,7 @@ import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.ScriptOrFnNode;
+import org.mozilla.javascript.ast.*;
 import org.mozilla.javascript.Token;
 
 /**
@@ -144,7 +144,7 @@ public class ElUtils
       }
    }
    
-   public static ScriptOrFnNode parseJsExpressions(String expression)
+   public static ScriptNode parseJsExpressions(String expression)
    {
       Context cx = jsContextFactory.enter();
       try
@@ -170,7 +170,7 @@ public class ElUtils
    
    public static Map<String, List<Node>> xrefData4Js(String expression)
    {
-      ScriptOrFnNode ast = parseJsExpressions(expression);
+      ScriptNode ast = parseJsExpressions(expression);
       
       Map<String, List<Node>> dataIds = new HashMap<String, List<Node>>();
       
