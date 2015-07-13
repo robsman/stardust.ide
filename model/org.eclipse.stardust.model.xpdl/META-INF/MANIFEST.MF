@@ -20,11 +20,11 @@ Export-Package: org.eclipse.stardust.model.xpdl.carnot,
  org.eclipse.stardust.model.xpdl.xpdl2.extensions,
  org.eclipse.stardust.model.xpdl.xpdl2.extensions.util,
  org.eclipse.stardust.model.xpdl.xpdl2.util
-Require-Bundle: org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.core.resources,
+ org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.stardust.ide.engine.core;visibility:=reexport,
  org.eclipse.stardust.ide.thirdparty.javascript,
  org.eclipse.xsd
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: org.eclipse.core.resources
