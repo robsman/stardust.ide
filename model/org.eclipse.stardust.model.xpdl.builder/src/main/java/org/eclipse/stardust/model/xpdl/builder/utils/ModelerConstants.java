@@ -255,6 +255,17 @@ public class ModelerConstants
    public static final String SD_SET_DATA_ACTION_INTERNAL = "_setDataAction_";
    public static final String SD_SET_DATA_ACTION_DATA_ID = "dataId";
    public static final String SD_SET_DATA_ACTION_DATA_PATH = "dataPath";
+   public static final String RS_RESUBMISSION = "Resubmission";
+   public static final String RS_WAKE_PARTICIPANT = "wakeParticipant";
+   public static final String RS_DEFAULT_PERFORMER = "defaultPerformer";
+   public static final String RS_PARTICIPANT = "participant";
+   public static final String RS_CURRENT_USER = "currentUser";
+   public static final String RS_RANDOM_USER = "randomUser";
+   public static final String RS_DELAY_VALUE = "delayValue";
+   public static final String RS_DELAY_UNIT = "delayUnit";
+   public static final String RS_USEDATA = "useData";
+   public static final String RS_DELEGATE_TO_DEFAULT_PERFORMER = "defaultPerformer";
+
 
    public static final String LOOP_STANDARD = "standard";
    public static final String LOOP_MULTI = "multi";
