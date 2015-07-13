@@ -143,6 +143,9 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
    public void dispose()
    {
       variableContextHelper.removeContext(this.getWorkflowModel());
+      
+      // remove from cache if no longer referenced
+      // WorkspaceManager.getInstance().cleanCache(this.getWorkflowModel());      
       super.dispose();
    }
 

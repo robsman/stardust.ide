@@ -11,12 +11,14 @@
 package org.eclipse.stardust.modeling.common.ui.testers;
 
 import org.eclipse.core.expressions.PropertyTester;
+import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.WorkspaceManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 
@@ -33,6 +35,14 @@ public class StructTypeTester extends PropertyTester
          {
             String structType = COMPLEX;
             IMetaType metaType = ((ITypedElement) receiver).getMetaType();
+            if(metaType == null && ((EObject) receiver).eIsProxy())
+            {
+               EObject resolvedElement = WorkspaceManager.getInstance().findElement((EObject) receiver);
+               if(resolvedElement != null && resolvedElement instanceof ITypedElement)
+               {
+                  metaType = ((ITypedElement) resolvedElement).getMetaType();                        
+               }                     
+            }
             String metaTypeId = metaType.getId();
 
             if(metaTypeId.equals(PredefinedConstants.STRUCTURED_DATA))

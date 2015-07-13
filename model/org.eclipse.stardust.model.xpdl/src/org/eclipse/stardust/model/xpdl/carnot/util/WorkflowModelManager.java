@@ -308,6 +308,9 @@ public class WorkflowModelManager
    {
       getResource(uri, false);
 
+      // get resource from cached model
+      // resource = model.eContainer().eResource();
+      
       if ((null != resource) && !CompareHelper.areEqual(resource.getURI(), uri))
       {
          resource.setURI(uri);
@@ -394,6 +397,19 @@ public class WorkflowModelManager
    {
       if (null == model && resource != null)
       {
+         /*
+         ModelType cachedModel = WorkspaceManager.getInstance().getModel(resource.getURI());
+         if(cachedModel != null)
+         {
+            model = cachedModel;
+            
+            long maxUsedOid = ModelUtils.getMaxUsedOid(model);
+            modelOidUtil = ModelOidUtil.register(model, maxUsedOid, resource);
+            resolve(model);
+            return model;
+         }
+         */
+         
          EList<EObject> l = resource.getContents();
          Iterator<EObject> i = l.iterator();
          while (i.hasNext())
@@ -409,6 +425,9 @@ public class WorkflowModelManager
             resolve(model);
          }
       }
+      
+      // WorkspaceManager.getInstance().addModel(resource.getURI(), model);
+      
       return model;
    }
 
@@ -419,5 +438,8 @@ public class WorkflowModelManager
 
       // resolve string-id references in attributes
       ModelUtils.resolve(model, model);
+      
+      // WorkspaceManager instance = WorkspaceManager.getInstance();
+      // instance.resolve(model);
    }
 }

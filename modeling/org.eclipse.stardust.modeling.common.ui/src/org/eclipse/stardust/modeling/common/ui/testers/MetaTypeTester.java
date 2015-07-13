@@ -12,9 +12,11 @@ package org.eclipse.stardust.modeling.common.ui.testers;
 
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
+import org.eclipse.stardust.model.xpdl.carnot.util.WorkspaceManager;
 
 public class MetaTypeTester extends PropertyTester
 {
@@ -29,6 +31,15 @@ public class MetaTypeTester extends PropertyTester
          if (receiver instanceof ITypedElement)
          {
             IMetaType type = ((ITypedElement) receiver).getMetaType();
+            if(type == null && ((EObject) receiver).eIsProxy())
+            {
+               EObject resolvedElement = WorkspaceManager.getInstance().findElement((EObject) receiver);
+               if(resolvedElement != null && resolvedElement instanceof ITypedElement)
+               {
+                  type = ((ITypedElement) resolvedElement).getMetaType();                        
+               }                     
+            }
+            
             if (type != null)
             {
                return CompareHelper.areEqual(type.getId(), expectedValue);
