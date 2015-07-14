@@ -11,7 +11,6 @@
 
 package org.eclipse.stardust.model.xpdl.carnot.util;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +20,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
@@ -35,16 +33,16 @@ import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 public class WorkspaceManager
 {
    private static final Logger trace = LogManager.getLogger(WorkspaceManager.class);
-   
+
    private static WorkspaceManager INSTANCE;
    private static Map<String, ModelType> models;
-   
+
    private WorkspaceManager()
    {
       // TODO Auto-generated constructor stub
    }
 
-   
+
    public static WorkspaceManager getInstance()
    {
       if(INSTANCE == null)
@@ -52,19 +50,19 @@ public class WorkspaceManager
          models = new HashMap<String, ModelType>();
          INSTANCE = new WorkspaceManager();
       }
-      
+
       return INSTANCE;
    }
-   
+
    public ModelType getModel(URI uri)
    {
-      uri = createPlatformURI(uri);      
+      uri = createPlatformURI(uri);
       ModelType modelType = models.get(uri.toString());
       trace.info("get " + uri.toString() + " / " + modelType);
-      
+
       return modelType;
    }
-      
+
    public EObject findElement(EObject element)
    {
       ModelType model = ModelUtils.findContainingModel(element);
@@ -114,15 +112,15 @@ public class WorkspaceManager
                                  {
                                     return data;
                                  }
-                              }                              
-                           }                           
+                              }
+                           }
                         }
                         else if(type.equals("role")
                               || type.equals("organization")
-                              || type.equals("conditionalPerformer"))                           
+                              || type.equals("conditionalPerformer"))
                         {
                            List<IModelParticipant> participants = CollectionUtils.newArrayList();
-                           
+
                            if(type.equals("role"))
                            {
                               List<RoleType> roles = externalModel.getRole();
@@ -130,15 +128,15 @@ public class WorkspaceManager
                            }
                            else if(type.equals("organization"))
                            {
-                              List<OrganizationType> organizations = externalModel.getOrganization();                              
+                              List<OrganizationType> organizations = externalModel.getOrganization();
                               participants.addAll(organizations);
                            }
-                           else if(type.equals("conditionalPerformer"))                           
+                           else if(type.equals("conditionalPerformer"))
                            {
-                              List<ConditionalPerformerType> conditionalPerformers = externalModel.getConditionalPerformer();                      
+                              List<ConditionalPerformerType> conditionalPerformers = externalModel.getConditionalPerformer();
                               participants.addAll(conditionalPerformers);
                            }
-                           
+
                            for(IModelParticipant participant : participants)
                            {
                               String uuid = ModelUtils.getUUID(participant);
@@ -155,8 +153,8 @@ public class WorkspaceManager
                                  {
                                     return participant;
                                  }
-                              }                              
-                           }                           
+                              }
+                           }
                         }
                         else
                         {
@@ -168,11 +166,11 @@ public class WorkspaceManager
             }
          }
       }
-      
+
       return null;
    }
 
-   
+
    public void resolve(ModelType model)
    {
       for (Iterator<EObject> i = model.eAllContents(); i.hasNext();)
@@ -182,7 +180,7 @@ public class WorkspaceManager
          {
             if (object instanceof EObjectImpl)
             {
-               
+
                /*
                URI uri = ((EObjectImpl) object).eProxyURI();
                // decode uri from the format produced by xpdl transformation
@@ -208,7 +206,7 @@ public class WorkspaceManager
                   }
                }
                */
-               
+
                try
                {
                   resolve(object);
@@ -241,35 +239,35 @@ public class WorkspaceManager
 
    public void addModel(URI uri, ModelType model)
    {
-      uri = createPlatformURI(uri);      
+      uri = createPlatformURI(uri);
       models.put(uri.toString(), model);
-      
-      trace.info("add " + uri.toString() + " / " + model);      
+
+      trace.info("add " + uri.toString() + " / " + model);
    }
-   
+
    private URI createPlatformURI(URI uri)
    {
       /*
       if(!uri.isPlatformResource())
       {
-         String location = uri.toString();         
+         String location = uri.toString();
          java.net.URI netModelUri = new File(uri.toFileString()).toURI();
-         
+
          IContainer[] containers = ResourcesPlugin.getWorkspace().getRoot().findContainersForLocationURI(netModelUri);
          if (containers != null && containers.length > 0)
          {
             IContainer container = containers[0];
             String projectString = container.getProject().toString();
-            
+
             int pos = location.indexOf(projectString.substring(1));
-            
+
             String projectLocation = location.substring(pos);
             uri = URI.createPlatformResourceURI(projectLocation, false);
-         }         
+         }
       }
       */
-      
-      return uri;      
+
+      return uri;
    }
 
    public boolean usesModel(ModelType toCheck)
@@ -289,17 +287,17 @@ public class WorkspaceManager
                   }
                }
             }
-         }         
-      }   
-      
+         }
+      }
+
       return false;
    }
-     
+
    public void cleanCache(ModelType workflowModel)
    {
       if(!usesModel(workflowModel))
       {
-         // check how many editors are open ...         
-      }      
-   }   
+         // check how many editors are open ...
+      }
+   }
 }
