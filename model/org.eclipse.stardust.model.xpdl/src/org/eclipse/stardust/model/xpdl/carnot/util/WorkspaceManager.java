@@ -17,8 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -251,6 +249,7 @@ public class WorkspaceManager
    
    private URI createPlatformURI(URI uri)
    {
+      /*
       if(!uri.isPlatformResource())
       {
          String location = uri.toString();         
@@ -268,7 +267,8 @@ public class WorkspaceManager
             uri = URI.createPlatformResourceURI(projectLocation, false);
          }         
       }
-            
+      */
+      
       return uri;      
    }
 
