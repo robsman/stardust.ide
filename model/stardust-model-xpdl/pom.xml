@@ -60,7 +60,14 @@
       <groupId>org.eclipse.core</groupId>
       <artifactId>org.eclipse.core.runtime</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>org.eclipse.core</groupId>
+      <artifactId>org.eclipse.core.resources</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.core</groupId>
+      <artifactId>org.eclipse.core.jobs</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
