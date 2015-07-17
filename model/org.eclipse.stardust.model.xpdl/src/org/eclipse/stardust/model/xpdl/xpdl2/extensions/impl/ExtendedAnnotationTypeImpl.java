@@ -23,60 +23,80 @@ import org.eclipse.xsd.impl.XSDAnnotationImpl;
 import org.w3c.dom.Element;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Extended Annotation Type</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Extended Annotation Type</b></em>'. <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class ExtendedAnnotationTypeImpl extends XSDAnnotationImpl implements ExtendedAnnotationType {
+public class ExtendedAnnotationTypeImpl extends XSDAnnotationImpl
+      implements ExtendedAnnotationType
+{
    /**
-    * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
+    * <!-- begin-user-doc --> <!-- end-user-doc -->
+    * 
     * @generated
     */
    public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+    * <!-- begin-user-doc --> <!-- end-user-doc -->
+    * 
      * @generated NOT
      */
    private XSDSchema hiddenSchema = null;
 
    /**
-    * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
+    * <!-- begin-user-doc --> <!-- end-user-doc -->
+    * 
     * @generated
     */
-   protected ExtendedAnnotationTypeImpl() {
+   protected ExtendedAnnotationTypeImpl()
+   {
       super();
    }
 
    /**
-    * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
+    * <!-- begin-user-doc --> <!-- end-user-doc -->
+    * 
     * @generated
     */
-   @Override
-   protected EClass eStaticClass() {
+   protected EClass eStaticClass()
+   {
       return ExtensionPackage.Literals.EXTENDED_ANNOTATION_TYPE;
    }
 
     /**
-     * <!-- begin-user-doc -->
-     * Overwritten to allow creation/updating of elements
-     * <!-- end-user-doc -->
+    * <!-- begin-user-doc --> Overwritten because of NPE from XSDAnnotationImpl when attributes are null <!--
+    * end-user-doc -->
+    * 
      * @generated NOT
      */
+   protected void reconcileAttributes(Element changedElement)
+   {
+      try
+      {
+         super.reconcileAttributes(changedElement);
+      }
+      catch (NullPointerException e)
+      {
+      }
+   }
+      
+   /**
+    * <!-- begin-user-doc --> Overwritten to allow creation/updating of elements <!--
+    * end-user-doc -->
+    * 
+    * @generated NOT
+    */
    public XSDSchema getSchema()
    {
       if (hiddenSchema == null)
       {
          hiddenSchema = XSDFactory.eINSTANCE.createXSDSchema();
-         hiddenSchema.getQNamePrefixToNamespaceMap().put(XSDPackage.eNS_PREFIX, XMLResource.XML_SCHEMA_URI);
+         hiddenSchema.getQNamePrefixToNamespaceMap().put(XSDPackage.eNS_PREFIX,
+               XMLResource.XML_SCHEMA_URI);
          hiddenSchema.setSchemaForSchemaQNamePrefix(XSDPackage.eNS_PREFIX);
          hiddenSchema.updateElement();
       }
@@ -84,9 +104,9 @@ public class ExtendedAnnotationTypeImpl extends XSDAnnotationImpl implements Ext
    }
 
    /**
-    * <!-- begin-user-doc -->
-    * Overridden to allow creation/updating of elements
-    * <!-- end-user-doc -->
+    * <!-- begin-user-doc --> Overwritten to allow creation/updating of elements <!--
+    * end-user-doc -->
+    * 
     * @generated NOT
     */
    @Override
@@ -94,7 +114,6 @@ public class ExtendedAnnotationTypeImpl extends XSDAnnotationImpl implements Ext
   {
      return getSchema();
   }
-
   /**
    * <!-- begin-user-doc -->
    * Overridden to allow cloning
