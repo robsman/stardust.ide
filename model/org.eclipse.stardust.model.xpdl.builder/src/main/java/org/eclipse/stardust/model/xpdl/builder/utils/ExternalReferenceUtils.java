@@ -695,11 +695,10 @@ public class ExternalReferenceUtils
 
    private static void fixConnection(Connection connection, ModelType refModel)
    {
+      AttributeType attribute = AttributeUtil.getAttribute(refModel, "carnot:model:uuid");
       String connectionUUID = connection.getAttribute("connectionUUID");
       if (null != connectionUUID)
       {
-         AttributeType attribute = AttributeUtil.getAttribute(refModel,
-               "carnot:model:uuid");
          if (null != attribute)
          {
             if (attribute.getValue().equals(connectionUUID))
@@ -727,6 +726,13 @@ public class ExternalReferenceUtils
                   }
                }
             }
+         }
+      }
+      else
+      {
+         if (null != attribute)
+         {
+            connection.setAttribute("connectionUUID", attribute.getValue());
          }
       }
    }
