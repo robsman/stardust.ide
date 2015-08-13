@@ -17,6 +17,7 @@
    <modules>
       <module>stardust-model-repository</module>
       <module>stardust-model-validation-xpdl</module>
+	  <module>stardust-model-authorization</module>
    </modules>
 
    <build>
