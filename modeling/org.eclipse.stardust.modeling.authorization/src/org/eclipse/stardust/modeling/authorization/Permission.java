@@ -11,6 +11,7 @@
 package org.eclipse.stardust.modeling.authorization;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -315,4 +316,29 @@ public class Permission
 	  defaultParticipants.clear();
 	  defaultParticipants.add(participant);
    }
-}
+   
+   public List<IModelParticipant> getDefaultParticipants()
+   {
+      return defaultParticipants;
+   }
+   
+   public List<IModelParticipant> getFixedParticipants()
+   {
+      return fixedParticipants;
+   }
+   
+   public List<IModelParticipant> getParticipants()
+   {
+      List<IModelParticipant> result = new ArrayList<IModelParticipant>();
+      for (Iterator<ParticipantReference> i = participants.iterator(); i.hasNext();)
+      {
+         ParticipantReference reference = i.next();
+         if (null != reference.getParticipant())
+         {
+            result.add(reference.getParticipant());
+         }
+      }
+      return result;
+   }
+      
+   }
