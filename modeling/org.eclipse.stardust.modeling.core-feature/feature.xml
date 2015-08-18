@@ -14,7 +14,9 @@
       label="%featureName"
       version="9.9.9.qualifier"
       provider-name="%providerName"
-      plugin="org.eclipse.stardust.modeling.audittrail">
+      plugin="org.eclipse.stardust.modeling.audittrail"
+      license-feature="org.eclipse.license"
+      license-feature-version="1.0.1">
 
    <description url="http://www.eclipse.org/stardust/">
       %description
@@ -28,8 +30,21 @@
       %license
    </license>
 
-   <includes id="org.eclipse.stardust.modeling.diagramexport-feature"
-      version="0.0.0" />
+   <includes
+         id="org.eclipse.stardust.modeling.diagramexport-feature"
+         version="0.0.0"/>
+   
+   <includes
+         id="org.eclipse.stardust.ide.3rdparty-feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.stardust.modeling.engine-feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.stardust.modeling.model-feature"
+         version="0.0.0"/>
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
@@ -42,7 +57,6 @@
       <import plugin="org.eclipse.stardust.ide.thirdparty.runtime.xml"/>
       <import plugin="org.eclipse.stardust.ide.thirdparty.gface"/>
       <import plugin="org.eclipse.draw2d"/>
-      <import plugin="org.eclipse.emf.ecore.editor"/>
       <import plugin="org.eclipse.ui.views.properties.tabbed"/>
       <import plugin="org.eclipse.stardust.model.xpdl"/>
       <import plugin="org.eclipse.xsd"/>
@@ -84,6 +98,12 @@
       <import plugin="javax.wsdl"/>
       <import plugin="org.apache.axis"/>
       <import plugin="org.eclipse.stardust.ide.thirdparty.cxf"/>
+      <import plugin="org.eclipse.core.variables"/>
+      <import plugin="org.eclipse.stardust.ide.thirdparty.camel"/>
+      <import plugin="org.eclipse.gef" version="3.4.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.wst.jsdt.manipulation"/>
+      <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.eclipse.stardust.ide.thirdparty.javascript"/>
    </requires>
 
    <plugin
@@ -495,7 +515,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.stardust.modeling.integration.camel.nl"
          download-size="0"
@@ -503,7 +523,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.stardust.modeling.transformation"
          download-size="0"
@@ -532,7 +552,37 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
+   <plugin
+         id="org.eclipse.stardust.modeling.transformation.debug.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.transformation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.transformation.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.transformation.debug"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
    <plugin
          id="org.eclipse.stardust.modeling.transformation.debug.nl"
          download-size="0"

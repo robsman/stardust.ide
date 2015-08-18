@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.deploy;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.List;
@@ -24,6 +27,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.*;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
+
 import org.eclipse.stardust.common.Base64;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
@@ -31,6 +35,7 @@ import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.projectnature.ModelingCoreActivator;
 import org.eclipse.stardust.modeling.common.projectnature.classpath.BpmCoreLibrariesClasspathContainer;
 import org.eclipse.stardust.modeling.common.projectnature.classpath.CarnotToolClasspathProvider;
+
 import org.eclipse.ui.PlatformUI;
 
 public class DeployUtil
@@ -214,5 +219,61 @@ public class DeployUtil
       return project;
    }
    
-   
+   /**
+    * Reads the given file and returns a byte array.
+    * 
+    * @param fileName
+    *           - file to be read
+    * @return - byte array of the file read.
+    * 
+    * @throws IOException
+    *            - in case the file is too large (greater than Integer.MAX_VALUE number of
+    *            bytes) or some other IOException occurs.
+    */
+   public static byte[] fileToBytes(final String fileName) throws IOException
+   {
+      FileInputStream ipStream = null;
+
+      try
+      {
+         File file = new File(fileName);
+         long fileLength = file.length();
+
+         if (fileLength > Integer.MAX_VALUE)
+         {
+            throw new IOException("File too large. Please select a smaller file.");
+         }
+
+         ipStream = new FileInputStream(file);
+
+         byte[] bytes = new byte[(int) file.length()];
+
+         int bytesRead = ipStream.read(bytes);
+
+         if (bytesRead < fileLength)
+         {
+            throw new IOException("File not read correctly.");
+         }
+
+         return bytes;
+      }
+      catch (IOException e)
+      {
+         throw e;
+      }
+      finally
+      {
+         
+         if (ipStream != null)
+         {
+            try
+            {
+               ipStream.close();
+            }
+            catch (Exception e)
+            {
+            }
+         }
+      }
+   }
 }

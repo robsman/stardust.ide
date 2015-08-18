@@ -24,11 +24,13 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
+
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.config.CurrentVersion;
 import org.eclipse.stardust.common.config.Version;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
@@ -59,6 +61,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateM
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetMapValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ModelTreeEditPart;
+
 import org.eclipse.xsd.XSDComplexTypeContent;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDElementDeclaration;
@@ -122,8 +125,17 @@ public class UpgradeModelAction extends SelectionAction
       ModelType model = editor.getWorkflowModel();
       if (model == null)
       {
-    	 return command.unwrap();
+         return command.unwrap();
       }
+
+      String vendor = model.getVendor();
+      if(vendor != null && !vendor.equals(XMLConstants.VENDOR_NAME))
+      {
+         command.add(new SetValueCmd(editor.getWorkflowModel(),
+               CarnotWorkflowModelPackage.eINSTANCE.getModelType_Vendor(),
+               XMLConstants.VENDOR_NAME));
+      }
+
       String carnotVersion = model.getCarnotVersion();
       if (carnotVersion == null || CurrentVersion.getVersion().compareTo(new Version(carnotVersion)) > 0)
       {
@@ -141,12 +153,12 @@ public class UpgradeModelAction extends SelectionAction
       }
       createMissingDataCmd(command);
       createMissingDataTypes(command);
-      createMissingApplicationContextTypes(command);      
+      createMissingApplicationContextTypes(command);
       createModifiedValidatorsCmds(command);
       createChangeStructuredDataCmd(command);
       createModifiedDataMappingCmd(command);
       createModifiedProjectPlanningParametersCmd(command);
-      
+
       return command.unwrap();
    }
 
@@ -212,7 +224,7 @@ public class UpgradeModelAction extends SelectionAction
          // TODO: change the cwm CDATA string to TypeDeclarations
          // TODO: change the cwm struct data objects
       }
-      
+
       List list = declarations.getTypeDeclaration();
       // upgrade needed if all declarations are schema types and all schema types
       // have schemas in standard carnot namespace.
@@ -435,7 +447,7 @@ public class UpgradeModelAction extends SelectionAction
       }
       return null;
    }
-   
+
    private void updateImports(CompoundCommand command, XSDSchema schema, XSDSchema schema2Import)
    {
       if (schema == schema2Import)
@@ -537,7 +549,7 @@ public class UpgradeModelAction extends SelectionAction
          }
       }
    }
-   
+
    private void appendNumber(StringBuffer buffer, long value, int count)
    {
       if (value > 999)
@@ -573,7 +585,7 @@ public class UpgradeModelAction extends SelectionAction
             data.setName("Process Priority"); //$NON-NLS-1$
             data.setDescription(ModelUtils.createDescription("Priority assigned to the current process.")); //$NON-NLS-1$
             data.setPredefined(true);
-   //         AttributeUtil.setAttribute(data, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
+   //         AttributeUtil.setAttribute(data, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
             AttributeUtil.setAttribute(data, PredefinedConstants.TYPE_ATT,
                   "ag.carnot.workflow.spi.providers.data.java.Type", "int"); //$NON-NLS-1$ //$NON-NLS-2$
             command.add(new SetValueCmd(editor.getWorkflowModel(),
@@ -592,10 +604,10 @@ public class UpgradeModelAction extends SelectionAction
          PredefinedConstants.DEFAULT_CONTEXT, PredefinedConstants.ENGINE_CONTEXT,
          PredefinedConstants.APPLICATION_CONTEXT, PredefinedConstants.JFC_CONTEXT,
          PredefinedConstants.JSP_CONTEXT, PredefinedConstants.PROCESSINTERFACE_CONTEXT,
-         PredefinedConstants.EXTERNALWEBAPP_CONTEXT};      
-      
+         PredefinedConstants.EXTERNALWEBAPP_CONTEXT};
+
       ModelType model = editor.getWorkflowModel();
-      EList<ApplicationContextTypeType> applicationContextTypes = model.getApplicationContextType();      
+      EList<ApplicationContextTypeType> applicationContextTypes = model.getApplicationContextType();
       Map<String, IConfigurationElement> dataTypesConfig = SpiExtensionRegistry.instance().getExtensions(CarnotConstants.CONTEXT_TYPES_EXTENSION_POINT_ID);
 
       for(String contextTypeKey : defaultContextTypes)
@@ -614,19 +626,19 @@ public class UpgradeModelAction extends SelectionAction
             createContextTypeCommand.setParent(model);
             command.add(createContextTypeCommand);
          }
-      }  
+      }
    }
-   
+
    private void createMissingDataTypes(CompoundCommand command)
    {
       String[] dmsDataTypeKeys = {
             DmsConstants.DATA_TYPE_DMS_DOCUMENT,
-            DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST, 
+            DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST,
             DmsConstants.DATA_TYPE_DMS_FOLDER,
             DmsConstants.DATA_TYPE_DMS_FOLDER_LIST,
       };
-      
-      Map<String, IConfigurationElement> dataTypesConfig 
+
+      Map<String, IConfigurationElement> dataTypesConfig
          = SpiExtensionRegistry.instance().getExtensions(CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);
       ModelType model = editor.getWorkflowModel();
 
@@ -642,10 +654,10 @@ public class UpgradeModelAction extends SelectionAction
                   new EStructuralFeature[] {});
             createDataTypeCommand.setParent(model);
             command.add(createDataTypeCommand);
-         }  
-      }      
+         }
+      }
    }
-   
+
    private void createModifiedValidatorsCmds(CompoundCommand command)
    {
       ModelType model = editor.getWorkflowModel();
@@ -676,7 +688,7 @@ public class UpgradeModelAction extends SelectionAction
             PredefinedConstants.VALIDATOR_CLASS_ATT,
             "org.eclipse.stardust.engine.extensions.web.jsp.contexts.JSPValidator"); //$NON-NLS-1$
    }
-   
+
    private void createModifiedValidatorCmd(CompoundCommand command,
          IExtensibleElement eventAction, String validatorAttrName,
          String validatorClassName)

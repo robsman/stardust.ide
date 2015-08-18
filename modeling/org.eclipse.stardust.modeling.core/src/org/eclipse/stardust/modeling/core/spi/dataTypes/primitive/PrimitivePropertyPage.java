@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.*;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.Predicate;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
@@ -47,6 +48,7 @@ import org.eclipse.stardust.modeling.core.ui.PrimitiveDataWidgetAdapter;
 import org.eclipse.stardust.modeling.core.utils.ExtensibleElementValueAdapter;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -92,6 +94,8 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
 
    protected boolean grouped;
 
+   private Button volatileCheckBox;   
+
    private static Type[] fetchTypes()
    {
       List<Type> types = Type.getTypes();
@@ -109,7 +113,8 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
          AttributeUtil.setAttribute((DataType) element, PredefinedConstants.TYPE_ATT,
                "org.eclipse.stardust.engine.core.pojo.data.Type", Type.Enumeration.getId()); //$NON-NLS-1$
       }
-
+      volatileCheckBox.setSelection(AttributeUtil.getBooleanValue((IExtensibleElement) element, PredefinedConstants.VOLATILE_DATA));      
+      
       WidgetBindingManager binding = getWidgetBindingManager();
 
       // bind types, typeViewer and valueComposites
@@ -375,6 +380,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
          }
       }
       enumTree.setEnabled(false);
+      volatileCheckBox.setEnabled(false);
    }
 
    private boolean isPredefined(IModelElement element)
@@ -394,6 +400,23 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
    public Control createBody(Composite parent)
    {
       Composite composite = FormBuilder.createComposite(parent, 2);
+      volatileCheckBox = FormBuilder.createCheckBox(composite, Diagram_Messages.LBL_Volatile_Data, 2);
+      volatileCheckBox.addSelectionListener(new SelectionAdapter()
+      {
+         public void widgetSelected(SelectionEvent e)
+         {
+            DataType data = (DataType) getModelElement();
+            boolean selection = ((Button) e.widget).getSelection();
+            if(selection)
+            {
+               AttributeUtil.setBooleanAttribute(data, PredefinedConstants.VOLATILE_DATA, true);
+            }
+            else
+            {
+               AttributeUtil.setAttribute(data, PredefinedConstants.VOLATILE_DATA, null);               
+            }
+         }
+      });
 
       FormBuilder.createLabel(composite, Diagram_Messages.LB_SPI_Type);
 

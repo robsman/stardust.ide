@@ -13,14 +13,6 @@ package org.eclipse.stardust.modeling.core.spi.dataTypes.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
-import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
-import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -29,6 +21,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
+import org.eclipse.stardust.modeling.core.Diagram_Messages;
+import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 
 public class EntityBeanPropertyPage extends AbstractModelElementPropertyPage
 {
@@ -38,7 +38,7 @@ public class EntityBeanPropertyPage extends AbstractModelElementPropertyPage
    private Button radio2x;
    private StackLayout stackLayout;
    private Composite bodyStack;
-
+   
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
       AbstractModelElementPropertyPage delegate = getCreateDelegate();
@@ -60,6 +60,7 @@ public class EntityBeanPropertyPage extends AbstractModelElementPropertyPage
    public Control createBody(final Composite parent)
    {
       Composite bodyComposite = FormBuilder.createComposite(parent, 1);
+            
       Group versionGroup = FormBuilder.createGroup(bodyComposite, "Version", 2); //$NON-NLS-1$
       versionGroup.setLayoutData(FormBuilder.createDefaultSingleLineWidgetGridData());
       radio3x = FormBuilder.createRadioButton(versionGroup, Diagram_Messages.BUT_EJB_DREI_X);

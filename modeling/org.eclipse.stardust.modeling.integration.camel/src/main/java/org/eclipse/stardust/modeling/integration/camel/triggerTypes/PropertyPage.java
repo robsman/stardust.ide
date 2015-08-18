@@ -29,6 +29,8 @@ public class PropertyPage extends AbstractModelElementPropertyPage
    private Text additionalBeans;
 
    private Button transactedRoute;
+   
+   private Button autoStartupRoute;
 
    private static final String CAMEL_TRIGGER_USERNAME = "carnot:engine:camel::username";
 
@@ -62,6 +64,9 @@ public class PropertyPage extends AbstractModelElementPropertyPage
       this.transactedRoute = FormBuilder.createCheckBox(endpointUriSettingGroup,
             Camel_Messages.label_Transacted_Route);
       this.transactedRoute.setSelection(true);
+      this.autoStartupRoute = FormBuilder.createCheckBox(endpointUriSettingGroup,
+              Camel_Messages.label_AutoStartup_Route);
+      this.autoStartupRoute.setSelection(true);
       Group routeSettingGroup = FormBuilder.createGroup(composite,
             Camel_Messages.label_Route, 2);
       this.routeExtension = FormBuilder.createTextArea(routeSettingGroup, 200);
@@ -91,6 +96,7 @@ public class PropertyPage extends AbstractModelElementPropertyPage
       }
       String camelContextContent = this.camelContextId.getText();
       Boolean isSelected = ((Button) transactedRoute).getSelection();
+      Boolean isAutoStartup = ((Button) autoStartupRoute).getSelection();
       String routeExtContent = this.routeExtension.getText();
       String additionalBeanDefinitionContent = this.additionalBeans.getText();
 
@@ -102,6 +108,8 @@ public class PropertyPage extends AbstractModelElementPropertyPage
             ADDITIONAL_SPRING_BEANS_DEF_ATT, additionalBeanDefinitionContent);
       AttributeUtil.setAttribute((IExtensibleElement) modelElement,
             CamelConstants.TRANSACTED_ROUTE_EXT_ATT, isSelected.toString());
+      AttributeUtil.setBooleanAttribute((IExtensibleElement) modelElement,
+            CamelConstants.AUTO_STARTUP_ROUTE_EXT_ATT, isAutoStartup);
 
       AttributeUtil.setAttribute((IExtensibleElement) modelElement,
             CAMEL_TRIGGER_USERNAME, CAMEL_TRIGGER_USERNAME_CV);
@@ -139,6 +147,13 @@ public class PropertyPage extends AbstractModelElementPropertyPage
                TRANSACTED_ROUTE_EXT_ATT, Boolean.TRUE.toString());
       getCheckBoxValue((IExtensibleElement) modelElement, TRANSACTED_ROUTE_EXT_ATT,
             transactedRoute);
+      
+      if (AttributeUtil.getAttributeValue((IExtensibleElement) modelElement,
+    		  AUTO_STARTUP_ROUTE_EXT_ATT) == null)
+           AttributeUtil.setBooleanAttribute((IExtensibleElement) modelElement,
+        		   AUTO_STARTUP_ROUTE_EXT_ATT, Boolean.TRUE);
+        getCheckBoxValue((IExtensibleElement) modelElement, AUTO_STARTUP_ROUTE_EXT_ATT,
+              autoStartupRoute);
 
       String routeExtContent = AttributeUtil.getAttributeValue(
             (IExtensibleElement) modelElement, ROUTE_EXT_ATT);

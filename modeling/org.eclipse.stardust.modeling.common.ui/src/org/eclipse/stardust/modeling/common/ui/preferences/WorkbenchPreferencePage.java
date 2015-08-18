@@ -14,18 +14,12 @@ import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
-import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.UI_Messages;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
@@ -34,8 +28,6 @@ public class WorkbenchPreferencePage extends PreferencePage
       implements IWorkbenchPreferencePage
 {
    private Button chkEnableAutoValidation;
-
-   private Text licenseFilePath;
 
    private Button chkEnableAutoIdGeneration;
 
@@ -101,29 +93,9 @@ public class WorkbenchPreferencePage extends PreferencePage
       radioWarnSwitchActivityType = FormBuilder.createRadioButton(
             groupSwitchActivityType, UI_Messages.LB_ShowWarning);
 
-      this.licenseFilePath = FormBuilder.createLabeledText(panel,
-            UI_Messages.WorkbenchPreferencePage_licenseFilePath).getText();
-      FormBuilder.createButton(panel, UI_Messages.BTN_Browse, new SelectionListener()
-      {
-         public void widgetSelected(SelectionEvent e)
-         {
-            FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-            dialog.setFilterPath(licenseFilePath.getText());
-            String file = dialog.open();
-            if (file != null)
-            {
-               licenseFilePath.setText(file);
-            }
-         }
-
-         public void widgetDefaultSelected(SelectionEvent e)
-         {}
-      });
-
       updateCheckbox();
       updateSwitchActivityTypeGroup();
       updateFocusMode();
-      licenseFilePath.setText(BpmUiActivator.getDefault().getTraceFilePath());
 
       return panel;
    }
@@ -209,7 +181,6 @@ public class WorkbenchPreferencePage extends PreferencePage
       PlatformUI.getPreferenceStore().setValue(
             BpmProjectNature.PREFERENCE_FOCUS_MODE, focusMode);
       
-      BpmUiActivator.getDefault().setTraceFilePath(licenseFilePath.getText());
       return true;
    }
 
@@ -233,6 +204,5 @@ public class WorkbenchPreferencePage extends PreferencePage
             BpmProjectNature.PREFERENCE_FOCUS_MODE);
       
       updateCheckbox();
-      licenseFilePath.setText(BpmUiActivator.getDefault().getTraceFilePath());
    }
 }

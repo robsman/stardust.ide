@@ -14,7 +14,9 @@
       label="%featureName"
       version="9.9.9.qualifier"
       provider-name="%providerName"
-      plugin="org.eclipse.stardust.modeling.diagramexport.servlet">
+      plugin="org.eclipse.stardust.modeling.diagramexport.servlet"
+      license-feature="org.eclipse.license"
+      license-feature-version="1.0.1">
 
    <description url="http://www.eclipse.org/stardust/">
       %description

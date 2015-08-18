@@ -88,6 +88,26 @@ public abstract class BpmModelBuilder
       return ExternalWebApplicationApplicationBuilder.newExternalWebApplication(model);
    }
 
+   public static BpmEntityVariableBuilder<Object> newEntityVariable()
+   {
+      return BpmEntityVariableBuilder.newEntityVariable();
+   }
+
+   public static BpmEntityVariableBuilder<Object> newEntityVariable(ModelType model)
+   {
+      return BpmEntityVariableBuilder.newEntityVariable(model);
+   }
+
+   public static BpmSerializableVariableBuilder<Object> newSerializableVariable()
+   {
+      return BpmSerializableVariableBuilder.newSerializableVariable();
+   }
+
+   public static BpmSerializableVariableBuilder<Object> newSerializableVariable(ModelType model)
+   {
+      return BpmSerializableVariableBuilder.newSerializableVariable(model);
+   }
+
    public static BpmPrimitiveVariableBuilder<Object> newPrimitiveVariable()
    {
       return BpmPrimitiveVariableBuilder.newPrimitiveVariable();
@@ -106,6 +126,11 @@ public abstract class BpmModelBuilder
    public static BpmDocumentVariableBuilder newDocumentVariable(ModelType model)
    {
       return BpmDocumentVariableBuilder.newDocumentVariable(model);
+   }
+
+   public static BpmDocumentListVariableBuilder newDocumentListVariable(ModelType model)
+   {
+      return BpmDocumentListVariableBuilder.newDocumentListVariable(model);
    }
 
    public static BpmRoleBuilder newRole(ModelType model)

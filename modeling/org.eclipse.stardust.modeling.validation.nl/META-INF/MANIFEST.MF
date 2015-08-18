@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %nlsFragmentName
+Bundle-Name: Process Model Validation (NLS Fragment)
 Bundle-SymbolicName: org.eclipse.stardust.modeling.validation.nl
 Bundle-Version: 9.9.9.qualifier
-Bundle-Vendor: %nlsProviderName
+Bundle-Vendor: Eclipse Stardust
 Fragment-Host: org.eclipse.stardust.modeling.validation
 Bundle-Localization: fragment
+

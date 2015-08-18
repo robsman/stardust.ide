@@ -11,13 +11,13 @@
 package org.eclipse.stardust.model.xpdl.builder.variable;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.transformation.model.MappingModelUtil;
 import org.eclipse.stardust.engine.extensions.transformation.model.mapping.MappingFactory;
 import org.eclipse.stardust.engine.extensions.transformation.model.mapping.TransformationProperty;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
+import org.eclipse.stardust.model.xpdl.builder.utils.XPDLFinderUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
@@ -163,7 +163,7 @@ public class StructAccessPointBuilder
    public StructAccessPointBuilder withDirection(String direction)
    {
       DirectionType directionType;
-      
+
       if (direction.equals(DirectionType.IN_LITERAL.getName()))
       {
          directionType = DirectionType.IN_LITERAL;
@@ -176,9 +176,9 @@ public class StructAccessPointBuilder
       {
          directionType = DirectionType.OUT_LITERAL;
       }
-      
+
       element.setDirection(directionType);
-      
+
       return self();
    }
 
@@ -202,7 +202,7 @@ public class StructAccessPointBuilder
                + getModelBuilderFacade().stripFullId(structTypeFullID);
       }
       AttributeUtil.setAttribute(element, ModelerConstants.DATA_TYPE, declaredTypeID);
-      DataTypeType dataTypeType = new ModelBuilderFacade().findDataType(model,
+      DataTypeType dataTypeType = XPDLFinderUtils.findDataType(model,
             PredefinedConstants.STRUCTURED_DATA);
       element.setType(dataTypeType);
       return self();

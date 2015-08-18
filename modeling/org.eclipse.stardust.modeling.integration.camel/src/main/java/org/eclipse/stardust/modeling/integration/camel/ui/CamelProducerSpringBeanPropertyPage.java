@@ -1,6 +1,7 @@
 package org.eclipse.stardust.modeling.integration.camel.ui;
 
 import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.*;
+
 //import org.eclipse.stardust.engine.extensions.camel.CamelConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -26,6 +27,7 @@ public class CamelProducerSpringBeanPropertyPage extends AbstractModelElementPro
    private Text routeEntry;
    private Button includeProcessContextHeaders;
    private Button transactedRoute;
+   private Button autoStartupRoute;
    private IExtensibleElement extensibleElement;
 
    public void dispose()
@@ -49,6 +51,11 @@ public class CamelProducerSpringBeanPropertyPage extends AbstractModelElementPro
       if(AttributeUtil.getAttributeValue(extensibleElement, TRANSACTED_ROUTE_EXT_ATT) == null)
          AttributeUtil.setAttribute(extensibleElement, TRANSACTED_ROUTE_EXT_ATT, Boolean.TRUE.toString());
       getCheckBoxValue(TRANSACTED_ROUTE_EXT_ATT,transactedRoute);
+      
+      if(AttributeUtil.getAttributeValue(extensibleElement, AUTO_STARTUP_ROUTE_EXT_ATT) == null)
+         AttributeUtil.setBooleanAttribute(extensibleElement, AUTO_STARTUP_ROUTE_EXT_ATT, Boolean.TRUE);
+      getCheckBoxValue(AUTO_STARTUP_ROUTE_EXT_ATT,autoStartupRoute);      
+      
    }
 
    /**
@@ -62,6 +69,7 @@ public class CamelProducerSpringBeanPropertyPage extends AbstractModelElementPro
       setAttributeValue(PRODUCER_ROUTE_ATT, null, routeEntry);
       setAttributeValue(PROCESS_CONTEXT_HEADERS_EXT_ATT, null, includeProcessContextHeaders);
       setAttributeValue(TRANSACTED_ROUTE_EXT_ATT, null, transactedRoute);
+      setBooleanAttributeValue(AUTO_STARTUP_ROUTE_EXT_ATT, null, autoStartupRoute);
       
    }
 
@@ -82,9 +90,14 @@ public class CamelProducerSpringBeanPropertyPage extends AbstractModelElementPro
             Camel_Messages.label_Transacted_Route);
       transactedRoute.setSelection(true);
       
+      autoStartupRoute = FormBuilder.createCheckBox(composite,
+            Camel_Messages.label_AutoStartup_Route);
+      autoStartupRoute.setSelection(true);
+      
       //getProcessContextHeaderValue(PROCESS_CONTEXT_HEADERS_EXT_ATT,includeProcessContextHeaders);
-      FormBuilder.createLabel(composite, ""); //$NON-NLS-1$
+
       FormBuilder.createLabel(composite, Camel_Messages.label_Route);
+      FormBuilder.createLabel(composite, ""); //$NON-NLS-1$
       routeEntry = FormBuilder.createTextArea(composite, 2);
       return composite;
    }
@@ -100,6 +113,15 @@ public class CamelProducerSpringBeanPropertyPage extends AbstractModelElementPro
       {
          Boolean isSelected = ((Button) control).getSelection();
          AttributeUtil.setAttribute(extensibleElement, attrName, isSelected.toString());
+      }
+   }
+   
+   private void setBooleanAttributeValue(String attrName, String attrType, Object control)
+   {
+      if (control instanceof Button)
+      {
+         Boolean isSelected = ((Button) control).getSelection();
+         AttributeUtil.setBooleanAttribute(extensibleElement, attrName, isSelected);
       }
    }
 

@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.deploy;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +24,13 @@ import javax.swing.UIManager;
 import org.eclipse.stardust.common.Base64;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.error.LoginFailedException;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.engine.api.model.IModel;
 import org.eclipse.stardust.engine.api.model.Inconsistency;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.runtime.*;
 import org.eclipse.stardust.engine.cli.common.DeploymentCallback;
 import org.eclipse.stardust.engine.cli.common.DeploymentUtils;
@@ -185,15 +189,24 @@ public class ModelDeploymentTool
                = new DefaultConfigurationVariablesProvider();
             File file = fileMap.get(modelId);
             IModel model = null;
+            byte[] data = null;
+            try
+            {
+               data = DeployUtil.fileToBytes(file.getPath());
+            }
+            catch (IOException e)
+            {
+               e.printStackTrace();
+            }       
+            
             if (file.getName().endsWith(XpdlUtils.EXT_XPDL))
-            {
-               model = XpdlUtils.loadXpdlModel(file, confVarProvider, false);
-
+            {            
+               // convert to CWM format
+               String encoding = Parameters.instance().getObject(
+                     PredefinedConstants.XML_ENCODING, XpdlUtils.ISO8859_1_ENCODING);
+               data = XpdlUtils.convertXpdl2Carnot(data, encoding);
             }
-            else
-            {
-               model = new DefaultXMLReader(false, confVarProvider).importFromXML(file);
-            }
+            model = new DefaultXMLReader(false, confVarProvider).importFromXML(new ByteArrayInputStream(data));            
             models.add(model);
             overrides.put(modelId, model);
          }

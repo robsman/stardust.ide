@@ -103,6 +103,10 @@ public abstract class PropertySetter
          {
             participant = ModelUtils.findElementById(model.getOrganization(), participantId);
          }
+         if (null == participant)
+         {
+            participant = ModelUtils.findElementById(model.getConditionalPerformer(), participantId);
+         }
 
          return participant;
       }

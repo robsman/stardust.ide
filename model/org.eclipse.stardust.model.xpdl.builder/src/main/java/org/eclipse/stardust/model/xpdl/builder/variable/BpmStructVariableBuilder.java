@@ -14,14 +14,15 @@ import java.util.List;
 import java.util.UUID;
 
 import org.eclipse.emf.common.util.URI;
-
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
+import org.eclipse.stardust.model.xpdl.builder.utils.ExternalReferenceUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -96,49 +97,30 @@ public class BpmStructVariableBuilder
 
    public BpmStructVariableBuilder ofType(String declId)
    {
-      if(StringUtils.isEmpty(declId))
+      if (StringUtils.isEmpty(declId))
       {
          return this;
-         //generateId();
-         //declId = getGeneratedID();
+         // generateId();
+         // declId = getGeneratedID();
       }
 
-      if(getTypeDeclarationModel().getId().equals(model.getId()))
+      if (getTypeDeclarationModel().getId().equals(model.getId()))
       {
-         AttributeUtil.setAttribute(element, StructuredDataConstants.TYPE_DECLARATION_ATT,
-               declId);
+         AttributeUtil.setAttribute(element,
+               StructuredDataConstants.TYPE_DECLARATION_ATT, declId);
       }
       else
       {
-         TypeDeclarationType typeDeclaration = getTypeDeclaration(typeDeclarationModel, declId);
-
-         String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, typeDeclarationModel);
-
-         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-         ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), element,
-               typeDeclaration.getId(), typeDeclaration.getName(), typeDeclaration.getDescription(),
-               bundleId, null);
-
-
-         AttributeUtil.setAttribute(element, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
-         ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
-         if (typeDeclarationModel != null)
-         {
-            reference.setLocation(ImportUtils.getPackageRef(descriptor, model, typeDeclarationModel).getId());
-         }
-         reference.setXref(declId);
-         String uuid = ExtendedAttributeUtil.getAttributeValue(typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
-         if (uuid != null)
-         {
-            reference.setUuid(uuid);
-         }
-         element.setExternalReference(reference);
+         TypeDeclarationType typeDeclaration = getTypeDeclaration(typeDeclarationModel,
+               declId);
+         ExternalReferenceUtils.createExternalReferenceToTypeDeclaration(element, model,
+               getTypeDeclarationModel(), typeDeclaration);
       }
 
       return this;
    }
+
+
 
    /**
    *

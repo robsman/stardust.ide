@@ -95,10 +95,12 @@
               <version>${tycho-extras.version}</version>
             </dependency>
           </dependencies>
-          <configuration combine.self="override">
+          <configuration>
             <format>${maven.build.timestamp.format}</format>
             <strictVersions>false</strictVersions>
             <timestampProvider>jgit</timestampProvider>
+            <!-- unset forceContextQualifier if set in parent -->
+            <forceContextQualifier combine.self="override" />
             <jgit.ignore>pom.xml</jgit.ignore>
             <jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree>
           </configuration>

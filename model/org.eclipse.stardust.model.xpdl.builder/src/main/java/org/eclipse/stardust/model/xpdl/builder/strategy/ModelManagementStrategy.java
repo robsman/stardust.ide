@@ -79,7 +79,7 @@ public interface ModelManagementStrategy {
 	 *
 	 */
 	void saveModel(ModelType model);
-
+		
 	/**
 	 *
 	 * @param model

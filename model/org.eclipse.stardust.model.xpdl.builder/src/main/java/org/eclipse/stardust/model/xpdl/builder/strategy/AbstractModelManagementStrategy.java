@@ -27,11 +27,11 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 {
    private boolean hasLoaded = false;
 
-	private Map<String, ModelType> xpdlModels = newHashMap();
+   protected Map<String, ModelType> xpdlModels = newHashMap();
 
    private Map<ModelType, EObject> nativeModels = newHashMap();
 
-   private final EObjectUUIDMapper eObjectUUIDMapper = new EObjectUUIDMapper();
+   protected EObjectUUIDMapper eObjectUUIDMapper;
 
     /* (non-Javadoc)
      * @see org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy#initialize(java.util.Map)
@@ -94,7 +94,7 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
          this.hasLoaded = true;
          xpdlModels.clear();
          nativeModels.clear();
-         eObjectUUIDMapper.empty();
+         uuidMapper().empty();
          loadModels();
       }
 
@@ -102,19 +102,23 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
    }
 
    protected void registerModel(ModelDescriptor modelDescriptor)
-   {
-      xpdlModels.put(modelDescriptor.id, modelDescriptor.xpdlModel);
-      if (modelDescriptor.xpdlModel != modelDescriptor.nativeModel)
-      {
-         // register native representation (in order to smoothly transition to BPMN2)
-         nativeModels.put(modelDescriptor.xpdlModel, modelDescriptor.nativeModel);
-      }
-   }
+         {
+            xpdlModels.put(modelDescriptor.id, modelDescriptor.xpdlModel);
+            if (modelDescriptor.xpdlModel != modelDescriptor.nativeModel)
+            {
+               // register native representation (in order to smoothly transition to BPMN2)
+               nativeModels.put(modelDescriptor.xpdlModel, modelDescriptor.nativeModel);
+            }
+         }
 
-	public EObjectUUIDMapper uuidMapper()
-	{
-	   return eObjectUUIDMapper;
-	}
+   public EObjectUUIDMapper uuidMapper()
+   {
+      if (eObjectUUIDMapper == null)
+      {
+         eObjectUUIDMapper = new EObjectUUIDMapper();
+      }
+      return eObjectUUIDMapper;
+   }
 
    /**
     * Maps the model and it's elements to a UUID which will remain constant through out the session.
@@ -122,10 +126,10 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
     *
     * This method needs to be called whenever a model is loaded.
     */
-   protected void loadEObjectUUIDMap(ModelType model)
+   public void loadEObjectUUIDMap(ModelType model)
    {
       // Load if not already loaded.
-      if (null == eObjectUUIDMapper.getUUID(model))
+      if (null == uuidMapper().getUUID(model))
       {
          eObjectUUIDMapper.map(model);
          for (Iterator<EObject> i = model.eAllContents(); i.hasNext();)

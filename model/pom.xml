@@ -23,8 +23,6 @@
     <module>org.eclipse.stardust.model.xpdl.nl</module>
     <module>org.eclipse.stardust.model.xpdl.api</module>
     <module>org.eclipse.stardust.model.xpdl.api.nl</module>
-    <module>org.eclipse.stardust.model.xpdl.edit</module>
-    <module>org.eclipse.stardust.model.xpdl.editor</module>
 
     <module>org.eclipse.stardust.modeling.model-feature</module>
   </modules>

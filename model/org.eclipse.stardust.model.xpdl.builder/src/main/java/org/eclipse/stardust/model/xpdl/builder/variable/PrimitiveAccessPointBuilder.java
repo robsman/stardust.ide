@@ -13,12 +13,12 @@ package org.eclipse.stardust.model.xpdl.builder.variable;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.extensions.transformation.model.MappingModelUtil;
 import org.eclipse.stardust.engine.extensions.transformation.model.mapping.MappingFactory;
 import org.eclipse.stardust.engine.extensions.transformation.model.mapping.TransformationProperty;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
+import org.eclipse.stardust.model.xpdl.builder.utils.XPDLFinderUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
@@ -172,7 +172,7 @@ public class PrimitiveAccessPointBuilder
    {
       AttributeUtil.setAttribute(element, PredefinedConstants.TYPE_ATT,
             "ag.carnot.workflow.spi.providers.data.java.Type", primitiveTypeID);
-      DataTypeType dataTypeType = new ModelBuilderFacade().findDataType(model,
+      DataTypeType dataTypeType = XPDLFinderUtils.findDataType(model,
             PredefinedConstants.PRIMITIVE_DATA);
       element.setType(dataTypeType);
       return self();
