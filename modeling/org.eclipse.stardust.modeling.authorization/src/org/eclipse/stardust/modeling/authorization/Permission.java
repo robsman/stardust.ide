@@ -215,6 +215,12 @@ public class Permission
       return isOWNER || fixedOWNER;
    }
    
+   public boolean isFixedOWNER()
+   {
+      return fixedOWNER;
+   }
+
+   
    /**
     * Should be invoked on clean state, since this method adds new attributes without touching existing ones.
     * 
