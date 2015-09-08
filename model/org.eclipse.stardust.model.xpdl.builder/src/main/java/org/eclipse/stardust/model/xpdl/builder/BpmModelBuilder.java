@@ -62,6 +62,11 @@ public abstract class BpmModelBuilder
    {
       return DocumentAccessPointBuilder.newAccessPoint(anOwner);
    }
+   
+   public static TemplateApplicationBuilder newTemplateApplication(ModelType model)
+   {
+      return TemplateApplicationBuilder.newTemplateApplication(model); 
+   }
 
    public static CamelApplicationBuilder newCamelApplication(ModelType model)
    {

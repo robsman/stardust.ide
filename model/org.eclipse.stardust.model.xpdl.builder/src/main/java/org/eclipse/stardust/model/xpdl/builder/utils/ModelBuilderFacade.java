@@ -1376,6 +1376,13 @@ public class ModelBuilderFacade
          return newWebserviceApplication(model).withIdAndName(applicationID,
                applicationName).build();
       }
+      
+      if (applicationTypeID.equalsIgnoreCase(ModelerConstants.TEMPLATE_APP_CONTEXT_TYPE_KEY))
+      {
+         return newTemplateApplication(model).withIdAndName(applicationID, 
+               applicationName).build();
+      }
+      
       if (applicationTypeID.equalsIgnoreCase(ModelerConstants.CAMEL_APPLICATION_TYPE_ID))
       {
          return newCamelApplication(model).withIdAndName(applicationID, applicationName)
