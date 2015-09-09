@@ -34,7 +34,7 @@
       
       <dependency>
          <groupId>org.eclipse.stardust.engine</groupId>
-         <artifactId>stardust-engine-template</artifactId>
+         <artifactId>stardust-engine-decorator</artifactId>
          <version>${project.version}</version>
       </dependency>
 

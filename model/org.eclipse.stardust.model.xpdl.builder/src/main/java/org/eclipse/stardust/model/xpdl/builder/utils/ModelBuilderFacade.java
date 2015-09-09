@@ -1377,9 +1377,9 @@ public class ModelBuilderFacade
                applicationName).build();
       }
       
-      if (applicationTypeID.equalsIgnoreCase(ModelerConstants.TEMPLATE_APP_CONTEXT_TYPE_KEY))
+      if (applicationTypeID.equalsIgnoreCase(ModelerConstants.DECORATOR_APP_CONTEXT_TYPE_KEY))
       {
-         return newTemplateApplication(model).withIdAndName(applicationID, 
+         return newDecoratorApplication(model).withIdAndName(applicationID, 
                applicationName).build();
       }
       

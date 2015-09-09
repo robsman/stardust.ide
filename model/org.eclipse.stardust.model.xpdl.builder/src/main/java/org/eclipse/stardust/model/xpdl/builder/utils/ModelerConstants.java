@@ -156,7 +156,7 @@ public class ModelerConstants
    public static final String CONTEXTS_PROPERTY = "contexts";
    public static final String JSF_CONTEXT_TYPE_KEY = "jsf";
    public static final String EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY = "externalWebApp";
-   public static final String TEMPLATE_APP_CONTEXT_TYPE_KEY = "templateApp"; 
+   public static final String DECORATOR_APP_CONTEXT_TYPE_KEY = "decoratorApp"; 
    public static final String PARTICIPANT_TYPE_PROPERTY = "participantType";
    public static final String ROLE_PARTICIPANT_TYPE_KEY = "roleParticipant";
    public static final String NONE_LITERAL = "NONE";

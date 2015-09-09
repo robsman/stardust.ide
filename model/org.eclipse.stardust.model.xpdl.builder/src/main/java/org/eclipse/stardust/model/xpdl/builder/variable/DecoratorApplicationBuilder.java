@@ -19,26 +19,26 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
-public class TemplateApplicationBuilder extends AbstractModelElementBuilder<ApplicationType, TemplateApplicationBuilder>
+public class DecoratorApplicationBuilder extends AbstractModelElementBuilder<ApplicationType, DecoratorApplicationBuilder>
 {
 
-   public TemplateApplicationBuilder(ModelType model)
+   public DecoratorApplicationBuilder(ModelType model)
    {
       super(F_CWM.createApplicationType());
 
       forModel(model);
 
       ApplicationTypeType applicationMetaType = ModelUtils.findIdentifiableElement(
-            model.getApplicationType(), ModelerConstants.TEMPLATE_APP_CONTEXT_TYPE_KEY);
+            model.getApplicationType(), ModelerConstants.DECORATOR_APP_CONTEXT_TYPE_KEY);
       if (null == applicationMetaType)
       {
          applicationMetaType = AbstractElementBuilder.F_CWM.createApplicationTypeType();
-         applicationMetaType.setId(ModelerConstants.TEMPLATE_APP_CONTEXT_TYPE_KEY);
-         applicationMetaType.setName("Template Application");
+         applicationMetaType.setId(ModelerConstants.DECORATOR_APP_CONTEXT_TYPE_KEY);
+         applicationMetaType.setName("Decorator Application");
          applicationMetaType.setIsPredefined(true);
          applicationMetaType.setSynchronous(true);
-         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.template.TemplateApplicationValidator");
-         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance", "org.eclipse.stardust.engine.extensions.template.TemplateAppApplicationInstance");
+         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.decorator.DecoratorApplicationValidator");
+         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance", "org.eclipse.stardust.engine.extensions.decorator.DecoratorAppApplicationInstance");
          model.getApplicationType().add(applicationMetaType);
       }
       element.setType(applicationMetaType);
@@ -50,9 +50,9 @@ public class TemplateApplicationBuilder extends AbstractModelElementBuilder<Appl
       return "Application";
    }
 
-   public static TemplateApplicationBuilder newTemplateApplication(ModelType model)
+   public static DecoratorApplicationBuilder newDecoratorApplication(ModelType model)
    {
-      return new TemplateApplicationBuilder(model);
+      return new DecoratorApplicationBuilder(model);
    }
 
    @Override
