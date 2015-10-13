@@ -415,8 +415,14 @@ public class WebModelerConnectionManager implements IConnectionManager
       {
          handler = createHandler(connection.getType());
          EObjectDescriptor.setURIS(false);
-         handler.open(connection);
-         handlers.put(connection, handler);
+         try
+         {
+            handler.open(connection);
+         }
+         finally
+         {
+            handlers.put(connection, handler);
+         }
       }
    }
 
@@ -701,6 +707,8 @@ public class WebModelerConnectionManager implements IConnectionManager
             }
             catch (CoreException e)
             {
+               IStatus status = e.getStatus();
+               trace.warn(status.getException().getMessage());
             }
             ConnectionHandler handler = (ConnectionHandler) handlers.get(connection);
             if (handler != null)
