@@ -25,12 +25,10 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.runtime.DocumentManagementService;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
-import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.builder.utils.PepperIconFactory;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -62,6 +60,8 @@ public class WebModelerConnectionHandler implements ConnectionHandler
    private EObjectDescriptor modelDescriptor;
    private ModelType model;
 
+   private boolean missingModel;
+
    public WebModelerConnectionHandler(ModelManagementStrategy strategy)
    {
       this.strategy = strategy;
@@ -69,22 +69,20 @@ public class WebModelerConnectionHandler implements ConnectionHandler
 
    synchronized ModelType loadModel(String id)
    {
-      ModelType model = strategy.getModels(false).get(id.split("\\.")[0]);
+      String modelId = id.split("\\.")[0];
+      ModelType model = strategy.getModels(false).get(modelId);
       if (model == null)
       {
-         model = strategy.loadModel(id.split("\\.")[0]);
+         model = strategy.loadModel(modelId);
       }
       if (model == null)
       {
          String uuid = connection.getAttribute("connectionUUID");
          if (uuid != null)
          {
-            for (Iterator<ModelType> i = strategy.getModels().values().iterator(); i
-                  .hasNext();)
+            for (ModelType uuidModel : strategy.getModels().values())
             {
-               ModelType uuidModel = i.next();
-               AttributeType attribute = AttributeUtil.getAttribute(uuidModel,
-                     "carnot:model:uuid");
+               AttributeType attribute = AttributeUtil.getAttribute(uuidModel, "carnot:model:uuid");
                if (attribute != null)
                {
                   if (attribute.getValue().equals(uuid))
@@ -153,27 +151,30 @@ public class WebModelerConnectionHandler implements ConnectionHandler
       }
       String uuid = parseQuery(uri.query()).get("uuid");
       uri = uri.trimQuery();
-      for (IObjectDescriptor child : children)
+      if (children != null)
       {
-         if (uri.equals(child.getURI()))
+         for (IObjectDescriptor child : children)
          {
-            return child;
-         }
-         else if (child instanceof CategoryDescriptor)
-         {
-            URI categoryUri = child.getURI();
-            if (isChildOf(categoryUri, uri))
+            if (uri.equals(child.getURI()))
             {
-               IObjectDescriptor item = ((CategoryDescriptor) child).find(uri);
-               if (!StringUtils.isEmpty(uuid))
-               {
-                  if (!matches(uuid, item))
-                  {
-                     item = findByUUID(uuid, (CategoryDescriptor) child);
+               return child;
             }
-         }
-               return item;
-      }
+            else if (child instanceof CategoryDescriptor)
+            {
+               URI categoryUri = child.getURI();
+               if (isChildOf(categoryUri, uri))
+               {
+                  IObjectDescriptor item = ((CategoryDescriptor) child).find(uri);
+                  if (!StringUtils.isEmpty(uuid))
+                  {
+                     if (!matches(uuid, item))
+                     {
+                        item = findByUUID(uuid, (CategoryDescriptor) child);
+                     }
+                  }
+                  return item;
+               }
+            }
          }
       }
       return null;
@@ -237,7 +238,7 @@ public class WebModelerConnectionHandler implements ConnectionHandler
 
       String xpdlId = null;
 
-      if(filename != null)
+      if (filename != null)
       {
          xpdlId = resolve(filename);
       }
@@ -245,7 +246,7 @@ public class WebModelerConnectionHandler implements ConnectionHandler
       this.connection = connection;
       try
       {
-         if(xpdlId != null)
+         if (xpdlId != null)
          {
             updateCache(xpdlId);
          }
@@ -307,9 +308,13 @@ public class WebModelerConnectionHandler implements ConnectionHandler
    // check, if file is valid file
    private void updateCache(String id) throws IOException
    {
-      model = loadModel(id);
+      if (!missingModel)
+      {
+         model = loadModel(id);
+         missingModel = model == null;
+      }
 
-      if(model == null)
+      if (model == null)
       {
          throw new IOException("Model not found: " + id);
       }
