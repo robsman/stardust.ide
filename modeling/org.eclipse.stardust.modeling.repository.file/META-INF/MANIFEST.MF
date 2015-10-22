@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.stardust.modeling.repository.common,
  org.eclipse.stardust.modeling.common.ui.jface,
  org.eclipse.stardust.modeling.core,
- org.eclipse.stardust.modeling.common.ui
+ org.eclipse.stardust.modeling.common.ui,
+ org.eclipse.core.resources
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.stardust.modeling.repository.file,
  org.eclipse.stardust.modeling.repository.file.search
