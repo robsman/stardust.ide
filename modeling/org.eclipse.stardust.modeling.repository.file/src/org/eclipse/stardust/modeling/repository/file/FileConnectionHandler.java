@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
@@ -27,6 +29,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CompoundCommand;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
@@ -36,7 +39,15 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.modeling.core.editors.parts.IconFactory;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteSymbolCommandFactory;
-import org.eclipse.stardust.modeling.repository.common.*;
+import org.eclipse.stardust.modeling.repository.common.Connection;
+import org.eclipse.stardust.modeling.repository.common.ConnectionHandler;
+import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
+import org.eclipse.stardust.modeling.repository.common.ExtendedModelManager;
+import org.eclipse.stardust.modeling.repository.common.IFilter;
+import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ImportCancelledException;
+import org.eclipse.stardust.modeling.repository.common.ImportableDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
 import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
@@ -281,7 +292,15 @@ public class FileConnectionHandler implements ConnectionHandler
             {
                file = new File(Platform.getLocation().toFile(), file.toString());
             }
+            if (!file.exists())
+            {
+               if ("project".equals(uri.getScheme()))
+               {
+                  file = getFileProjectResourceBased(connection, uri);
+               }
+            }
          }
+
       }
       catch (Exception e)
       {
@@ -312,6 +331,22 @@ public class FileConnectionHandler implements ConnectionHandler
       else if (modelURI.isFile())
       {
          file = new File(uri.getPath());
+      }
+      return file;
+   }
+
+   private static File getFileProjectResourceBased(Connection connection, java.net.URI uri)
+   {
+      File file = null;
+      ConnectionManager manager = (ConnectionManager) connection
+            .getProperty(IConnectionManager.CONNECTION_MANAGER);
+      ModelType model = manager.getModel();
+      if (model.eResource().getURI().segmentCount() > 1)
+      {
+         String projectName = model.eResource().getURI().segment(1);
+         IProject project = ResourcesPlugin.getWorkspace().getRoot()
+               .getProject(projectName);
+         file = new File(project.getLocation().toOSString(), uri.getPath());
       }
       return file;
    }
