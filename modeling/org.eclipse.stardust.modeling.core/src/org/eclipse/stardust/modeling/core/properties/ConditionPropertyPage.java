@@ -67,6 +67,14 @@ public class ConditionPropertyPage extends SpiPropertyPage
       }
    };
 
+   private ModifyListener idListener = new ModifyListener()
+   {
+      public void modifyText(ModifyEvent e)
+      {
+         updateButtons();            
+      }
+   };
+      
    public ConditionPropertyPage(ConfigurationElement config) throws CoreException
    {
       super(config);
@@ -110,6 +118,7 @@ public class ConditionPropertyPage extends SpiPropertyPage
    {
       super.loadFieldsFromElement(symbol, element);
 
+      txtId.getText().removeModifyListener(idListener);      
       txtName.getText().removeModifyListener(listener);
 
       SpiExtensionRegistry registry = SpiExtensionRegistry.instance();
@@ -140,17 +149,23 @@ public class ConditionPropertyPage extends SpiPropertyPage
 
       wBndMgr.getModelBindingManager().updateWidgets(element);
       txtName.getText().addModifyListener(listener);
+      txtId.getText().addModifyListener(idListener);            
    }
 
    public void setVisible(boolean visible)
    {
       if (visible)
       {
-         IButtonManager manager = (IButtonManager) getElement().getAdapter(
-               IButtonManager.class);
-         manager.updateButtons(getModelElement(), buttons);
+         updateButtons();
       }
       super.setVisible(visible);
+   }
+
+   private void updateButtons()
+   {
+      IButtonManager manager = (IButtonManager) getElement().getAdapter(
+            IButtonManager.class);
+      manager.updateButtons(getModelElement(), buttons);
    }
 
    public void contributeVerticalButtons(Composite parent)
