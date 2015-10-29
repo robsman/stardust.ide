@@ -797,7 +797,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
 
    public static String composePageId(String parentId, String id)
    {
-      return parentId + NODE_PATH_SEPARATOR + convertId(id);
+      return parentId + NODE_PATH_SEPARATOR + (id == null ? "" : convertId(id));
    }
 
    public static String convertId(String id)
