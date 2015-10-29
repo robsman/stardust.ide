@@ -16,6 +16,8 @@ import java.util.List;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AbstractEventAction;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.BindActionType;
@@ -39,6 +41,7 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateMetaTypeCommand;
 import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
 import org.eclipse.stardust.modeling.core.utils.MetaTypeModelingUtils;
+
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
@@ -89,7 +92,7 @@ public class EventHandlingButtonController implements IButtonManager
             && !(selection instanceof ConfigurationElement));
 
       EventHandlerType handler = getEventHandlerFromSelection(selection);
-      if (null != handler)
+      if (null != handler && !StringUtils.isEmpty(handler.getId()))
       {
          EventConditionTypeType type = handler.getType();
 
