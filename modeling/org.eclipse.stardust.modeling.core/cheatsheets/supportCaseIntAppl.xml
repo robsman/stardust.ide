@@ -34,8 +34,8 @@
 	<b>Import...</b><br/>
 	3. Choose <b>General &gt; File System</b>.<br/>
 	4. Select <b>Next</b>.<br/>
-	5. Browse to <b>&lt;your-support-examples-folder&gt;/support-case/src/java</b>.<br/>
-	6. Check the checkbox beside <b>com</b> to add the package structure of the 
+	5. Browse to <b>&lt;your-support-examples-folder&gt;/support-case/src/</b>.<br/>
+	6. Check the checkbox beside <b>org</b> to add the package structure of the 
 	support-case tutorial classes.<br/> 
 	7. <b>Finish</b> to accept the import.
       </description>
@@ -48,7 +48,7 @@
 	4. Set the name to <b>Support Case Factory</b>.<br/>
 	5. On the left side of the panel select <b>Plain Java Application</b>.<br/>
     6. <b>Browse</b> the classpath to find a class named CreateSupportDataAppl 
-    (in package com.sungard.carnot.supportcase). <br/>
+    (in package org.eclipse.stardust.examples.supportcase). <br/>
 	7. Choose the <b>Completion Method</b> &quot;createCustomer()&quot;.<br/>
 	8. Set the constructor to &quot;CreateSupportDataAppl()&quot;.<br/>
 	9. <b>OK</b> the dialog.
