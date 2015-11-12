@@ -26,6 +26,10 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.model.beans.TransitionBean;
@@ -43,15 +47,11 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.*;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.ActivityCommandFactory;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.LaneParticipantCommandFactory;
 import org.eclipse.stardust.modeling.core.editors.tools.CommandCanceledException;
-import org.eclipse.stardust.modeling.core.properties.LinkTypeGeneralPropertyPage;
 import org.eclipse.stardust.modeling.core.ui.SplitJoinDialog;
 import org.eclipse.stardust.modeling.core.ui.StringUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 import org.eclipse.stardust.modeling.validation.util.TypeInfo;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
 
 public class DynamicConnectionCommand extends Command
 {
@@ -1343,6 +1343,16 @@ public class DynamicConnectionCommand extends Command
             {
                return false;
             }
+            IModelParticipant source = (IModelParticipant) extractModelElement(sourceSymbol);
+            IModelParticipant target = (IModelParticipant) extractModelElement(targetSymbol);            
+            if(source != null && source.eIsProxy())
+            {
+               return false;
+            }            
+            if(target != null && target.eIsProxy())
+            {
+               return false;
+            }                        
          }
          else if (PKG.getWorksForConnectionType().equals(type))
          {
@@ -1351,10 +1361,19 @@ public class DynamicConnectionCommand extends Command
                return false;
             }
             IModelParticipant child = (IModelParticipant) extractModelElement(sourceSymbol);
+            IModelParticipant target = (IModelParticipant) extractModelElement(targetSymbol);            
             if(child != null && child.getId().equals(PredefinedConstants.ADMINISTRATOR_ROLE))
             {
                return false;
-            }
+            }            
+            if(child != null && child.eIsProxy())
+            {
+               return false;
+            }            
+            if(target != null && target.eIsProxy())
+            {
+               return false;
+            }                        
          }
          else if (PKG.getTeamLeadConnectionType().equals(type))
          {
@@ -1372,7 +1391,15 @@ public class DynamicConnectionCommand extends Command
             {
                return false;
             }
-
+            if(child != null && child.eIsProxy())
+            {
+               return false;
+            }            
+            if(parent.eIsProxy())
+            {
+               return false;
+            }            
+            
             return (null == parent.getTeamLead());
          }
 
