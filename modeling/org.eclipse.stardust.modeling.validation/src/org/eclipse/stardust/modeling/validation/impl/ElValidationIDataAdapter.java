@@ -353,4 +353,11 @@ public class ElValidationIDataAdapter implements IData
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+   @Override
+   public String getQualifiedId()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }
