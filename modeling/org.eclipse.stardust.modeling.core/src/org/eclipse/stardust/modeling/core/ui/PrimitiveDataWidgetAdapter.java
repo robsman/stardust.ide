@@ -20,7 +20,6 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.AbstractWidgetAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.IBindingMediator;
-import org.eclipse.stardust.modeling.core.spi.dataTypes.primitive.PrimitivePropertyPage.DatePickerComposite;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;

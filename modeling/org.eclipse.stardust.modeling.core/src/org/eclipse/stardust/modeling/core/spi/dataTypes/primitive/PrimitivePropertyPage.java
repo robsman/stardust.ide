@@ -43,6 +43,7 @@ import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
 import org.eclipse.stardust.modeling.core.editors.ui.SwtDatePickerAdapter;
 import org.eclipse.stardust.modeling.core.editors.ui.SwtVerifierTextAdapter;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
+import org.eclipse.stardust.modeling.core.ui.DatePickerComposite;
 import org.eclipse.stardust.modeling.core.ui.PrimitiveDataModelAdapter;
 import org.eclipse.stardust.modeling.core.ui.PrimitiveDataWidgetAdapter;
 import org.eclipse.stardust.modeling.core.utils.ExtensibleElementValueAdapter;
@@ -725,37 +726,5 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       resetButton.setLayoutData(gdBtn);
       DatePickerComposite datePickerComposite = new DatePickerComposite(calendarComposite, calendarCombo, resetButton);
       return datePickerComposite;
-   }
-
-   public class DatePickerComposite
-   {
-      private final Composite calendarComposite;
-
-      private final DatePickerCombo calendarCombo;
-
-      private final Button resetBtn;
-
-      public DatePickerComposite(Composite calendarComposite,
-            DatePickerCombo calendarCombo, Button resetBtn)
-      {
-         this.calendarComposite = calendarComposite;
-         this.calendarCombo = calendarCombo;
-         this.resetBtn = resetBtn;
-      }
-
-      public Button getResetBtn()
-      {
-         return resetBtn;
-      }
-
-      public Composite getCalendarComposite()
-      {
-         return calendarComposite;
-      }
-
-      public DatePickerCombo getCalendarCombo()
-      {
-         return calendarCombo;
-      }
    }
 }
