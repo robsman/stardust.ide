@@ -211,7 +211,11 @@ public class Diagram_Messages extends NLS {
    public static String TXT_FileName;
 
    public static String TXT_AdvancedLeft;
-
+   
+   public static String TXT_DataMapping_DataBound;
+   
+   public static String TXT_DataMapping_Constant;
+   
    public static String MSG_ValidModelIDMustBeSpecified;
 
    public static String MSG_ValidModelNameMustBeSpecified;
