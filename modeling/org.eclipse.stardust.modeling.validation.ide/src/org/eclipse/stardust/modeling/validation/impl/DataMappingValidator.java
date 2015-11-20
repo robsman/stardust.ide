@@ -371,9 +371,9 @@ public class DataMappingValidator implements IModelElementValidator
 
    private void checkData(List<Issue> result, DataMappingType dataMapping)
    {
-      if (null == dataMapping.getData())
+      if (null == dataMapping.getData() && null == dataMapping.getDataPath())
       {
-         // every data mapping must have a data
+         // every data mapping must have a data (or is constant)
          result.add(Issue.error(dataMapping,
                Validation_Messages.MSG_DATAMAPPING_NoDataSet, ValidationService.PKG_CWM
                      .getDataMappingType_Data()));
