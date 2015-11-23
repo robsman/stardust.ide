@@ -44,8 +44,13 @@ public class DataMappingModelAdapter extends AbstractModelAdapter
       {
          if(!(type instanceof Type))
          {
-            String safeValue = "(" + this.value.toString() + ")" + " " + type.toString();
+            String safeValue = "(" + this.value.toString() + ")" + " " + type.toString(); //$NON-NLS-1$ //$NON-NLS-2$
             element.setDataPath(safeValue);            
+         }
+         else if(type instanceof Type)
+         {
+            String safeValue = "(" + type.toString() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+            element.setDataPath(safeValue);                        
          }
       }
       catch (Exception e)
