@@ -21,32 +21,6 @@ import org.eclipse.jface.preference.IPreferenceNode;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.common.ui.IdFactory;
-import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
-import org.eclipse.stardust.modeling.core.DiagramPlugin;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
-import org.eclipse.stardust.modeling.core.editors.ui.CarnotPreferenceNode;
-import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
-import org.eclipse.stardust.modeling.core.editors.ui.ModelElementPropertyDialog;
-import org.eclipse.stardust.modeling.core.editors.ui.TableLabelProvider;
-import org.eclipse.stardust.modeling.core.editors.ui.TableUtil;
-import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -54,15 +28,20 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.IWorkbenchPropertyPage;
 
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.ui.IdFactory;
+import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
+import org.eclipse.stardust.modeling.core.DiagramPlugin;
+import org.eclipse.stardust.modeling.core.Diagram_Messages;
+import org.eclipse.stardust.modeling.core.editors.ui.*;
+import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
 
 class ActivityDataMappingsPropertyPage extends AbstractModelElementPropertyPage
       implements IButtonManager
@@ -186,6 +165,20 @@ class ActivityDataMappingsPropertyPage extends AbstractModelElementPropertyPage
                   .getSelectedPage();
             if (activeDialog != null)
             {
+               // reuse some functionality of the content provider
+               DataMappingsTreeContentProvider provider = (DataMappingsTreeContentProvider) viewer
+                     .getContentProvider();
+               List mappings = Arrays.asList(provider.getChildren((Object) context));
+               int index = mappings.indexOf(type);
+               if (!(index < mappings.size() - 1))
+               {
+                  // must be the same context if this is a Constant
+                  if(isConstant(type))
+                  {
+                     return false;
+                  }
+               }
+               
                if (activeDialog instanceof ActivityDataMappingsPropertyPage
                      && (i < contexts.size() - 1))
                {
@@ -193,16 +186,29 @@ class ActivityDataMappingsPropertyPage extends AbstractModelElementPropertyPage
                   return true;
                }
                else
-               {
-                  DataMappingsTreeContentProvider provider = (DataMappingsTreeContentProvider) viewer
-                        .getContentProvider();
-                  List mappings = Arrays.asList(provider.getChildren((Object) context));
-                  int index = mappings.indexOf(type);
+               {                  
                   return index >= 0 && index < mappings.size() - 1;
                }
             }
          }
       }
+      return false;
+   }
+
+   private boolean isConstant(DataMappingType dataMapping)
+   {
+      if(DirectionType.IN_LITERAL.equals(dataMapping.getDirection())
+            && PredefinedConstants.DEFAULT_CONTEXT.equals(dataMapping.getContext()))
+      {
+         if(dataMapping.getData() == null && dataMapping.getDataPath() != null)
+         {
+            if(dataMapping.getDataPath().startsWith("(")) //$NON-NLS-1$
+            {
+               return true;
+            }
+         }
+      }
+      
       return false;
    }
 
@@ -217,17 +223,27 @@ class ActivityDataMappingsPropertyPage extends AbstractModelElementPropertyPage
                .get(i);
          if (context.getId().equals(type.getContext()))
          {
+            // reuse some functionality of the content provider
+            DataMappingsTreeContentProvider provider = (DataMappingsTreeContentProvider) viewer
+                  .getContentProvider();
+            List mappings = Arrays.asList(provider.getChildren((Object) context));
+            int index = mappings.indexOf(type);
+            if (!(index > 0))
+            {
+               // must be the same context if this is a Constant
+               if(isConstant(type))
+               {
+                  return false;
+               }
+            }
+                        
             if (i > 0)
             {
                // there is a valid context above
                return true;
             }
             else
-            {
-               DataMappingsTreeContentProvider provider = (DataMappingsTreeContentProvider) viewer
-                     .getContentProvider();
-               List mappings = Arrays.asList(provider.getChildren((Object) context));
-               int index = mappings.indexOf(type);
+            {               
                return index > 0;
             }
          }
