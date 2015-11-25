@@ -29,6 +29,7 @@ import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.runtime.DocumentManagementService;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
+import org.eclipse.stardust.model.xpdl.builder.utils.ExternalReferenceUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.PepperIconFactory;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -147,6 +148,28 @@ public class WebModelerConnectionHandler implements ConnectionHandler
    {
       if (uri.equals(this.uri))
       {
+         if (modelDescriptor == null)
+         {
+            // If a referenced model file has been renamed it won't be resolved during
+            // initial model loading (modelDescriptor == null). As we fix broken references after
+            // model load, we use the fixed connection to retrieve the referenced model in a second
+            // try. Prerequisite is an existing "model UUID" and a "connectionUUID". 
+            String connectionUUID = connection.getAttribute("connectionUUID");
+            if (connectionUUID != null)
+            {
+               ModelType modelType = ExternalReferenceUtils
+                     .getModelByUUID(strategy.getModels(), connectionUUID);
+               if (modelType != null)
+               {
+                  modelDescriptor = new EObjectDescriptor(uri, modelType,
+                        modelType.getId(), modelType.getName(),
+                        ModelUtils.getDescriptionText(modelType.getDescription()),
+                        CarnotConstants.DIAGRAM_PLUGIN_ID, null);
+                  missingModel = false;
+                  model = modelType;
+               }
+            }
+         }
          return modelDescriptor;
       }
       String uuid = parseQuery(uri.query()).get("uuid");

@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -195,6 +196,13 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       createDefaultPerformers(model);
       createDefaultProcess(model);
       createDefaultCriticalityAttributes(model);
+      createModelUUID(model);
+   }
+
+   private void createModelUUID(ModelType model)
+   {
+      String modelUUID = UUID.randomUUID().toString();
+      AttributeUtil.setAttribute(model, "carnot:model:uuid", modelUUID);      
    }
 
    private void createDefaultProcess(ModelType model)
