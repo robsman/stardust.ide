@@ -363,7 +363,9 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
          {
             isConstantStateButton.setSelection(false);
             isDataStateButton.setSelection(true);         
+            constantGroup.setVisible(false);                           
             dataGroup.setVisible(true);
+            stackLayout.topControl = dataGroup;            
          }  
          else if(dataMapping.getData() == null 
                && dataMapping.getDataPath() != null
@@ -371,7 +373,9 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
          {
             isConstantStateButton.setSelection(true);
             isDataStateButton.setSelection(false);         
+            dataGroup.setVisible(false);                        
             constantGroup.setVisible(true);
+            stackLayout.topControl = constantGroup;
             
             String constantString = dataMapping.getDataPath();
             Object type = getType(constantString, false);
@@ -424,12 +428,17 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
             dataGroup.setVisible(false);            
             constantGroup.setVisible(false);               
          }
+         
+         stackLayoutComposite.layout();         
       }
       else
       {
          isConstantStateButton.setVisible(false);
          isDataStateButton.setVisible(false);         
-         dataGroup.setVisible(true);         
+         constantGroup.setVisible(false);               
+         dataGroup.setVisible(true);                  
+         stackLayout.topControl = dataGroup;
+         stackLayoutComposite.layout();
       }
    }
    
@@ -596,9 +605,7 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
       stackLayoutComposite.setLayout(stackLayout);
             
       createDataGroup(stackLayoutComposite);
-      stackLayout.topControl = dataGroup;
       createConstantGroup(stackLayoutComposite);
-      stackLayout.topControl = constantGroup;
             
       return composite;
    }
@@ -616,7 +623,8 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
                resetElement();
                dataGroup.setVisible(false);                              
                constantGroup.setVisible(true);
-               
+               stackLayout.topControl = constantGroup;               
+               stackLayoutComposite.layout();
             }
          }
       });
@@ -629,10 +637,11 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
          {
             if(isDataStateButton.getSelection())
             {
-               resetElement();
-               
+               resetElement();               
                constantGroup.setVisible(false);               
                dataGroup.setVisible(true);               
+               stackLayout.topControl = dataGroup;               
+               stackLayoutComposite.layout();                              
             }
          }
       });      
