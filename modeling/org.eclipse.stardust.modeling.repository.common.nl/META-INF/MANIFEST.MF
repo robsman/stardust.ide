@@ -6,3 +6,4 @@ Bundle-Version: 9.9.9.qualifier
 Bundle-Vendor: %nlsProviderName
 Fragment-Host: org.eclipse.stardust.modeling.repository.common
 Bundle-Localization: fragment
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

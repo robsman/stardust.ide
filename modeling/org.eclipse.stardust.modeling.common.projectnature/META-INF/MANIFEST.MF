@@ -15,4 +15,4 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.stardust.modeling.common.projectnature,
  org.eclipse.stardust.modeling.common.projectnature.classpath
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

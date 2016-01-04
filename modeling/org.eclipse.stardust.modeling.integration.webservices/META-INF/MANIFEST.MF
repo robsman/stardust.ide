@@ -21,4 +21,4 @@ Bundle-ClassPath: .,
 Export-Package: org.eclipse.stardust.modeling.integration.webservices.utils,
  org.eclipse.stardust.engine.ws,
  org.eclipse.stardust.engine.ws.processinterface
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

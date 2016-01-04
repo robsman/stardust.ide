@@ -15,4 +15,4 @@ Require-Bundle: org.eclipse.stardust.modeling.core,
  org.eclipse.stardust.modeling.validation
 Bundle-Activator: org.eclipse.stardust.modeling.authorization.AuthorizationAspectPlugin
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

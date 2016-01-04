@@ -23,7 +23,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.core,
  org.eclipse.jdt.ui,
  org.eclipse.stardust.modeling.common.projectnature
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.eclipse.stardust.modeling.integration.camel.triggerTypes,
  org.eclipse.stardust.modeling.integration.camel.ui,
  org.eclipse.stardust.modeling.integration.camel.validator

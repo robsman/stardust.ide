@@ -50,4 +50,4 @@ Bundle-Activator: org.eclipse.stardust.modeling.transformation.messaging.modelin
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: 
  .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
