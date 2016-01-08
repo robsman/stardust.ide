@@ -33,8 +33,9 @@ public class ApplicationRetrySynchronousPropertyPage extends AbstractModelElemen
 {
    protected LabeledText number;
    protected LabeledText time;
+   protected Button retryApplicationButton;
    protected Button retryButton;
-   
+      
    private SelectionListener retryListener = new SelectionListener()
    {
       public void widgetDefaultSelected(SelectionEvent e)
@@ -43,19 +44,24 @@ public class ApplicationRetrySynchronousPropertyPage extends AbstractModelElemen
 
       public void widgetSelected(SelectionEvent e)
       {
-         /*
          boolean selection = ((Button) e.widget).getSelection();
          if(selection)
          {
-            number.getText().setEditable(false);
-            time.getText().setEditable(false);
+            retryApplicationButton.setEnabled(true);
+            retryApplicationButton.setGrayed(false);
+            number.getText().setEditable(true);
+            time.getText().setEditable(true);
          }
          else
          {
-            number.getText().setEditable(true);
-            time.getText().setEditable(true);
+            retryApplicationButton.setEnabled(false);            
+            retryApplicationButton.setGrayed(true);            
+            retryApplicationButton.setSelection(false);
+            number.getText().setEditable(false);
+            number.getText().setText(""); //$NON-NLS-1$
+            time.getText().setEditable(false);
+            time.getText().setText(""); //$NON-NLS-1$            
          } 
-         */        
       }
    };            
    
@@ -170,12 +176,26 @@ public class ApplicationRetrySynchronousPropertyPage extends AbstractModelElemen
          time.getText().setText(timeAttribute.getValue());
       }
 
+      AttributeType retryApplicationAttribute = AttributeUtil.getAttribute((ApplicationType) element,
+            PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_RESPONSIBILITY);
+      if(retryApplicationAttribute != null && retryApplicationAttribute.getValue().equals(PredefinedConstants.APPLICATION_CONTEXT))
+      {
+         retryApplicationButton.setSelection(true);
+      }      
+
       AttributeType retryAttribute = AttributeUtil.getAttribute((ApplicationType) element,
             PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_ENABLE);
-      if(retryAttribute != null)
+      if(retryAttribute != null && AttributeUtil.getBooleanValue(retryAttribute))
       {
          retryButton.setSelection(AttributeUtil.getBooleanValue(retryAttribute));
       }      
+      else
+      {
+         retryApplicationButton.setEnabled(false);            
+         retryApplicationButton.setGrayed(true);            
+         number.getText().setEditable(false);
+         time.getText().setEditable(false);
+      }
       
       number.getText().addModifyListener(numberListener);
       time.getText().addModifyListener(timeListener);
@@ -190,6 +210,14 @@ public class ApplicationRetrySynchronousPropertyPage extends AbstractModelElemen
          AttributeUtil.setAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_NUMBER, number.getText().getText());
          AttributeUtil.setAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_TIME, time.getText().getText());
          AttributeUtil.setBooleanAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_ENABLE, retryButton.getSelection());
+         if(retryApplicationButton.getSelection())
+         {
+            AttributeUtil.setAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_RESPONSIBILITY, PredefinedConstants.APPLICATION_CONTEXT);         
+         }
+         else
+         {
+            AttributeUtil.setAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_RESPONSIBILITY, null);
+         }
       }
    }
 
@@ -198,6 +226,7 @@ public class ApplicationRetrySynchronousPropertyPage extends AbstractModelElemen
       Composite composite = FormBuilder.createLabeledControlsComposite(parent);
 
       retryButton = FormBuilder.createCheckBox(composite, Diagram_Messages.LB_APPLICATION_RETRY_ENABLE, 2);            
+      retryApplicationButton = FormBuilder.createCheckBox(composite, Diagram_Messages.LB_APPLICATION_RETRY_APPLICATION, 2);                  
       number = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_APPLICATION_RETRY_NUMBER);
       number.setTextLimit(2);
       time = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_APPLICATION_RETRY_TIME);
