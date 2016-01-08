@@ -211,7 +211,7 @@ public class Diagram_Messages extends NLS {
    public static String TXT_FileName;
 
    public static String TXT_AdvancedLeft;
-
+   
    public static String MSG_ValidModelIDMustBeSpecified;
 
    public static String MSG_ValidModelNameMustBeSpecified;
@@ -1406,6 +1406,8 @@ public class Diagram_Messages extends NLS {
 
    public static String LB_APPLICATION_RETRY_ENABLE;
 
+   public static String LB_APPLICATION_RETRY_APPLICATION;
+      
    public static String COMBOBOX_Implement_Process_Interface;
 
    public static String COMBOBOX_Provide_Process_Interface;
