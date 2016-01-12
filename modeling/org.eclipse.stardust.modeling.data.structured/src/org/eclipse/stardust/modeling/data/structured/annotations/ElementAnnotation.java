@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.xsd.XSDAnnotation;
-import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFeature;
 import org.w3c.dom.Element;
 
 public class ElementAnnotation extends ConfigurationItem
@@ -24,7 +24,7 @@ public class ElementAnnotation extends ConfigurationItem
    private CategoryAnnotation parentCategory;
    private ElementAnnotation parentElement;
    private List<IAnnotation> children;
-   
+
    public ElementAnnotation(CategoryAnnotation parentCategory,
          IConfigurationElement config)
    {
@@ -41,7 +41,7 @@ public class ElementAnnotation extends ConfigurationItem
 
    public boolean exists()
    {
-      XSDElementDeclaration element = getElement();
+      XSDFeature element = getElement();
       return getElementAdapter(element, false, false) != null || getElementAdapter(element, false, true) != null;
    }
 
@@ -68,8 +68,8 @@ public class ElementAnnotation extends ConfigurationItem
    {
       return parentCategory == null ? (IAnnotation) parentElement : parentCategory;
    }
-   
-   public GenericElementAdapter getElementAdapter(XSDElementDeclaration element, boolean create, boolean forceInternal)
+
+   public GenericElementAdapter getElementAdapter(XSDFeature element, boolean create, boolean forceInternal)
    {
       if (create && forceInternal)
       {
@@ -119,7 +119,7 @@ public class ElementAnnotation extends ConfigurationItem
                return null;
             }
          }
-         
+
          GenericElementAdapter parent = null;
          GenericElementAdapter result = null;
          for (int i = 0; i < appInfos.size(); i++)
@@ -161,8 +161,8 @@ public class ElementAnnotation extends ConfigurationItem
    {
       return getRawValue(getElement());
    }
-   
-   public String getRawValue(XSDElementDeclaration element)
+
+   public String getRawValue(XSDFeature element)
    {
       GenericElementAdapter adapter = getElementAdapter(element, false, false);
       if (adapter == null)
@@ -174,11 +174,11 @@ public class ElementAnnotation extends ConfigurationItem
 
    public void setRawValue(String value)
    {
-      XSDElementDeclaration element = getElement();
+      XSDFeature element = getElement();
       setRawValue(element, value);
    }
 
-   public void setRawValue(XSDElementDeclaration element, String value)
+   public void setRawValue(XSDFeature element, String value)
    {
       GenericElementAdapter adapter = getElementAdapter(element, true, false);
       adapter.setValue(value);
@@ -191,7 +191,7 @@ public class ElementAnnotation extends ConfigurationItem
 
    public boolean delete()
    {
-      XSDElementDeclaration element = getElement();
+      XSDFeature element = getElement();
       String name = getConfigurationAttribute("name"); //$NON-NLS-1$
       String namespace = getNamespace();
       if (parentCategory == null)
@@ -226,7 +226,7 @@ public class ElementAnnotation extends ConfigurationItem
       return false;
    }
 
-   public XSDElementDeclaration getElement()
+   public XSDFeature getElement()
    {
       IAnnotation parent = getParent();
       return parent == null ? null : parent.getElement();

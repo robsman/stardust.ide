@@ -18,24 +18,19 @@ import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
-import org.eclipse.xsd.XSDAnnotation;
-import org.eclipse.xsd.XSDConcreteComponent;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDFactory;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.*;
 
 public class CategoryAnnotation implements IAnnotation
 {
    private IConfigurationElement config;
-   private XSDElementDeclaration element;
+   private XSDFeature element;
    private List<IAnnotation> children;
    private AnnotationContentProvider provider;
 
    static final String ANY = "any"; //$NON-NLS-1$
 
    public CategoryAnnotation(AnnotationContentProvider provider,
-         XSDElementDeclaration element, IConfigurationElement config)
+         XSDFeature element, IConfigurationElement config)
    {
       this.provider = provider;
       this.element = element;
@@ -116,7 +111,7 @@ public class CategoryAnnotation implements IAnnotation
       return getRawValue(getElement());
    }
 
-   public String getRawValue(XSDElementDeclaration element)
+   public String getRawValue(XSDFeature element)
    {
       return null;
    }
@@ -126,11 +121,11 @@ public class CategoryAnnotation implements IAnnotation
       setRawValue(getElement(), value);
    }
 
-   public void setRawValue(XSDElementDeclaration element, String value)
+   public void setRawValue(XSDFeature element, String value)
    {
    }
 
-   public XSDAnnotation getAnnotation(XSDElementDeclaration element, boolean create, boolean forceInternal)
+   public XSDAnnotation getAnnotation(XSDFeature element, boolean create, boolean forceInternal)
    {
       if (create && forceInternal)
       {
@@ -157,19 +152,19 @@ public class CategoryAnnotation implements IAnnotation
       return annotation;
    }
 
-   private XSDAnnotation getInternalAnnotation(XSDElementDeclaration element, boolean create)
+   private XSDAnnotation getInternalAnnotation(XSDFeature element, boolean create)
    {
       if (element == null)
       {
          return null;
       }
-      XSDAnnotation annotation = element.getAnnotation();
+      XSDAnnotation annotation = GenericElementAdapter.getAnnotation(element);
       if (annotation == null)
       {
          if (create)
          {
             annotation = XSDFactory.eINSTANCE.createXSDAnnotation();
-            element.setAnnotation(annotation);
+            GenericElementAdapter.setAnnotation(element, annotation);
             if (annotation.getElement() == null)
             {
                annotation.updateElement();
@@ -179,7 +174,7 @@ public class CategoryAnnotation implements IAnnotation
       return annotation;
    }
 
-   private XSDAnnotation getExternalAnnotation(XSDElementDeclaration element, boolean create)
+   private XSDAnnotation getExternalAnnotation(XSDFeature element, boolean create)
    {
       if (element == null)
       {
@@ -217,9 +212,9 @@ public class CategoryAnnotation implements IAnnotation
       List<String> path = CollectionUtils.newList();
       while (!(component == null || component instanceof XSDSchema))
       {
-         if (component instanceof XSDElementDeclaration)
+         if (component instanceof XSDFeature)
          {
-            path.add(((XSDElementDeclaration) component).getName());
+            path.add(((XSDFeature) component).getName());
          }
          else if (component instanceof XSDNamedComponent && component.eContainer() instanceof XSDSchema)
          {
@@ -239,12 +234,12 @@ public class CategoryAnnotation implements IAnnotation
       return sb.toString();
    }
 
-   public void setElementDeclaration(XSDElementDeclaration element)
+   public void setElementDeclaration(XSDFeature element)
    {
       this.element = element;
    }
 
-   public XSDElementDeclaration getElement()
+   public XSDFeature getElement()
    {
       return element;
    }

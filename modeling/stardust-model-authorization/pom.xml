@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.eclipse.stardust.modeling.model</groupId>
-  <artifactId>ipp-bpm-model</artifactId>
+  <groupId>org.eclipse.stardust.modeling.core</groupId>
+  <artifactId>ipp-bpm-authorization</artifactId>
 
-  <name>BPM Metamodel (XPDL)</name>
+  <name>BPM Model Repository</name>
 
   <parent>
     <groupId>org.eclipse.stardust</groupId>
@@ -44,6 +44,12 @@
     </dependency>
 
     <dependency>
+       <groupId>org.eclipse.stardust.modeling.model</groupId>
+       <artifactId>ipp-bpm-model</artifactId>
+       <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.eclipse.equinox</groupId>
       <artifactId>org.eclipse.equinox.common</artifactId>
     </dependency>
@@ -56,19 +62,40 @@
       <groupId>org.eclipse.core</groupId>
       <artifactId>org.eclipse.core.runtime</artifactId>
     </dependency>
+
+    <dependency>
+    	<groupId>org.eclipse.stardust.modeling.core</groupId>
+    	<artifactId>ipp-bpm-model-validation</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
 
-    <sourceDirectory>../org.eclipse.stardust.model.xpdl/src</sourceDirectory>
-
+    <sourceDirectory>../org.eclipse.stardust.modeling.authorization/src</sourceDirectory>
+    
     <resources>
       <resource>
-        <directory>../org.eclipse.stardust.model.xpdl/src</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
+        <directory>../org.eclipse.stardust.modeling.authorization</directory>
+        <includes>
+          <include>plugin.xml</include>
+        </includes>
       </resource>
     </resources>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>org/eclipse/stardust/modeling/authorization/AuthorizationAspectPlugin.java</exclude>
+            <exclude>org/eclipse/stardust/modeling/authorization/Authorization_Messages.java</exclude>
+            <exclude>org/eclipse/stardust/modeling/authorization/authorization-messages.properties</exclude>
+            <exclude>org/eclipse/stardust/modeling/authorization/propertypages/**</exclude>
+            <exclude>org/eclipse/stardust/modeling/authorization/validation/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>

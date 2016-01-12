@@ -31,6 +31,12 @@
          <artifactId>carnot-engine</artifactId>
          <version>${project.version}</version>
       </dependency>
+      
+      <dependency>
+         <groupId>org.eclipse.stardust.engine</groupId>
+         <artifactId>stardust-engine-application-decorator</artifactId>
+         <version>${project.version}</version>
+      </dependency>
 
       <dependency>
          <groupId>org.eclipse.stardust.modeling.model</groupId>

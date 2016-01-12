@@ -16,6 +16,7 @@ import org.eclipse.xsd.XSDImport;
 
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.EObjectProxyHandler;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
@@ -508,6 +509,34 @@ public class ExternalReferenceUtils
 
    public static void fixExternalReferences(Map<String, ModelType> models, ModelType model)
    {
+      //Fix Local Data first - make sure the reference functionality is active after model load
+      for (Iterator<DataType> i = model.getData().iterator(); i.hasNext();)
+      {
+         DataType data = i.next();
+         if (data.getType() != null && !data.eIsProxy() && data.getExternalReference() == null)
+         {
+            if (data.getType().getId().equals("struct"))
+            {
+               AttributeType attribute = AttributeUtil.getAttribute(data,
+                     StructuredDataConstants.TYPE_DECLARATION_ATT);
+               if (attribute != null)
+               {
+                  ModelUtils.setReference(attribute, model, "struct");
+               }
+            }
+            if (data.getType().getId().equals("dmsDocument"))
+            {
+               AttributeType attribute = AttributeUtil.getAttribute(data,
+                     DmsConstants.RESOURCE_METADATA_SCHEMA_ATT);
+               if (attribute != null)
+               {
+                  ModelUtils.setReference(attribute, model, "struct");
+               }
+            }
+         }
+      }
+
+
       List<String> uris = ModelUtils.getURIsForExternalPackages(model);
       for (Iterator<String> i = uris.iterator(); i.hasNext();)
       {
@@ -564,6 +593,87 @@ public class ExternalReferenceUtils
       }
    }
 
+   public static List<EObject> fixExternalReferences(Map<String, ModelType> models, ModelType model, EObject referedObject)
+   {
+      List<EObject> referingObjects = new ArrayList<EObject>();
+      List<String> uris = ModelUtils.getURIsForExternalPackages(model);
+      for (Iterator<String> i = uris.iterator(); i.hasNext();)
+      {
+         String uri = i.next();
+         WebModelerConnectionManager cm = (WebModelerConnectionManager) model
+               .getConnectionManager();
+         Connection connection = (Connection) cm.findConnection(uri);
+         List<EObject> references = getExternalReferences(model, (Connection) connection);
+         ModelType modelType = ModelUtils.getReferencedModelByURI(model, uri);
+
+         if (modelType != null)
+         {
+            ModelType refModel = models.get(modelType.getId());
+
+            if (refModel == null)
+            {
+               String connectionUUID = connection.getAttribute("connectionUUID");
+               if (connectionUUID != null)
+               {
+                  refModel = getModelByUUID(models, connectionUUID);
+               }
+            }
+
+            if (refModel != null)
+            {
+               for (Iterator<EObject> j = references.iterator(); j.hasNext();)
+               {
+                  EObject ref = j.next();
+
+                  //Data Type which refers a type declaration
+                  if (ref instanceof DataType)
+                  {
+                     DataType data = (DataType) ref;
+                     if (data.getType().getId() != null)
+                     {
+                        boolean changed = false;
+                        if (data.getType().getId().equalsIgnoreCase("struct"))
+                        {
+                           changed = fixStructuredData((DataType) ref, refModel);
+                        }
+                        if (data.getType().getId().equalsIgnoreCase("dmsDocument"))
+                        {
+                           changed = fixDocumentData((DataType) ref, refModel);
+                        }
+                        if (changed)
+                        {
+                           referingObjects.add(ref);
+                        }
+                     }
+                  }
+
+                  // Formal Parameter (respectively its DataTypeType) which refers a type declaration
+                  if (ref instanceof DataTypeType)
+                  {
+                     DataTypeType dataType = (DataTypeType) ref;
+                     if (dataType.eContainer() instanceof FormalParameterType
+                           && dataType.getCarnotType() != null
+                           && (dataType.getCarnotType().equals("struct") || dataType
+                                 .getCarnotType().equals("dmsDocument")))
+                     {
+                        boolean changed = fixDataTypeType((DataTypeType) ref, refModel);
+                        if (changed)
+                        {
+                           ProcessDefinitionType process = ModelUtils
+                                 .findContainingProcess(ref);
+                           referingObjects.add(process);
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+      //ToDo: Other types if necessary
+      return referingObjects;
+   }
+
+
    public static ModelType getModelByUUID(Map<String, ModelType> models,
          String connectionUUID)
    {
@@ -585,11 +695,10 @@ public class ExternalReferenceUtils
 
    private static void fixConnection(Connection connection, ModelType refModel)
    {
+      AttributeType attribute = AttributeUtil.getAttribute(refModel, "carnot:model:uuid");
       String connectionUUID = connection.getAttribute("connectionUUID");
       if (null != connectionUUID)
       {
-         AttributeType attribute = AttributeUtil.getAttribute(refModel,
-               "carnot:model:uuid");
          if (null != attribute)
          {
             if (attribute.getValue().equals(connectionUUID))
@@ -617,6 +726,13 @@ public class ExternalReferenceUtils
                   }
                }
             }
+         }
+      }
+      else
+      {
+         if (null != attribute)
+         {
+            connection.setAttribute("connectionUUID", attribute.getValue());
          }
       }
    }
@@ -659,8 +775,9 @@ public class ExternalReferenceUtils
       }
    }
 
-   private static void fixDataTypeType(DataTypeType dataTypeType, ModelType refModel)
+   public static boolean fixDataTypeType(DataTypeType dataTypeType, ModelType refModel)
    {
+      boolean changed = false;
       ExternalReferenceType ref = dataTypeType.getExternalReference();
       if (ref != null && ref.getUuid() != null)
       {
@@ -671,10 +788,11 @@ public class ExternalReferenceUtils
             if (!declaration.getId().equals(ref.getXref()))
             {
                ref.setXref(declaration.getId());
+               changed = true;
             }
          }
       }
-
+      return changed;
    }
 
    private static void fixData(DataType data, ModelType refModel)
@@ -683,89 +801,107 @@ public class ExternalReferenceUtils
       {
          if (data.getType().getId().equals("struct"))
          {
-            ExternalReferenceType ref = data.getExternalReference();
-            if (ref != null && ref.getUuid() != null)
-            {
-               TypeDeclarationType declaration = findTypeDeclarationModelUUID(refModel,
-                     ref.getUuid());
-               if (declaration != null)
-               {
-                  if (!declaration.getId().equals(ref.getXref()))
-                  {
-                     ref.setXref(declaration.getId());
-                     AttributeType uriAttribute = AttributeUtil.getAttribute(
-                           (IExtensibleElement) data, "carnot:connection:uri");
-                     if (uriAttribute != null)
-                     {
-                        String uri = uriAttribute.getAttributeValue();
-                        uri = uri.substring(0, uri.lastIndexOf("/")) + "/"
-                              + declaration.getId();
-                        AttributeUtil.setAttribute((IExtensibleElement) data,
-                              "carnot:connection:uri", uri);
-                     }
-                  }
-                  if (!refModel.getId().equals(ref.getLocation()))
-                  {
-                     ref.setLocation(refModel.getId());
-                  }
-               }
-            }
+            fixStructuredData(data, refModel);
          }
          if (data.getType().getId().equals("dmsDocument"))
          {
-            ExternalReferenceType ref = data.getExternalReference();
-            if (ref != null && ref.getUuid() != null)
+            fixDocumentData(data, refModel);
+         }
+      }
+   }
+
+   public static boolean fixDocumentData(DataType data, ModelType refModel)
+   {
+      boolean changed = false;
+      ExternalReferenceType ref = data.getExternalReference();
+      if (ref != null && ref.getUuid() != null)
+      {
+         TypeDeclarationType declaration = findTypeDeclarationModelUUID(refModel,
+               ref.getUuid());
+         if (declaration != null)
+         {
+            if (!declaration.getId().equals(ref.getXref()))
             {
-               TypeDeclarationType declaration = findTypeDeclarationModelUUID(refModel,
-                     ref.getUuid());
-               if (declaration != null)
+               ref.setXref(declaration.getId());
+               AttributeType uriAttribute = AttributeUtil.getAttribute(
+                     (IExtensibleElement) data, "carnot:connection:uri");
+               if (uriAttribute != null)
                {
-                  if (!declaration.getId().equals(ref.getXref()))
+                  String uri = uriAttribute.getAttributeValue();
+                  uri = uri.substring(0, uri.lastIndexOf("/")) + "/"
+                        + declaration.getId();
+                  AttributeUtil.setAttribute((IExtensibleElement) data,
+                        "carnot:connection:uri", uri);
+                  AttributeType metaDataAttribute = AttributeUtil.getAttribute(
+                        (IExtensibleElement) data,
+                        "carnot:engine:dms:resourceMetadataSchema");
+                  if (metaDataAttribute != null)
                   {
-                     ref.setXref(declaration.getId());
-                     AttributeType uriAttribute = AttributeUtil.getAttribute(
-                           (IExtensibleElement) data, "carnot:connection:uri");
-                     if (uriAttribute != null)
-                     {
-                        String uri = uriAttribute.getAttributeValue();
-                        uri = uri.substring(0, uri.lastIndexOf("/")) + "/"
-                              + declaration.getId();
-                        AttributeUtil.setAttribute((IExtensibleElement) data,
-                              "carnot:connection:uri", uri);
-                        AttributeType metaDataAttribute = AttributeUtil.getAttribute(
-                              (IExtensibleElement) data,
-                              "carnot:engine:dms:resourceMetadataSchema");
-                        if (metaDataAttribute != null)
-                        {
-                           String metaData = metaDataAttribute.getAttributeValue();
-                           metaData = metaData.substring(0, metaData.indexOf("{")) + "{"
-                                 + declaration.getId() + "}";
-                           AttributeUtil.setAttribute((IExtensibleElement) data,
-                                 "carnot:engine:dms:resourceMetadataSchema", metaData);
+                     String metaData = metaDataAttribute.getAttributeValue();
+                     metaData = metaData.substring(0, metaData.indexOf("{")) + "{"
+                           + declaration.getId() + "}";
+                     AttributeUtil.setAttribute((IExtensibleElement) data,
+                           "carnot:engine:dms:resourceMetadataSchema", metaData);
 
-                        }
-                     }
-                  }
-                  if (!refModel.getId().equals(ref.getLocation()))
-                  {
-                     ref.setLocation(refModel.getId());
-                     AttributeType metaDataAttribute = AttributeUtil.getAttribute(
-                           (IExtensibleElement) data,
-                           "carnot:engine:dms:resourceMetadataSchema");
-                     if (metaDataAttribute != null)
-                     {
-                        String metaData = metaDataAttribute.getAttributeValue();
-                        metaData = refModel.getId()
-                              + metaData.substring(metaData.indexOf("{"));
-                        AttributeUtil.setAttribute((IExtensibleElement) data,
-                              "carnot:engine:dms:resourceMetadataSchema", metaData);
-
-                     }
                   }
                }
+               changed = true;
+            }
+            if (!refModel.getId().equals(ref.getLocation()))
+            {
+               ref.setLocation(refModel.getId());
+               AttributeType metaDataAttribute = AttributeUtil.getAttribute(
+                     (IExtensibleElement) data,
+                     "carnot:engine:dms:resourceMetadataSchema");
+               if (metaDataAttribute != null)
+               {
+                  String metaData = metaDataAttribute.getAttributeValue();
+                  metaData = refModel.getId()
+                        + metaData.substring(metaData.indexOf("{"));
+                  AttributeUtil.setAttribute((IExtensibleElement) data,
+                        "carnot:engine:dms:resourceMetadataSchema", metaData);
+
+               }
+               changed = true;
             }
          }
       }
+      return changed;
+   }
+
+   public static boolean fixStructuredData(DataType data, ModelType refModel)
+   {
+      boolean changed = false;
+      ExternalReferenceType ref = data.getExternalReference();
+      if (ref != null && ref.getUuid() != null)
+      {
+         TypeDeclarationType declaration = findTypeDeclarationModelUUID(refModel,
+               ref.getUuid());
+         if (declaration != null)
+         {
+            if (!declaration.getId().equals(ref.getXref()))
+            {
+               ref.setXref(declaration.getId());
+               AttributeType uriAttribute = AttributeUtil.getAttribute(
+                     (IExtensibleElement) data, "carnot:connection:uri");
+               if (uriAttribute != null)
+               {
+                  String uri = uriAttribute.getAttributeValue();
+                  uri = uri.substring(0, uri.lastIndexOf("/")) + "/"
+                        + declaration.getId();
+                  AttributeUtil.setAttribute((IExtensibleElement) data,
+                        "carnot:connection:uri", uri);
+               }
+               changed = true;
+            }
+            if (!refModel.getId().equals(ref.getLocation()))
+            {
+               ref.setLocation(refModel.getId());
+               changed = true;
+            }
+         }
+      }
+      return changed;
    }
 
    private static void fixActivity(ActivityType activity, ModelType refModel)

@@ -84,6 +84,15 @@ public class CategoryDescriptor extends EObjectImpl implements IObjectDescriptor
          {
             result = ((CategoryDescriptor) children[i]).find(uri);
          }
+         else if(uri.toString().contains("?uuid="))
+         {
+            int idx = uri.toString().indexOf("?uuid=");
+            String uriString = uri.toString().substring(0, idx);
+            if(uriString.equals(children[i].getURI().toString()))
+            {
+               result = children[i];               
+            }
+         }         
       }
       return result;
    }

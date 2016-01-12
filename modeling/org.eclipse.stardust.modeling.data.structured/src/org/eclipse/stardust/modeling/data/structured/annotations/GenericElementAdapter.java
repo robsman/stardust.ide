@@ -11,12 +11,11 @@
 package org.eclipse.stardust.modeling.data.structured.annotations;
 
 import org.eclipse.stardust.engine.core.struct.Utils;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
+import org.eclipse.xsd.XSDAnnotation;
+import org.eclipse.xsd.XSDAttributeDeclaration;
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFeature;
+import org.w3c.dom.*;
 
 public class GenericElementAdapter
 {
@@ -26,7 +25,7 @@ public class GenericElementAdapter
    {
       this.adapted = adapted;
    }
-   
+
    public GenericElementAdapter getChild(String name, String namespace)
    {
       NodeList children = adapted.getChildNodes();
@@ -69,12 +68,12 @@ public class GenericElementAdapter
    {
       Document document = adapted.getOwnerDocument();
       String prefix = getPrefix(namespace, defaultPrefix);
-      String qualifiedName = prefix == null ? name : prefix + ':' + name; 
+      String qualifiedName = prefix == null ? name : prefix + ':' + name;
       Element child = document.createElementNS(namespace, qualifiedName);
       adapted.appendChild(child);
       return new GenericElementAdapter(child);
    }
-   
+
    public Attr getAttribute(String name)
    {
       return adapted.getAttributeNode(name);
@@ -149,5 +148,30 @@ public class GenericElementAdapter
          node = node.getParentNode();
       }
       return defaultPrefix;
+   }
+
+   public static XSDAnnotation getAnnotation(XSDFeature element)
+   {
+      if (element instanceof XSDElementDeclaration)
+      {
+         return ((XSDElementDeclaration) element).getAnnotation();
+      }
+      if (element instanceof XSDAttributeDeclaration)
+      {
+         return ((XSDAttributeDeclaration) element).getAnnotation();
+      }
+      return null;
+   }
+
+   public static void setAnnotation(XSDFeature element, XSDAnnotation annotation)
+   {
+      if (element instanceof XSDElementDeclaration)
+      {
+         ((XSDElementDeclaration) element).setAnnotation(annotation);
+      }
+      if (element instanceof XSDAttributeDeclaration)
+      {
+         ((XSDAttributeDeclaration) element).setAnnotation(annotation);
+      }
    }
 }

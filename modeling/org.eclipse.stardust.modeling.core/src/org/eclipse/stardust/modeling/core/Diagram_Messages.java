@@ -13,7 +13,7 @@ package org.eclipse.stardust.modeling.core;
 import org.eclipse.osgi.util.NLS;
 
 public class Diagram_Messages extends NLS {
-	private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.core.diagram-messages"; //$NON-NLS-1$
+   private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.core.diagram-messages"; //$NON-NLS-1$
 
    private Diagram_Messages()
    {}
@@ -31,6 +31,8 @@ public class Diagram_Messages extends NLS {
    public static String DESC_CurrentUser;
 
    public static String DESC_CurrentDate;
+
+   public static String DESC_BusinessDate;
 
    public static String LB_ModelDiagram;
 
@@ -221,6 +223,8 @@ public class Diagram_Messages extends NLS {
    public static String NAME_ProcessOID;
 
    public static String NAME_CurrentDate;
+
+   public static String NAME_BusinessDate;
 
    public static String TASK_OpeningFileForEditing;
 
@@ -2025,6 +2029,6 @@ public class Diagram_Messages extends NLS {
    public static String MSG_INVALID_ACTIVITY_NETWORK;
 
    public static String LBL_Properties;
-   
-   public static String LBL_Volatile_Data;   
+
+   public static String LBL_Volatile_Data;
 }

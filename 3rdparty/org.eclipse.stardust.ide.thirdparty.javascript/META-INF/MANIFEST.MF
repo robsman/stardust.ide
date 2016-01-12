@@ -6,9 +6,10 @@ Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.javascript
 Bundle-Version: 1.7.2.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-ClassPath: lib/js.jar
+Bundle-ClassPath: lib/rhino.jar
 Export-Package: org.mozilla.classfile,
  org.mozilla.javascript,
+ org.mozilla.javascript.ast,
  org.mozilla.javascript.debug,
  org.mozilla.javascript.jdk13,
  org.mozilla.javascript.jdk15,

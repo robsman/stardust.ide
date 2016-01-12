@@ -26,6 +26,7 @@ public class ModelerConstants
    public static final String PRIMITIVE_TYPE = "primitiveType";
    public static final String STRING_PRIMITIVE_DATA_TYPE = "string";
    public static final String DATE_PRIMITIVE_DATA_TYPE = "date";
+   public static final String TIMESTAMP_PRIMITIVE_DATA_TYPE = "timestamp";
    public static final String INTEGER_PRIMITIVE_DATA_TYPE = "integer";
    public static final String BOOLEAN_PRIMITIVE_DATA_TYPE = "boolean";
    public static final String DOUBLE_PRIMITIVE_DATA_TYPE = "double";
@@ -155,6 +156,7 @@ public class ModelerConstants
    public static final String CONTEXTS_PROPERTY = "contexts";
    public static final String JSF_CONTEXT_TYPE_KEY = "jsf";
    public static final String EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY = "externalWebApp";
+   public static final String DECORATOR_APP_CONTEXT_TYPE_KEY = "decoratorApp"; 
    public static final String PARTICIPANT_TYPE_PROPERTY = "participantType";
    public static final String ROLE_PARTICIPANT_TYPE_KEY = "roleParticipant";
    public static final String NONE_LITERAL = "NONE";
@@ -244,12 +246,8 @@ public class ModelerConstants
    public static final String SCAN_TRIGGER_TYPE_ID = "scan";
    public static final String DATA_TYPE = "carnot:engine:dataType";
    public static final String DATA_TYPE_SIMPLENAME = "simpleName";
+   public static final String QUALITYASSURANCECODES = "qualityAssuranceCodes";
    public static final String QUALITYCONTROL = "qualityControl";
-   public static final String QC_CODE = "code";
-   public static final String QC_NAME = "name";
-   public static final String QC_VALUE = "value";
-   public static final String QC_VALID_CODES = "validCodes";
-   public static final String QC_CODES = "codes";
    public static final String EU_EXCLUDE_USER = "excludeUser";
    public static final String EU_EXCLUDE_USER_INTERNAL = "_excludeUser_";
    public static final String EU_EXCLUDE_PERFORMER_DATA = "data";
@@ -258,6 +256,17 @@ public class ModelerConstants
    public static final String SD_SET_DATA_ACTION_INTERNAL = "_setDataAction_";
    public static final String SD_SET_DATA_ACTION_DATA_ID = "dataId";
    public static final String SD_SET_DATA_ACTION_DATA_PATH = "dataPath";
+   public static final String RS_RESUBMISSION = "Resubmission";
+   public static final String RS_WAKE_PARTICIPANT = "wakeParticipant";
+   public static final String RS_DEFAULT_PERFORMER = "defaultPerformer";
+   public static final String RS_PARTICIPANT = "participant";
+   public static final String RS_CURRENT_USER = "currentUser";
+   public static final String RS_RANDOM_USER = "randomUser";
+   public static final String RS_DELAY_VALUE = "delayValue";
+   public static final String RS_DELAY_UNIT = "delayUnit";
+   public static final String RS_USEDATA = "useData";
+   public static final String RS_DELEGATE_TO_DEFAULT_PERFORMER = "defaultPerformer";
+
 
    public static final String LOOP_STANDARD = "standard";
    public static final String LOOP_MULTI = "multi";
@@ -278,4 +287,5 @@ public class ModelerConstants
    public static final String READ_ONLY_LITERAL = "readOnly";
 
    public static final String IS_REFERENCED_LITERAL = "isReferencedModel";
+   public static final String IS_UPGRADE_NEEDED = "isUpgradeNeeded";   
 }

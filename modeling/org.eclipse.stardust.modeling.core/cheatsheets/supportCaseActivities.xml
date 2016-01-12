@@ -26,10 +26,26 @@
 	5. Enter the name <b>Init Data</b>.<br/>
 	6. Repeat these steps to create the following activities:<br/>
 	</description>
-	 	<subitem label="Enter Data - Manual Activity" />
-	 	<subitem label="Analyze To Solve - Manual Activity" />
-   		<subitem label="Deliver Patch - Manual Activity" />
-  		<subitem label="Notify Customer - Application Activity" />.
+	 	<subitem skip="true">
+         <description>
+            Enter Data - Manual Activity
+         </description>
+      </subitem>
+	 	<subitem skip="true">
+         <description>
+            Analyze To Solve - Manual Activity
+         </description>
+      </subitem>
+   	<subitem skip="true">
+         <description>
+            Deliver Patch - Manual Activity
+         </description>
+      </subitem>
+  		<subitem skip="true">
+         <description>
+            Notify Customer - Application Activity
+         </description>
+      </subitem>
   </item>
   <item href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-4.htm#transitions" 
   	title="Creating Transitions between Activities">
@@ -41,8 +57,20 @@
      3. Click the subsequent activity after.<br/>
      4. In that way create the following transitions:<br/>
      </description>
-	 	<subitem label="Init Data to Enter Data" />
-	 	<subitem label="Enter Data to Analyze to Solve" />
-   		<subitem label="Analyze to Solve to Deliver Patch" />
+	 	<subitem skip="true">
+         <description>
+            Init Data to Enter Data
+         </description>
+      </subitem>
+	 	<subitem skip="true">
+         <description>
+            Enter Data to Analyze to Solve
+         </description>
+      </subitem>
+   		<subitem skip="true">
+         <description>
+            Analyze to Solve to Deliver Patch
+         </description>
+      </subitem>
   </item>
 </cheatsheet>

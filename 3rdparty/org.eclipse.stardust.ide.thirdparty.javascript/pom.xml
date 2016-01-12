@@ -33,8 +33,8 @@
   <!-- see https://github.com/sonatype/sonatype-tycho/blob/master/tycho-demo/itp02/build01/pomfirst-thirdparty/pom.xml -->
   <dependencies>
     <dependency>
-      <groupId>rhino</groupId>
-      <artifactId>js</artifactId>
+      <groupId>org.mozilla</groupId>
+      <artifactId>rhino</artifactId>
       <version>${js.version}</version>
     </dependency>
   </dependencies>
@@ -48,7 +48,7 @@
           <execution>
             <id>embed-jars-no-version</id>
             <configuration>
-              <includeArtifactIds>js</includeArtifactIds>
+              <includeArtifactIds>rhino</includeArtifactIds>
             </configuration>
           </execution>
         </executions>

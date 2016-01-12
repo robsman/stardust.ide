@@ -18,9 +18,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
@@ -60,10 +62,7 @@ import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDSchema;
@@ -419,6 +418,20 @@ public class UnusedModelElementsSearcher
       for (Iterator i = typeDeclarations.iterator(); i.hasNext();)
       {
          TypeDeclarationType typeDeclaration = (TypeDeclarationType) i.next();
+         //This is a workaround for working with missing XSDs (CRNT-
+         if (!Platform.isRunning())
+         {
+            ExternalReferenceType externalReference = typeDeclaration
+                  .getExternalReference();
+            if (externalReference != null)
+            {
+               Object internalSchema = Reflect.getFieldValue(externalReference, "schema");
+               if (internalSchema == null)
+               {
+                  return true;
+               }
+            }
+         }
          XSDSchema schema = typeDeclaration.getSchema();
          if(schema != null)
          {

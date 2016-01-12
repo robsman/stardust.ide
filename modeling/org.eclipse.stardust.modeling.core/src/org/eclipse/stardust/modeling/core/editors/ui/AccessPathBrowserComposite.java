@@ -11,6 +11,7 @@
 package org.eclipse.stardust.modeling.core.editors.ui;
 
 import org.eclipse.jface.window.Window;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IAccessPathEditor;
@@ -20,6 +21,7 @@ import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.ui.AccessPathWizard;
+
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -120,6 +122,11 @@ public class AccessPathBrowserComposite
    private void enableControls()
    {
       boolean enable = enabled && accessPoint != null;
+      if(accessPoint != null && accessPoint.eIsProxy())
+      {
+         enable = false;
+      }
+      
       if (enable)
       {
          if (accessPoint instanceof DataType)

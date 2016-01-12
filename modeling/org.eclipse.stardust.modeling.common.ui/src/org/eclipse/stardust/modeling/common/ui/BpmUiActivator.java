@@ -107,6 +107,11 @@ public class BpmUiActivator extends Plugin
       PlatformUI.getPreferenceStore().setDefault(
             BpmProjectNature.PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE,
             BpmProjectNature.DEFAULT_PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE);
+      
+      PlatformUI.getPreferenceStore().setDefault(
+            BpmProjectNature.PREFERENCE_TRANSITION_CONDITION_LENGTH,
+            BpmProjectNature.DEFAULT_PREFERENCE_TRANSITION_CONDITION_LENGTH);
+      
       // snapGrid
       PlatformUI.getPreferenceStore().setDefault(
             BpmProjectNature.PREFERENCE_SNAP_GRID_MODE,

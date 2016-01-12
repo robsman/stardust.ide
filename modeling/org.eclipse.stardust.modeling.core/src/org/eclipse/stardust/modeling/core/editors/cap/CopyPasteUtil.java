@@ -63,6 +63,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.tree.ChildCategoryNode.S
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ModelTreeEditPart;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
+import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDSchema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -438,17 +439,17 @@ public class CopyPasteUtil
 
                public EObject copy(EObject object)
                {
-                  if (object instanceof XSDSchema)
+                  if (object instanceof XSDConcreteComponent)
                   {
-                     XSDSchema original = (XSDSchema) object;
-                     XSDSchema clone = (XSDSchema) original.cloneConcreteComponent(true,
-                           false);
-                     Document doc = clone.updateDocument();
+                     XSDConcreteComponent original = (XSDConcreteComponent) object;
+                     XSDConcreteComponent clone = original.cloneConcreteComponent(true, false);
+                     XSDSchema schema = clone.getSchema();
+                     Document doc = schema.updateDocument();
                      if (original.getElement() != null)
                      {
                         Element clonedElement = (Element) doc.importNode(original
                               .getElement(), true);
-                        doc.appendChild(clonedElement);
+                        //doc.appendChild(clonedElement);
                         clone.setElement(clonedElement);
                      }
                      return clone;
