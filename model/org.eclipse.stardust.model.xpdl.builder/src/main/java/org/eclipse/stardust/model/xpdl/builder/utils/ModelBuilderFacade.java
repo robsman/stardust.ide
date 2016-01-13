@@ -1023,7 +1023,7 @@ public class ModelBuilderFacade
                   {
                      if(!referencedModel.getId().equals(dataModelId))
                      {
-                        throw new IllegalArgumentException("ModelerError.revertLastCommand.01001");
+                        throw new IllegalArgumentException("Data with same Id already exists.");
                      }
                   }
                }
@@ -1035,13 +1035,6 @@ public class ModelBuilderFacade
 
       if (!dataModelId.equals(model.getId()))
       {
-         boolean circularDependency = ModelUtils.hasCircularDependency(model.getId(),
-               dataModel);
-         if (circularDependency)
-         {
-            throw new IllegalArgumentException(
-                  "ModelerError.revertLastCommand.01002");
-         }
          data = EObjectProxyHandler.importElement(model, data);
       }
       return data;
