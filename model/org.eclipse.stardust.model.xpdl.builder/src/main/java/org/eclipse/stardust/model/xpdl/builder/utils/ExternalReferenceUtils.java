@@ -19,6 +19,8 @@ import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.EObjectProxyHandler;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
+import org.eclipse.stardust.model.xpdl.builder.exception.ModelerErrorClass;
+import org.eclipse.stardust.model.xpdl.builder.exception.ModelerException;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -60,6 +62,11 @@ public class ExternalReferenceUtils
    public static void createExternalReferenceToApplication(ActivityType activity,
          ApplicationType application, ModelType consumerModel, ModelType providerModel)
    {
+      if (ModelUtils.hasCircularDependency(consumerModel.getId(), providerModel))
+      {
+         throw new ModelerException(ModelerErrorClass.CIRCULAR_DEPENDENCY);
+      }
+      
       String fileConnectionId = WebModelerConnectionManager.createFileConnection(
             consumerModel, providerModel);
 
@@ -90,7 +97,11 @@ public class ExternalReferenceUtils
    public static void createExternalReferenceToProcess(ActivityType activity,
          ProcessDefinitionType process, ModelType consumerModel, ModelType processModel)
    {
-
+      if (ModelUtils.hasCircularDependency(consumerModel.getId(), processModel))
+      {
+         throw new ModelerException(ModelerErrorClass.CIRCULAR_DEPENDENCY);
+      }
+      
       String fileConnectionId = WebModelerConnectionManager.createFileConnection(
             consumerModel, processModel);
 
@@ -126,6 +137,11 @@ public class ExternalReferenceUtils
          ModelType consumerModel, ModelType typeDeclarationModel,
          TypeDeclarationType typeDeclaration)
    {
+      if (ModelUtils.hasCircularDependency(consumerModel.getId(), typeDeclarationModel))
+      {
+         throw new ModelerException(ModelerErrorClass.CIRCULAR_DEPENDENCY);
+      }
+      
       String fileConnectionId = WebModelerConnectionManager.createFileConnection(
             consumerModel, typeDeclarationModel);
 
@@ -167,7 +183,12 @@ public class ExternalReferenceUtils
          ModelType consumerModel, ModelType typeDeclarationModel,
          TypeDeclarationType typeDeclaration)
    {
-
+      if (ModelUtils.hasCircularDependency(consumerModel.getId(), typeDeclarationModel))
+      {
+         throw new ModelerException(ModelerErrorClass.CIRCULAR_DEPENDENCY);
+      }
+      
+      
       String fileConnectionId = WebModelerConnectionManager.createFileConnection(
             consumerModel, typeDeclarationModel);
 
@@ -209,6 +230,11 @@ public class ExternalReferenceUtils
          FormalParameterType parameter,
          String declarationID, ModelType model, ModelType providerModel)
    {
+      if (ModelUtils.hasCircularDependency(model.getId(), providerModel))
+      {
+         throw new ModelerException(ModelerErrorClass.CIRCULAR_DEPENDENCY);
+      }
+      
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
       ExternalReferenceUtils.updateReferences(model, providerModel);
       ExternalReferenceType extRef = xpdlFactory.createExternalReferenceType();
@@ -230,6 +256,7 @@ public class ExternalReferenceUtils
    public static void createStructReferenceForAccessPoint(AccessPointType accessPoint,
          String typeID, ModelType refModel)
    {
+      
       TypeDeclarationType typeDeclaration = refModel.getTypeDeclarations()
             .getTypeDeclaration(typeID);
       if (typeDeclaration != null)
@@ -247,6 +274,11 @@ public class ExternalReferenceUtils
    public static void createStructReferenceForDocument(DataType data, String declarationID,
          ModelType model, ModelType providerModel)
    {
+      if (ModelUtils.hasCircularDependency(model.getId(), providerModel))
+      {
+         throw new ModelerException(ModelerErrorClass.CIRCULAR_DEPENDENCY);
+      }
+      
       TypeDeclarationType typeDeclaration = providerModel.getTypeDeclarations()
             .getTypeDeclaration(declarationID);
 
@@ -293,6 +325,11 @@ public class ExternalReferenceUtils
    public static void createStructReferenceForPrimitive(DataType data, ModelType model,
          String declarationID, ModelType typeDeclarationModel)
    {
+      if (ModelUtils.hasCircularDependency(model.getId(), typeDeclarationModel))
+      {
+         throw new ModelerException(ModelerErrorClass.CIRCULAR_DEPENDENCY);
+      }
+      
       String fileConnectionId = WebModelerConnectionManager.createFileConnection(model,
             typeDeclarationModel);
 
@@ -322,6 +359,11 @@ public class ExternalReferenceUtils
 
    public static void updateReferences(ModelType model, ModelType ref)
    {
+      if (ModelUtils.hasCircularDependency(model.getId(), ref))
+      {
+         throw new ModelerException(ModelerErrorClass.CIRCULAR_DEPENDENCY);
+      }
+      
       String connId = WebModelerConnectionManager.createFileConnection(model, ref);
 
       ExternalPackages packs = model.getExternalPackages();
