@@ -40,6 +40,8 @@ import org.eclipse.stardust.model.xpdl.builder.activity.BpmSubProcessActivityBui
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.EObjectProxyHandler;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
+import org.eclipse.stardust.model.xpdl.builder.exception.ModelerErrorClass;
+import org.eclipse.stardust.model.xpdl.builder.exception.ModelerException;
 import org.eclipse.stardust.model.xpdl.builder.initializer.DataStructInitializer;
 import org.eclipse.stardust.model.xpdl.builder.initializer.DmsDocumentInitializer;
 import org.eclipse.stardust.model.xpdl.builder.initializer.PrimitiveDataInitializer;
@@ -1021,6 +1023,10 @@ public class ModelBuilderFacade
                   ModelType referencedModel = ModelUtils.getModelByProxyURI(model, proxyUri);
                   if(referencedModel != null)
                   {
+                     if (ModelUtils.hasCircularDependency(model.getId(), referencedModel))
+                     {
+                        throw new ModelerException(ModelerErrorClass.CIRCULAR_DEPENDENCY);
+                     }
                      if(!referencedModel.getId().equals(dataModelId))
                      {
                         throw new IllegalArgumentException("Data with same Id already exists.");
@@ -1035,6 +1041,10 @@ public class ModelBuilderFacade
 
       if (!dataModelId.equals(model.getId()))
       {
+         if (ModelUtils.hasCircularDependency(model.getId(), dataModel))
+         {
+            throw new ModelerException(ModelerErrorClass.CIRCULAR_DEPENDENCY);
+         }
          data = EObjectProxyHandler.importElement(model, data);
       }
       return data;
@@ -1062,6 +1072,10 @@ public class ModelBuilderFacade
          }
          if (localParticipant == null)
          {
+            if (ModelUtils.hasCircularDependency(model.getId(), participantModel))
+            {
+               throw new ModelerException(ModelerErrorClass.CIRCULAR_DEPENDENCY);
+            }
             localParticipant = EObjectProxyHandler.importElement(model, participant);
          }
          else
