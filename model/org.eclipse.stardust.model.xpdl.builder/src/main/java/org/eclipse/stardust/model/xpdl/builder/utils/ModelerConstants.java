@@ -133,6 +133,7 @@ public class ModelerConstants
    public static final String CONDITION_EXPRESSION_PROPERTY = "conditionExpression";
    public static final String INPUT_DATA_MAPPING_PROPERTY = "inputDataMapping";
    public static final String OUTPUT_DATA_MAPPING_PROPERTY = "outputDataMapping";
+   public static final String DATA_MAPPING_MANDATORY = "mandatoryDataMapping";   
    public static final String DEFAULT_LITERAL = "default";
    public static final String DATA_PATH_PROPERTY = "dataPath";
    public static final String APPLICATION_PATH_PROPERTY = "applicationPath";
