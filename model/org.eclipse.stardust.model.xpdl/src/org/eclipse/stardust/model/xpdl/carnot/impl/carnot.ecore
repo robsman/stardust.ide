@@ -1221,7 +1221,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DataMappingType" eSuperTypes="#//IModelElement #//IIdentifiableElement">
+  <eClassifiers xsi:type="ecore:EClass" name="DataMappingType" eSuperTypes="#//IModelElement #//IIdentifiableElement #//IExtensibleElement">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="dataMapping_._type"/>
       <details key="kind" value="empty"/>
