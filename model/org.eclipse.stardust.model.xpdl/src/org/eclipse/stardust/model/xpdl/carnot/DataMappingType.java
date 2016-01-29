@@ -32,7 +32,7 @@ package org.eclipse.stardust.model.xpdl.carnot;
  * @model extendedMetaData="name='dataMapping_._type' kind='empty'"
  * @generated
  */
-public interface DataMappingType extends IModelElement, IIdentifiableElement{
+public interface DataMappingType extends IModelElement, IIdentifiableElement, IExtensibleElement{
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

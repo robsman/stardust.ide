@@ -10,16 +10,22 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.carnot.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 
 
@@ -33,6 +39,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.DataMappingTypeImpl#getElementOid <em>Element Oid</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.DataMappingTypeImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.DataMappingTypeImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.DataMappingTypeImpl#getAttribute <em>Attribute</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.DataMappingTypeImpl#getApplicationAccessPoint <em>Application Access Point</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.DataMappingTypeImpl#getApplicationPath <em>Application Path</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.DataMappingTypeImpl#getContext <em>Context</em>}</li>
@@ -140,6 +147,16 @@ public class DataMappingTypeImpl extends EObjectImpl implements DataMappingType
     */
    protected boolean nameESet;
 
+   /**
+    * The cached value of the '{@link #getAttribute() <em>Attribute</em>}' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #getAttribute()
+    * @generated
+    * @ordered
+    */
+   protected EList<AttributeType> attribute;
+   
    /**
     * The default value of the '{@link #getApplicationAccessPoint() <em>Application Access Point</em>}' attribute.
     * <!-- begin-user-doc -->
@@ -589,6 +606,20 @@ public class DataMappingTypeImpl extends EObjectImpl implements DataMappingType
     * <!-- end-user-doc -->
     * @generated
     */
+   public EList<AttributeType> getAttribute()
+   {
+      if (attribute == null)
+      {
+         attribute = new EObjectContainmentEList<AttributeType>(AttributeType.class, this, CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__ATTRIBUTE);
+      }
+      return attribute;
+   }
+   
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
    @Override
    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
    {
@@ -612,6 +643,8 @@ public class DataMappingTypeImpl extends EObjectImpl implements DataMappingType
    {
       switch (featureID)
       {
+         case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__ATTRIBUTE:
+            return ((InternalEList<?>)getAttribute()).basicRemove(otherEnd, msgs);      
          case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__DATA:
             return basicSetData(null, msgs);
       }
@@ -634,6 +667,8 @@ public class DataMappingTypeImpl extends EObjectImpl implements DataMappingType
             return getId();
          case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__NAME:
             return getName();
+         case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__ATTRIBUTE:
+            return getAttribute();            
          case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__APPLICATION_ACCESS_POINT:
             return getApplicationAccessPoint();
          case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__APPLICATION_PATH:
@@ -669,6 +704,10 @@ public class DataMappingTypeImpl extends EObjectImpl implements DataMappingType
          case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__NAME:
             setName((String)newValue);
             return;
+         case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__ATTRIBUTE:
+            getAttribute().clear();
+            getAttribute().addAll((Collection<? extends AttributeType>)newValue);
+            return;            
          case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__APPLICATION_ACCESS_POINT:
             setApplicationAccessPoint((String)newValue);
             return;
@@ -710,6 +749,9 @@ public class DataMappingTypeImpl extends EObjectImpl implements DataMappingType
          case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__NAME:
             unsetName();
             return;
+         case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__ATTRIBUTE:
+            getAttribute().clear();
+            return;            
          case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__APPLICATION_ACCESS_POINT:
             setApplicationAccessPoint(APPLICATION_ACCESS_POINT_EDEFAULT);
             return;
@@ -748,6 +790,8 @@ public class DataMappingTypeImpl extends EObjectImpl implements DataMappingType
             return isSetId();
          case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__NAME:
             return isSetName();
+         case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__ATTRIBUTE:
+            return attribute != null && !attribute.isEmpty();            
          case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__APPLICATION_ACCESS_POINT:
             return APPLICATION_ACCESS_POINT_EDEFAULT == null ? applicationAccessPoint != null : !APPLICATION_ACCESS_POINT_EDEFAULT.equals(applicationAccessPoint);
          case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__APPLICATION_PATH:
@@ -781,6 +825,14 @@ public class DataMappingTypeImpl extends EObjectImpl implements DataMappingType
             default: return -1;
          }
       }
+      if (baseClass == IExtensibleElement.class)
+      {
+         switch (derivedFeatureID)
+         {
+            case CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__ATTRIBUTE: return CarnotWorkflowModelPackage.IEXTENSIBLE_ELEMENT__ATTRIBUTE;
+            default: return -1;
+         }
+      }      
       return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
    }
 
@@ -801,6 +853,14 @@ public class DataMappingTypeImpl extends EObjectImpl implements DataMappingType
             default: return -1;
          }
       }
+      if (baseClass == IExtensibleElement.class)
+      {
+         switch (baseFeatureID)
+         {
+            case CarnotWorkflowModelPackage.IEXTENSIBLE_ELEMENT__ATTRIBUTE: return CarnotWorkflowModelPackage.DATA_MAPPING_TYPE__ATTRIBUTE;
+            default: return -1;
+         }
+      }      
       return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
    }
 

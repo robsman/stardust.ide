@@ -3958,12 +3958,21 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int DATA_MAPPING_TYPE__NAME = IMODEL_ELEMENT_FEATURE_COUNT + 1;
 
    /**
+    * The feature id for the '<em><b>Attribute</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int DATA_MAPPING_TYPE__ATTRIBUTE = IMODEL_ELEMENT_FEATURE_COUNT + 2;
+   
+   /**
     * The feature id for the '<em><b>Application Access Point</b></em>' attribute.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int DATA_MAPPING_TYPE__APPLICATION_ACCESS_POINT = IMODEL_ELEMENT_FEATURE_COUNT + 2;
+   int DATA_MAPPING_TYPE__APPLICATION_ACCESS_POINT = IMODEL_ELEMENT_FEATURE_COUNT + 3;
 
    /**
     * The feature id for the '<em><b>Application Path</b></em>' attribute. <!--
@@ -3972,7 +3981,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int DATA_MAPPING_TYPE__APPLICATION_PATH = IMODEL_ELEMENT_FEATURE_COUNT + 3;
+   int DATA_MAPPING_TYPE__APPLICATION_PATH = IMODEL_ELEMENT_FEATURE_COUNT + 4;
 
    /**
     * The feature id for the '<em><b>Context</b></em>' attribute.
@@ -3981,7 +3990,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int DATA_MAPPING_TYPE__CONTEXT = IMODEL_ELEMENT_FEATURE_COUNT + 4;
+   int DATA_MAPPING_TYPE__CONTEXT = IMODEL_ELEMENT_FEATURE_COUNT + 5;
 
    /**
     * The feature id for the '<em><b>Data</b></em>' reference.
@@ -3990,7 +3999,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int DATA_MAPPING_TYPE__DATA = IMODEL_ELEMENT_FEATURE_COUNT + 5;
+   int DATA_MAPPING_TYPE__DATA = IMODEL_ELEMENT_FEATURE_COUNT + 6;
 
    /**
     * The feature id for the '<em><b>Data Path</b></em>' attribute. <!--
@@ -3999,7 +4008,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int DATA_MAPPING_TYPE__DATA_PATH = IMODEL_ELEMENT_FEATURE_COUNT + 6;
+   int DATA_MAPPING_TYPE__DATA_PATH = IMODEL_ELEMENT_FEATURE_COUNT + 7;
 
    /**
     * The feature id for the '<em><b>Direction</b></em>' attribute. <!--
@@ -4008,7 +4017,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int DATA_MAPPING_TYPE__DIRECTION = IMODEL_ELEMENT_FEATURE_COUNT + 7;
+   int DATA_MAPPING_TYPE__DIRECTION = IMODEL_ELEMENT_FEATURE_COUNT + 8;
 
    /**
     * The number of structural features of the '<em>Data Mapping Type</em>' class.
@@ -4016,7 +4025,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int DATA_MAPPING_TYPE_FEATURE_COUNT = IMODEL_ELEMENT_FEATURE_COUNT + 8;
+   int DATA_MAPPING_TYPE_FEATURE_COUNT = IMODEL_ELEMENT_FEATURE_COUNT + 9;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
