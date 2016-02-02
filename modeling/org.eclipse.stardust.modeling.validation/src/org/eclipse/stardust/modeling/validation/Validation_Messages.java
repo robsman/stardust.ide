@@ -480,6 +480,14 @@ public static String Validation_MSG_JNDIPathNotSpecified = getString("Validation
    public static String MSG_PERSISTENCE_OPTION_NOT_ALLOWED = getString("MSG_PERSISTENCE_OPTION_NOT_ALLOWED"); //$NON-NLS-1$
 
    public static String MSG_TypeDeclarationNotJavaBoundEnum = getString("MSG_TypeDeclarationNotJavaBoundEnum"); //$NON-NLS-1$
+   
+   public static String ERR_REFERENCED_DESCRIPTOR_DOES_NOT_EXIST = getString("ERR_REFERENCED_DESCRIPTOR_DOES_NOT_EXIST"); //$NON-NLS-1$
+   
+   public static String ERR_REFERENCED_DATAPTH_IS_A_CIRCULAR_DEPENDENCY = getString("ERR_REFERENCED_DATAPTH_IS_A_CIRCULAR_DEPENDENCY"); //$NON-NLS-1$
+   
+   public static String WR_REFERENCED_DESCRIPTOR_NO_DATAPATH = getString("WR_REFERENCED_DESCRIPTOR_NO_DATAPATH"); //$NON-NLS-1$
+   
+   public static String WR_COMPOSITE_LINK_DESCRIPTOR_NO_DATAPATH = getString("WR_COMPOSITE_LINK_DESCRIPTOR_NO_DATAPATH"); //$NON-NLS-1$
 
    private static String getString(String key)
    {
