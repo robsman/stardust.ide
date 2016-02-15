@@ -492,7 +492,9 @@ public static String Validation_MSG_JNDIPathNotSpecified = getString("Validation
    public static String ERR_COMPOSITE_LINK_DESCRIPTOR_HAS_TO_BE_IN_DATAPATH = getString("ERR_COMPOSITE_LINK_DESCRIPTOR_HAS_TO_BE_IN_DATAPATH"); //$NON-NLS-1$
    
    public static String ERR_DATAPATH_VARIABLE_ONLY_ALLOWED_FOR_COMPOSITE_LINK_DESCRIPTORS = getString("ERR_DATAPATH_VARIABLE_ONLY_ALLOWED_FOR_COMPOSITE_LINK_DESCRIPTORS"); //$NON-NLS-1$
-
+   
+   public static String WR_LINK_DESCRIPTOR_CONTAINS_INVALID_URL = getString("WR_LINK_DESCRIPTOR_CONTAINS_INVALID_URL"); //$NON-NLS-1$ 
+   
    private static String getString(String key)
    {
       try
