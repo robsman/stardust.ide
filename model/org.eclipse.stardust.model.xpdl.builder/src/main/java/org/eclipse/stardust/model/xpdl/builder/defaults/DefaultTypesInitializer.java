@@ -39,6 +39,8 @@ import org.eclipse.stardust.engine.extensions.jaxws.app.WebserviceApplicationIns
 import org.eclipse.stardust.engine.extensions.jaxws.app.WebserviceApplicationValidator;
 import org.eclipse.stardust.engine.extensions.jms.app.JMSApplicationInstance;
 import org.eclipse.stardust.engine.extensions.jms.app.JMSValidator;
+import org.eclipse.stardust.engine.extensions.decorator.DecoratorAppApplicationInstance;
+import org.eclipse.stardust.engine.extensions.decorator.DecoratorApplicationValidator;
 import org.eclipse.stardust.engine.extensions.xml.data.XMLValidator;
 import org.eclipse.stardust.engine.extensions.xml.data.XPathEvaluator;
 import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
@@ -113,6 +115,9 @@ public class DefaultTypesInitializer implements ModelInitializer
       initializeApplicationType(model, PredefinedConstants.WS_APPLICATION,
             "Web Service Application", null, WebserviceApplicationInstance.class,
             WebserviceApplicationValidator.class);
+      
+      initializeApplicationType(model, "decoratorApp", 
+              "Decorator Application", null, DecoratorAppApplicationInstance.class,DecoratorApplicationValidator.class);
    }
 
    public void initializeInteractionContextTypes(ModelType model)

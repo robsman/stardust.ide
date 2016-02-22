@@ -35,26 +35,47 @@
         6. Leave the cardinality as Exactly one.<br/>
         5. In the same way enter the following composite types:<br/>
       </description>
-      <subitem label="Add an element with name &quot;Synopsis&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      <subitem skip="true">
+         <description>
+            Add an element with name &quot;Synopsis&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;.
+         </description>
       </subitem>
-      <subitem label="Add an element with name &quot;State&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      <subitem skip="true">
+         <description>
+            Add an element with name &quot;State&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;.
+         </description>
       </subitem>
-      <subitem label="Add an element with name &quot;Analysis&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      <subitem skip="true">
+         <description>
+            Add an element with name &quot;Analysis&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;.
+         </description>
       </subitem>
    </item>
    <item title="Define the Structured Data Type Customer" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-struct-data.html#customer">
       <description>
-        1. Again create a new composite type in the Outline view tree of the model.<br/>
-        2. Name the structured data type &quot;Customer&quot;.<br/>
-        3. Add the following composite types:<br/>
+         1. Again create a new composite type in the Outline view tree of the model.<br/>
+         2. Name the structured data type &quot;Customer&quot;.<br/>
+         3. Add the following composite types:<br/>
       </description>
-      <subitem label="Add an element with name &quot;Id&quot;, type &quot;int&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      <subitem skip="true">
+         <description>
+            Add an element with name &quot;Id&quot;, type &quot;int&quot; and cardinality &quot;Exactly one&quot;.
+         </description>
       </subitem>
-      <subitem label="Add an element with name &quot;Name&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      <subitem skip="true">
+         <description>
+            Add an element with name &quot;Name&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;.
+         </description>
       </subitem>
-      <subitem label="Add an element with name &quot;Email&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      <subitem skip="true">
+         <description>
+            Add an element with name &quot;Email&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;.
+         </description>
       </subitem>
-      <subitem label="Add an element with name &quot;Product&quot;, type &quot;Product&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      <subitem skip="true">
+         <description>
+            Add an element with name &quot;Product&quot;, type &quot;Product&quot; and cardinality &quot;Exactly one&quot;.
+         </description>
       </subitem>
    </item>
 </cheatsheet>

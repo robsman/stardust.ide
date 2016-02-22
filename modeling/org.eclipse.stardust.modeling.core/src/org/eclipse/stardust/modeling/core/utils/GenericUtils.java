@@ -41,6 +41,7 @@ import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.WorkspaceManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
@@ -332,6 +333,11 @@ public class GenericUtils
    public static boolean isXMLDataType(DataType data)
    {
       // XML
+      if(data.eIsProxy())
+      {
+         data = (DataType) WorkspaceManager.getInstance().findElement(data);         
+      }
+      
       if (data.getType().getId().equals(PredefinedConstants.PLAIN_XML_DATA))
       {
          return true;
@@ -341,6 +347,11 @@ public class GenericUtils
 
    public static boolean isDMSDataType(DataType data)
    {
+      if(data.eIsProxy())
+      {
+         data = (DataType) WorkspaceManager.getInstance().findElement(data);         
+      }
+            
       // DMS
       if (data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT)
             || data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT_SET)
@@ -356,6 +367,15 @@ public class GenericUtils
 
    public static boolean isStructuredDataType(DataType data)
    {
+      if(data.eIsProxy())
+      {
+         EObject resolvedElement = WorkspaceManager.getInstance().findElement(data);
+         if(resolvedElement != null)
+         {
+            return ((DataType) resolvedElement).getType().getId().equals(PredefinedConstants.STRUCTURED_DATA);            
+         }
+      }
+      
       return data.getType().getId().equals(PredefinedConstants.STRUCTURED_DATA);
    }
 
@@ -369,6 +389,11 @@ public class GenericUtils
    // return class name that reflects the data
    public static String[] getReferenceClassNames(DataType data)
    {
+      if(data.eIsProxy())
+      {
+         data = (DataType) WorkspaceManager.getInstance().findElement(data);         
+      }
+      
       // DMS
       if (data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT)
             || data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT_SET)
@@ -453,6 +478,11 @@ public class GenericUtils
    // check if we can for this data try to use a TypeFinder
    public static boolean dataHasClassAssigned(DataType data)
    {
+      if(data.eIsProxy())
+      {
+         data = (DataType) WorkspaceManager.getInstance().findElement(data);         
+      }
+      
       if (data.getType().getId().equals(PredefinedConstants.PRIMITIVE_DATA)
             || data.getType().getId().equals(PredefinedConstants.HIBERNATE_DATA)
             || data.getType().getId().equals(PredefinedConstants.SERIALIZABLE_DATA)

@@ -17,27 +17,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.stardust.engine.core.struct.spi.StructDataTransformerKey;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
-import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
-import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.*;
 import org.eclipse.stardust.modeling.validation.BridgeObject;
 import org.eclipse.stardust.modeling.validation.BridgeObjectProviderRegistry;
 import org.eclipse.stardust.modeling.validation.IBridgeObjectProvider;
@@ -142,7 +130,13 @@ public class DataMappingValidator implements IModelElementValidator
 
    private void checkValidXPath(DataMappingType dataMapping)
    {
-      if (PredefinedConstants.STRUCTURED_DATA.equals(dataMapping.getData().getMetaType().getId()))
+      DataType data = dataMapping.getData();
+      if(data.eIsProxy())
+      {
+         data = (DataType) WorkspaceManager.getInstance().findElement(data);         
+      }
+      
+      if (PredefinedConstants.STRUCTURED_DATA.equals(data.getMetaType().getId()))
       {
          String dataPath = dataMapping.getDataPath();
          if (!StringUtils.isEmpty(dataPath))
@@ -164,7 +158,7 @@ public class DataMappingValidator implements IModelElementValidator
                }
             }
 
-            IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(dataMapping.getData());
+            IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(data);
             if (dataPath.indexOf("[") > -1) //$NON-NLS-1$
             {
                checkNestedPath(dataPath, xPathMap);

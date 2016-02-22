@@ -29,7 +29,10 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
 import org.eclipse.stardust.model.xpdl.carnot.util.XSDMapping;
-import org.eclipse.stardust.model.xpdl.xpdl2.*;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
+import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.XSDElementCheckForType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.XsdTextProvider;
@@ -88,8 +91,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
 
    private DateFormat dateFormat = new SimpleDateFormat(Diagram_Messages.SIMPLE_DATE_FORMAT, Locale.GERMANY);
    private SashForm form;
-   private Map<XSDElementDeclaration, Map<IAnnotation, Object>> defaultAnnotationMap = new HashMap<XSDElementDeclaration, Map<IAnnotation,Object>>();
-   //private Link baseTypeLink;
+   private Map<XSDFeature, Map<IAnnotation, Object>> defaultAnnotationMap = new HashMap<XSDFeature, Map<IAnnotation,Object>>();
 
    public void performDefaults()
    {
@@ -168,7 +170,8 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          annotationViewer.setDeclaration(declaration);
          addPlaceholders(type, new HashSet<XSDComponent>());
          viewer.setInput(type);
-         if (!viewer.getTree().isEnabled()) {
+         if (!viewer.getTree().isEnabled())
+         {
             viewer.expandAll();
          }
       }
@@ -369,13 +372,13 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          public void selectionChanged(SelectionChangedEvent event)
          {
             IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-            XSDElementDeclaration decl = null;
+            XSDFeature decl = null;
             if (!selection.isEmpty())
             {
                Object item = selection.getFirstElement();
-               if (item instanceof XSDElementDeclaration && !isNewType(item))
+               if (item instanceof XSDFeature && !isNewType(item))
                {
-                  decl = (XSDElementDeclaration) item;
+                  decl = (XSDFeature) item;
                }
             }
             annotationViewer.setInput(decl);
@@ -1031,8 +1034,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          {
             changeElement((XSDElementDeclaration) element, value);
          }
-         annotationViewer.setInput(element instanceof XSDElementDeclaration
-               ? (XSDElementDeclaration) element : null);
+         annotationViewer.setInput(element instanceof XSDFeature ? (XSDFeature) element : null);
          form.layout(true);
          validateInput();
       }
@@ -1458,33 +1460,47 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       return false;
    }
 
-   public void annotationChanged(IAnnotation annotation, Object oldValue, Object newValue) {
+   public void annotationChanged(IAnnotation annotation, Object oldValue, Object newValue)
+   {
       DefaultAnnotationModifier.stopNotifying();
-      if (annotationViewer.isChangeAllMode()) {
-         if (newValue == null) {
-            try {
+      if (annotationViewer.isChangeAllMode())
+      {
+         if (newValue == null)
+         {
+            try
+            {
                deleteAllAnnotations(declaration, annotation);
-            } catch (Throwable t) {
+            }
+            catch (Throwable t)
+            {
             }
             totalRefresh();
-         } else {
+         }
+         else
+         {
             handleAllAnnotationChange(this.type, annotation, oldValue);
          }
-      } else {
+      }
+      else
+      {
          CategoryAnnotation root = (CategoryAnnotation) DefaultAnnotationModifier.getRootAnnotation(annotation);
          handleDefaultValueChange(annotation, oldValue, root.getElement());
       }
       DefaultAnnotationModifier.startNotifying();
    }
 
-   private void deleteAllAnnotations(Object element, IAnnotation annotation) {
+   private void deleteAllAnnotations(Object element, IAnnotation annotation)
+   {
       Object[] children = contentProvider.getChildren(element);
-      for (int i = 0; i < children.length; i++) {
+      for (int i = 0; i < children.length; i++)
+      {
          Object child = children[i];
-         if (child instanceof XSDElementDeclaration) {
-            XSDElementDeclaration decl = (XSDElementDeclaration) child;
+         if (child instanceof XSDFeature)
+         {
+            XSDFeature decl = (XSDFeature) child;
             annotationViewer.setInput(decl);
-            if (decl.getTypeDefinition() instanceof XSDSimpleTypeDefinition && !(ComplexTypePropertyPage.isNewType(child))) {
+            if (decl.getType() instanceof XSDSimpleTypeDefinition && !(ComplexTypePropertyPage.isNewType(child)))
+            {
                handleDefaultValueChange(annotation, DefaultAnnotationModifier.getAnnotationValue(annotation), child);
                DefaultAnnotationModifier.deleteAnnotation(annotation);
             }
@@ -1493,20 +1509,26 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       }
    }
 
-   private void addDefaultValue(IAnnotation annotation, Map<IAnnotation, Object> defaultList, Object value) {
+   private void addDefaultValue(IAnnotation annotation, Map<IAnnotation, Object> defaultList, Object value)
+   {
       Object defaultValue = defaultList.get(annotation);
-      if (defaultValue == null) {
+      if (defaultValue == null)
+      {
          defaultList.put(annotation, value);
       }
    }
 
-   private void handleAllAnnotationChange(Object element, IAnnotation annotation, Object oldValue) {
+   private void handleAllAnnotationChange(Object element, IAnnotation annotation, Object oldValue)
+   {
       Object[] children = contentProvider.getChildren(element);
-      for (int i = 0; i < children.length; i++) {
+      for (int i = 0; i < children.length; i++)
+      {
          Object child = children[i];
-         if (child instanceof XSDElementDeclaration) {
-            XSDElementDeclaration decl = (XSDElementDeclaration) child;
-            if (decl.getTypeDefinition() instanceof XSDSimpleTypeDefinition && !(ComplexTypePropertyPage.isNewType(child))) {
+         if (child instanceof XSDFeature)
+         {
+            XSDFeature decl = (XSDFeature) child;
+            if (decl.getType() instanceof XSDSimpleTypeDefinition && !(ComplexTypePropertyPage.isNewType(child)))
+            {
                handleDefaultValueChange(annotation, oldValue, child);
             }
          }
@@ -1515,11 +1537,13 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
    }
 
    private void handleDefaultValueChange(IAnnotation annotation, Object oldValue,
-         Object child) {
-      Map<IAnnotation, Object> defaultList = defaultAnnotationMap.get((XSDElementDeclaration) child);
-      if (defaultList == null) {
+         Object child)
+   {
+      Map<IAnnotation, Object> defaultList = defaultAnnotationMap.get((XSDFeature) child);
+      if (defaultList == null)
+      {
          defaultList = new HashMap<IAnnotation,Object>();
-         defaultAnnotationMap.put((XSDElementDeclaration) child, defaultList);
+         defaultAnnotationMap.put((XSDFeature) child, defaultList);
       }
       addDefaultValue(annotation, defaultList, oldValue);
    }
@@ -1527,16 +1551,21 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
    private void resetAnnotationSettings()
    {
       DefaultAnnotationModifier.stopNotifying();
-      for (Iterator<XSDElementDeclaration> i = defaultAnnotationMap.keySet().iterator(); i.hasNext();) {
-         XSDElementDeclaration decl = i.next();
+      for (Iterator<XSDFeature> i = defaultAnnotationMap.keySet().iterator(); i.hasNext();)
+      {
+         XSDFeature decl = i.next();
          annotationViewer.setInput(decl);
          Map<IAnnotation,Object> map = defaultAnnotationMap.get(decl);
-         for (Iterator<IAnnotation> j = map.keySet().iterator(); j.hasNext();) {
+         for (Iterator<IAnnotation> j = map.keySet().iterator(); j.hasNext();)
+         {
             IAnnotation annotation = j.next();
             Object value =  map.get(annotation);
-            if (value == null) {
+            if (value == null)
+            {
                DefaultAnnotationModifier.deleteAnnotation(annotation);
-            } else {
+            }
+            else
+            {
                DefaultAnnotationModifier.INSTANCE.setValue(annotation, value);
             }
          }

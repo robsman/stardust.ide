@@ -61,6 +61,8 @@ public class UI_Messages extends NLS
 
    public static String WorkbenchPreferencePage_SnapGridValidationErrorMessage;
 
+   public static String WorkbenchPreferencePage_TransitionConditionValidationErrorMessage;
+      
    public static String WorkbenchPreferencePage_VerticalDirection;
 
    public static String WorkbenchPreferencePage_HorizontalDirection;
@@ -100,16 +102,17 @@ public class UI_Messages extends NLS
    public static String LB_XOR;
 
    public static String LBL_TXT_DOMAIN;
-public static String LBL_TXT_ID;
-public static String LBL_TXT_PARTITION;
-public static String LBL_TXT_PASSWORD;
-public static String LBL_TXT_REALM;
-public static String WorkbenchPreferencePage_VisibleGridFactorLabel;
+   public static String LBL_TXT_ID;
+   public static String LBL_TXT_PARTITION;
+   public static String LBL_TXT_PASSWORD;
+   public static String LBL_TXT_REALM;
+   public static String WorkbenchPreferencePage_VisibleGridFactorLabel;
+   public static String WorkbenchPreferencePage_VisibleTransitionConditionLength;
 
    public static String MultiPackageModelingPreferencePage_Public;
 
    public static String MultiPackageModelingPreferencePage_Private;
 
    public static String MultiPackageModelingPreferencePage_Visibility;
-public static String PANEL_DEPLOY_MD;
+   public static String PANEL_DEPLOY_MD;
 }

@@ -18,6 +18,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
+import org.eclipse.stardust.model.xpdl.carnot.util.WorkspaceManager;
 
 public class ExtensionsResolver
 {
@@ -97,6 +98,16 @@ public class ExtensionsResolver
                      return false; // (fh) metaType filter requires an ITypedElement instance object
                   }
                   IMetaType metaType = ((ITypedElement) element).getMetaType();
+                  // if is null proxy, check if is proxy
+                  if(metaType == null && element.eIsProxy())
+                  {
+                     EObject resolvedElement = WorkspaceManager.getInstance().findElement(element);
+                     if(resolvedElement != null && resolvedElement instanceof ITypedElement)
+                     {
+                        metaType = ((ITypedElement) resolvedElement).getMetaType();                        
+                     }                     
+                  }
+                  
                   if (!SpiExtensionRegistry.matchFilterValue(notOperator, metaType == null ? null : metaType.getId(), value))
                   {
                      return false;

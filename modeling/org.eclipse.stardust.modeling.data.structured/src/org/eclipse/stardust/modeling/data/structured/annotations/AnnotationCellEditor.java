@@ -11,14 +11,7 @@
 package org.eclipse.stardust.modeling.data.structured.annotations;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.stardust.modeling.core.Verifier;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -33,13 +26,12 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDElementDeclaration;
-
+import org.eclipse.xsd.XSDFeature;
 
 public class AnnotationCellEditor implements MouseMoveListener
 {
    private TreeViewer viewer;
-   
+
    private TreeEditor editor;
 
    private int column;
@@ -95,11 +87,11 @@ public class AnnotationCellEditor implements MouseMoveListener
       final IAnnotation annotation = this.annotation == null ? (IAnnotation) data : this.annotation;
       if (this.annotation != null)
       {
-         if (data instanceof XSDElementDeclaration)
+         if (data instanceof XSDFeature)
          {
-            XSDElementDeclaration decl = (XSDElementDeclaration) data;
+            XSDFeature decl = (XSDFeature) data;
             if (decl.getName().equalsIgnoreCase("<new>")) { //$NON-NLS-1$
-            	return;
+               return;
             }
             if (decl.getType() instanceof XSDComplexTypeDefinition)
             {

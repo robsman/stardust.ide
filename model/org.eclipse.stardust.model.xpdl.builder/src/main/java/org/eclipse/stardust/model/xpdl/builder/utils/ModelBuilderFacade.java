@@ -17,7 +17,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.xsd.*;
@@ -905,6 +907,10 @@ public class ModelBuilderFacade
       {
          type = Type.Calendar;
       }
+      else if (primitiveTypeID.equals(ModelerConstants.TIMESTAMP_PRIMITIVE_DATA_TYPE))
+      {
+         type = Type.Timestamp;
+      }
       else if (primitiveTypeID.equals(ModelerConstants.INTEGER_PRIMITIVE_DATA_TYPE))
       {
          type = Type.Integer;
@@ -974,7 +980,7 @@ public class ModelBuilderFacade
     *
     * @return local or referenced data
     */
-   public DataType importData(ModelType model, String dataFullID)
+   public DataType importData(ModelType model, String dataFullID) throws IllegalArgumentException
    {
       DataType data = null;
       String dataModelId = getModelId(dataFullID);
@@ -987,6 +993,44 @@ public class ModelBuilderFacade
       if (data == null && dataFullID.endsWith(DmsConstants.DATA_ID_ATTACHMENTS))
       {
          data = createProcessAttachementData(model);
+      }
+
+      if (model != dataModel)
+      {
+         DataType consumerData = XPDLFinderUtils.findData(model, stripFullId(dataFullID));
+         if (consumerData != null)
+         {
+            if (!dataModelId.equals(model.getId()))
+            {
+               if(isExternalReference(consumerData))
+               {
+                  URI proxyUri = ((InternalEObject) consumerData).eProxyURI();
+
+                  if (proxyUri == null)
+                  {
+                     String uri = AttributeUtil.getAttributeValue(consumerData, IConnectionManager.URI_ATTRIBUTE_NAME);
+                     try
+                     {
+                        proxyUri = URI.createURI(uri);
+                     }
+                     catch (Exception ex)
+                     {
+                     }
+                  }
+
+                  ModelType referencedModel = ModelUtils.getModelByProxyURI(model, proxyUri);
+                  if(referencedModel != null)
+                  {
+                     if(!referencedModel.getId().equals(dataModelId))
+                     {
+                        throw new IllegalArgumentException("Data with same Id already exists.");
+                     }
+                  }
+               }
+            }
+
+            return consumerData;
+         }
       }
 
       if (!dataModelId.equals(model.getId()))
@@ -1332,6 +1376,13 @@ public class ModelBuilderFacade
          return newWebserviceApplication(model).withIdAndName(applicationID,
                applicationName).build();
       }
+      
+      if (applicationTypeID.equalsIgnoreCase(ModelerConstants.DECORATOR_APP_CONTEXT_TYPE_KEY))
+      {
+         return newDecoratorApplication(model).withIdAndName(applicationID, 
+               applicationName).build();
+      }
+      
       if (applicationTypeID.equalsIgnoreCase(ModelerConstants.CAMEL_APPLICATION_TYPE_ID))
       {
          return newCamelApplication(model).withIdAndName(applicationID, applicationName)
@@ -2554,6 +2605,7 @@ public class ModelBuilderFacade
       dataMapping.setName(id);
       dataMapping.setDirection(direction);
       dataMapping.setData(data);
+      modelManagementStrategy.uuidMapper().map(dataMapping);
 
       if (context.equalsIgnoreCase(PredefinedConstants.DEFAULT_CONTEXT))
       {

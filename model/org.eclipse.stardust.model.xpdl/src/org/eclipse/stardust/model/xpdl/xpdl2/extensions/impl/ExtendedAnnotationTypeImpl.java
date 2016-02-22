@@ -13,6 +13,7 @@ package org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDFactory;
@@ -39,11 +40,11 @@ public class ExtendedAnnotationTypeImpl extends XSDAnnotationImpl
     */
    public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
-   /**
+    /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * 
-    * @generated NOT
-    */
+     * @generated NOT
+     */
    private XSDSchema hiddenSchema = null;
 
    /**
@@ -66,12 +67,12 @@ public class ExtendedAnnotationTypeImpl extends XSDAnnotationImpl
       return ExtensionPackage.Literals.EXTENDED_ANNOTATION_TYPE;
    }
 
-   /**
+    /**
     * <!-- begin-user-doc --> Overwritten because of NPE from XSDAnnotationImpl when attributes are null <!--
     * end-user-doc -->
     * 
-    * @generated NOT
-    */
+     * @generated NOT
+     */
    protected void reconcileAttributes(Element changedElement)
    {
       try
@@ -108,8 +109,52 @@ public class ExtendedAnnotationTypeImpl extends XSDAnnotationImpl
     * 
     * @generated NOT
     */
+   @Override
    public XSDConcreteComponent getContainer()
+  {
+     return getSchema();
+  }
+  /**
+   * <!-- begin-user-doc -->
+   * Overridden to allow cloning
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+   @Override
+   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
    {
-      return getSchema();
+      ExtendedAnnotationType clonedAnnotation = getExtensionFactory().createExtendedAnnotationType();
+
+      if (shareDOM)
+      {
+         Element element = getElement();
+         if (element != null)
+         {
+            clonedAnnotation.setElement(element);
+         }
+
+         clonedAnnotation.getApplicationInformation().addAll(getApplicationInformation());
+         clonedAnnotation.getUserInformation().addAll(getUserInformation());
+         clonedAnnotation.getAttributes().addAll(getAttributes());
+      }
+
+      return clonedAnnotation;
    }
-} // ExtendedAnnotationTypeImpl
+
+   /**
+    * @generated NOT
+    */
+   private ExtensionFactory getExtensionFactory()
+   {
+      return getExtensionPackage().getExtensionFactory();
+   }
+
+   /**
+    * @generated NOT
+    */
+   private ExtensionPackage getExtensionPackage()
+   {
+      return (ExtensionPackage) eClass().getEPackage();
+   }
+
+} //ExtendedAnnotationTypeImpl

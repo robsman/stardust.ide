@@ -12,20 +12,27 @@ package org.eclipse.stardust.modeling.data.structured.annotations;
 
 import java.util.List;
 
-import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFeature;
 
 public interface IAnnotationModifier
 {
    boolean exists(IAnnotation annotation);
+
    boolean canModify(IAnnotation annotation);
+
    boolean delete(IAnnotation annotation);
-   
+
    Object getValue(IAnnotation annotation);
-   Object getValue(IAnnotation annotation, XSDElementDeclaration element);
-   void setValue(IAnnotation annotation, XSDElementDeclaration element, Object value);
+
+   Object getValue(IAnnotation annotation, XSDFeature element);
+
+   void setValue(IAnnotation annotation, XSDFeature element, Object value);
+
    List<Object> getAllowedValues(IAnnotation annotation);
+
    void setValue(IAnnotation annotation, Object value);
+
    void addAnnotationChangedListener(IAnnotationChangedListener annotation);
+
    void removeAnnotationChangedListener(IAnnotationChangedListener annotation);
-   
 }

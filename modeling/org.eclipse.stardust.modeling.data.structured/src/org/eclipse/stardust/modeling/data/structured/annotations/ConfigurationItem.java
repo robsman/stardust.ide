@@ -17,17 +17,16 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
 
-
 public class ConfigurationItem
 {
    private static final String EDITOR_ATTR = "editor"; //$NON-NLS-1$
    private static final String VALIDATOR_ATTR = "validator"; //$NON-NLS-1$
 
    private IConfigurationElement config;
-   
+
    private IAnnotationEditor editor;
    private boolean editorLoaded = false;
-   
+
    private IAnnotationValidator validator;
    private boolean validatorLoaded = false;
    private IStatus status;
@@ -91,7 +90,7 @@ public class ConfigurationItem
    {
       return config.getChildren(name);
    }
-   
+
    public String getName()
    {
       String name = getConfigurationAttribute("label"); //$NON-NLS-1$
@@ -121,7 +120,7 @@ public class ConfigurationItem
          status = new Status(IStatus.WARNING, "org.eclipse.stardust.modeling.data.structured", Structured_Messages.EXC_DURING_VALIDATION, ex); //$NON-NLS-1$
       }
    }
-   
+
    public IStatus getValidationStatus()
    {
       if (status == null)
@@ -130,7 +129,7 @@ public class ConfigurationItem
       }
       return status;
    }
-   
+
    public String toString()
    {
       return getName();

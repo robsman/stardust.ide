@@ -26,6 +26,7 @@ import org.eclipse.jface.preference.IPreferenceNode;
 import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.preference.IPreferencePageContainer;
 import org.eclipse.jface.preference.PreferenceManager;
+
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
@@ -33,6 +34,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IPropertyPage;
+import org.eclipse.stardust.model.xpdl.carnot.util.WorkspaceManager;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.createUtils.CreationUtils;
 import org.eclipse.stardust.modeling.core.editors.IValidationEventListener;
@@ -46,6 +48,7 @@ import org.eclipse.stardust.modeling.core.spi.IModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.utils.CompositeUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -139,6 +142,15 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
    protected EObject getModelElement()
    {
       IModelElement modelElement = getModelElementFromSymbol(getModelElementNodeSymbol());
+      if(modelElement != null && modelElement.eIsProxy())
+      {
+         EObject target = WorkspaceManager.getInstance().findElement(modelElement);
+         if(target != null)
+         {
+            return target;
+         }
+      }
+            
       if (modelElement == null)
       {
          return getModelElement(getElement());
@@ -168,6 +180,15 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       }
       if (model instanceof EObject)
       {
+         if(((EObject) model).eIsProxy())
+         {
+            EObject target = WorkspaceManager.getInstance().findElement((EObject) model);
+            if(target != null)
+            {
+               model = target;
+            }
+         }
+         
          return (EObject) model;
       }
       return null;
@@ -331,12 +352,21 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
             IModelElementNodeSymbol.class);
       IModelElement modelElement = (IModelElement) (symbol == null ? getElement()
             .getAdapter(IModelElement.class) : symbol.getModelElement());
-      if (modelElement == null)
+      if (modelElement == null && getModelElement() instanceof IModelElement)
       {
          modelElement = (IModelElement) getModelElement();
       }
       if (null != modelElement || (symbol != null && symbol.getModelElement() == null))
       {
+         if(modelElement.eIsProxy())
+         {
+            EObject target = WorkspaceManager.getInstance().findElement(modelElement);
+            if(target != null)
+            {
+               modelElement = (IModelElement) target;
+            }
+         }
+         
          loadFieldsFromElement(symbol, modelElement);
          enableContentOutline();
       }

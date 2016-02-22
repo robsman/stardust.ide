@@ -4,13 +4,13 @@
  */
 package org.eclipse.stardust.model.xpdl.util;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.*;
@@ -98,6 +98,26 @@ public class NameIdUtils
          list.addAll(containingModel.getRole());
          list.addAll(containingModel.getOrganization());
          list.addAll(containingModel.getConditionalPerformer());
+      }
+      else if (element instanceof DataMappingType
+            && container instanceof ActivityType)
+      {
+         list = new BasicEList<DataMappingType>();
+         List<DataMappingType> datamappings = new BasicEList<DataMappingType>();
+         datamappings.addAll(((ActivityType) container).getDataMapping());
+         DirectionType direction = ((DataMappingType) element).getDirection();
+
+         for(DataMappingType dataMapping : datamappings)
+         {
+            if(direction.equals(DirectionType.INOUT_LITERAL))
+            {
+               list.add(dataMapping);
+            }
+            else if(dataMapping.getDirection().equals(direction))
+            {
+               list.add(dataMapping);
+            }
+         }         
       }
       else if (container instanceof EObject
             && !(element instanceof AccessPointType)

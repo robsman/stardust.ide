@@ -248,10 +248,16 @@ public class UpdateProcessDiagramAction extends SelectionAction
             {
                moveConnectionsToDefaultPool(diagram, command);
             }
+            
             PoolSymbol pool = DiagramUtil.getDefaultPool(diagram);  
             if(pool != null)
             {
                checkLaneParticipant(pool, command);
+               for (Iterator i = pool.getLanes().listIterator(); i.hasNext();)
+               {
+                  LaneSymbol lane = (LaneSymbol) i.next();
+                  moveConnectionsToDefaultPool(lane, command);
+               }
             }
             
             // change to BPMN Mode (old model containing lanes)?
@@ -478,6 +484,33 @@ public class UpdateProcessDiagramAction extends SelectionAction
       }
    }
 
+   private void moveConnectionsToDefaultPool(LaneSymbol lane,
+         CompoundCommand command)
+   {
+      final DiagramType containingDiagram = ModelUtils.findContainingDiagram(lane);  
+      final PoolSymbol defaultPool = DiagramUtil.getDefaultPool(containingDiagram);   
+      if(!lane.getConnections().isEmpty())
+      {
+         for (Iterator i = lane.getConnections().valueListIterator(); i.hasNext();)
+         {
+            final IConnectionSymbol connection = (IConnectionSymbol) i.next();
+            if (null != connection.eContainmentFeature())
+            {
+               command.add(new DelegatingCommand()
+               {
+                  public Command createDelegate()
+                  {
+                     SetSymbolContainerCommand cmd = new SetSymbolContainerCommand();
+                     cmd.setContainer((ISymbolContainer) defaultPool, null);
+                     cmd.setSymbol(connection);
+                     return cmd;
+                  }
+               });
+            }
+         }
+      }
+   }
+      
    // create lane to collect the homeless symbols, and move those symbols to this lane
    private Command createLaneCmd(final ISwimlaneSymbol container)
    {
