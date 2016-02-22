@@ -76,6 +76,13 @@
 					<enumeration name="%yes" value="true"/>
 					<enumeration name="%no" value="false"/>
 				</element>
+                <element name="NumericInputPreferences_showGroupingSeparator"
+                    empty="false"
+                    label="%showGroupingSeparator"
+					type="boolean">
+					<enumeration name="%yes" value="true"/>
+					<enumeration name="%no" value="false"/>
+				</element>				
 		        <element name="InputPreferences_mandatory"
                     empty="false"
                     label="%mandatory"
