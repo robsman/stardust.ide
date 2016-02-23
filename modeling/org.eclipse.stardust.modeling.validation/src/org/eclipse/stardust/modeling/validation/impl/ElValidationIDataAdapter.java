@@ -24,7 +24,6 @@ import org.eclipse.stardust.engine.api.model.IDataType;
 import org.eclipse.stardust.engine.api.model.IReference;
 import org.eclipse.stardust.engine.api.model.PluggableType;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.engine.core.model.utils.Hook;
 import org.eclipse.stardust.engine.core.model.utils.ModelElement;
 import org.eclipse.stardust.engine.core.model.utils.RootElement;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -160,12 +159,6 @@ public class ElValidationIDataAdapter implements IData
 
    }
 
-   public void addReference(Hook arg0)
-   {
-      // TODO Auto-generated method stub
-
-   }
-
    public void delete()
    {
       // TODO Auto-generated method stub
@@ -221,12 +214,6 @@ public class ElValidationIDataAdapter implements IData
    }
 
    public void register(int arg0)
-   {
-      // TODO Auto-generated method stub
-
-   }
-
-   public void removeReference(Hook arg0)
    {
       // TODO Auto-generated method stub
 
