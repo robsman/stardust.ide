@@ -222,7 +222,6 @@ public class ModelBuilderFacade
       schema.getSchema().updateElement(true);
 
       model.getTypeDeclarations().getTypeDeclaration().add(structuredDataType);
-      Object o = structuredDataType.getSchema().eResource();
 
       setAttribute(structuredDataType, "carnot:model:uuid", UUID.randomUUID().toString());
 
@@ -2650,7 +2649,37 @@ public class ModelBuilderFacade
       dataSymbol.getDataMappings().add(dataMappingConnection);
       dataMappingConnection.setSourceAnchor(fromAnchor);
       dataMappingConnection.setTargetAnchor(toAnchor);
-
+                 
+      if (null == dataMapping.getApplicationAccessPoint()
+            && activity.getImplementation().getLiteral().equals("Application"))
+      {
+         ApplicationType application = activity.getApplication();
+         if (null != application.getType()
+               && application.getType().getId().equals("webservice"))
+         {
+            String dataId = null;
+            if (application != null && application.getAccessPoint() != null)
+            {
+               for (AccessPointType accPoints : activity.getApplication()
+                     .getAccessPoint())
+               {
+                  if (accPoints.getDirection().getValue() == DirectionType.OUT)
+                  {
+                     if (accPoints.getType().equals(data.getType()))
+                     {
+                        dataId = accPoints.getId();
+                        break;
+                     }
+                  }
+               }
+            }
+            if (null != dataId)
+            {
+               dataMapping.setContext(PredefinedConstants.APPLICATION_CONTEXT);
+               dataMapping.setApplicationAccessPoint(dataId);
+            }
+         }
+      }
       return dataMappingConnection;
    }
 
