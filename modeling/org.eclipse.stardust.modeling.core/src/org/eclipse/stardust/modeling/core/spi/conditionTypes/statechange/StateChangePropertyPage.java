@@ -27,10 +27,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 
-
 public class StateChangePropertyPage extends DefaultModelElementPropertyPage
       implements IConditionPropertyPage
 {
+   private static final String HALTED = "10"; //$NON-NLS-1$
+   
    private static final String HIBERNATED = "7"; //$NON-NLS-1$
 
    private static final String ABORTED = "6"; //$NON-NLS-1$
@@ -61,6 +62,8 @@ public class StateChangePropertyPage extends DefaultModelElementPropertyPage
 
    private Button createdSourceStateButton;
 
+   private Button haltedSourceStateButton;
+      
    private Button naTargetStateButton;
 
    private Button applicationTargetStateButton;
@@ -76,7 +79,9 @@ public class StateChangePropertyPage extends DefaultModelElementPropertyPage
    private Button completedTargetStateButton;
 
    private Button abortedTargetStateButton;
-
+   
+   private Button haltedTargetStateButton;
+   
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
       init((EventHandlerType) element);
@@ -92,7 +97,6 @@ public class StateChangePropertyPage extends DefaultModelElementPropertyPage
          setSourceStateAttribute(eventHandler);
          setTargetStateAttribute(eventHandler);
       }
-
    }
 
    private void init(EventHandlerType type)
@@ -132,7 +136,9 @@ public class StateChangePropertyPage extends DefaultModelElementPropertyPage
       completedTargetStateButton = FormBuilder.createRadioButton(targetStateGroup,
             Diagram_Messages.B_RADIO_completed);
       abortedTargetStateButton = FormBuilder.createRadioButton(targetStateGroup,
-            Diagram_Messages.B_RADIO_aborted);
+            Diagram_Messages.B_RADIO_aborted);      
+      haltedTargetStateButton = FormBuilder.createRadioButton(targetStateGroup,
+            Diagram_Messages.B_RADIO_halted);      
    }
 
    private void createSourceStateGroup(Composite composite)
@@ -150,6 +156,8 @@ public class StateChangePropertyPage extends DefaultModelElementPropertyPage
             Diagram_Messages.B_RADIO_interrupted);
       createdSourceStateButton = FormBuilder.createRadioButton(sourceStateGroup,
             Diagram_Messages.B_RADIO_created);
+      haltedSourceStateButton = FormBuilder.createRadioButton(sourceStateGroup,
+            Diagram_Messages.B_RADIO_halted);      
    }
 
    private void setTargetStateValue()
@@ -171,7 +179,6 @@ public class StateChangePropertyPage extends DefaultModelElementPropertyPage
          case 2:
             completedTargetStateButton.setSelection(true);
             break;
-
          case 4:
             interruptedTargetStateButton.setSelection(true);
             break;
@@ -184,6 +191,9 @@ public class StateChangePropertyPage extends DefaultModelElementPropertyPage
          case 7:
             hibernatedTargetStateButton.setSelection(true);
             break;
+         case 10:
+            haltedTargetStateButton.setSelection(true);
+            break;            
          default:
             naTargetStateButton.setSelection(true);
             break;
@@ -216,6 +226,9 @@ public class StateChangePropertyPage extends DefaultModelElementPropertyPage
          case 7:
             hibernatedSourceStateButton.setSelection(true);
             break;
+         case 10:
+            haltedSourceStateButton.setSelection(true);
+            break;            
          default:
             naSourceStateButton.setSelection(true);
             break;
@@ -259,7 +272,11 @@ public class StateChangePropertyPage extends DefaultModelElementPropertyPage
       else if (hibernatedTargetStateButton.getSelection())
       {
          targetStateAttribute.setValue(HIBERNATED);
-      }
+      }      
+      else if (haltedTargetStateButton.getSelection())
+      {
+         targetStateAttribute.setValue(HALTED);
+      }      
       else if ((naTargetStateButton.getSelection()) && (targetStateAttribute != null))
       {
          AttributeUtil.setAttribute(eventHandler, CarnotConstants.TARGET_STATE_ATT, "");//$NON-NLS-1$
@@ -294,6 +311,10 @@ public class StateChangePropertyPage extends DefaultModelElementPropertyPage
       else if (hibernatedSourceStateButton.getSelection())
       {
          sourceStateAttribute.setValue(HIBERNATED);
+      }
+      else if (haltedSourceStateButton.getSelection())
+      {
+         sourceStateAttribute.setValue(HALTED);
       }
       else if ((naSourceStateButton.getSelection()) && (sourceStateAttribute != null))
       {

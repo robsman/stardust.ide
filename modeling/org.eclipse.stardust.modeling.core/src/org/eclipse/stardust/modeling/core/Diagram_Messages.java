@@ -1670,6 +1670,8 @@ public class Diagram_Messages extends NLS {
 
    public static String B_RADIO_aborted;
 
+   public static String B_RADIO_halted;
+      
    public static String BOX_COPY_ALL_DATA;
 
    public static String BOX_GENERATE_AUTOMATIC_ID;
