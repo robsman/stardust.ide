@@ -42,6 +42,9 @@ public class DeployUtil
 {
    private static final String DUSER_REGION_ARG = " -Duser.region="; //$NON-NLS-1$
    private static final String DUSER_LANGUAGE_ARG = " -Duser.language="; //$NON-NLS-1$
+   
+   private static final String DEBUG_ARG =
+         " -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address={0}"; //$NON-NLS-1$
 
    public static boolean deployModel(List<IResource> resources, String carnotHome, String carnotWork)
    {
@@ -63,28 +66,29 @@ public class DeployUtil
                   ModelingCoreActivator.ID_DEPLOY_MODEL_CP_PROVIDER);
             wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
                   ModelDeploymentTool.class.getName());
-            // Activate if debugging deployment is needed.
-            // String debug =
-            // " -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000";
-            // String debug =
-            // " -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000";
-            wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-                  "-Xms50m -Xmx256m" + getLocaleArgs()); //$NON-NLS-1$
-            // "-Xms50m -Xmx256m" + debug);
-                
+
+            String args = "-Xms50m -Xmx256m" + getLocaleArgs();
+            String debugOptionValue = System.getProperty("stardust.deploy.debug", Boolean.toString(false));
+            if(Boolean.toString(true).equals(debugOptionValue))
+            {
+               String port = System.getProperty("stardust.deploy.debug.port", "8000");
+               args = args + MessageFormat.format(DEBUG_ARG, port);
+            }
+            wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, args); //$NON-NLS-1$
+
             boolean version = PlatformUI.getPreferenceStore().getBoolean(BpmProjectNature.PREFERENCE_DEPLOY_version);
-            
-            String realm = PlatformUI.getPreferenceStore().getString(BpmProjectNature.PREFERENCE_DEPLOY_realm);            
-            String partition = PlatformUI.getPreferenceStore().getString(BpmProjectNature.PREFERENCE_DEPLOY_partition);            
-            String user = PlatformUI.getPreferenceStore().getString(BpmProjectNature.PREFERENCE_DEPLOY_id);            
-            String password = PlatformUI.getPreferenceStore().getString(BpmProjectNature.PREFERENCE_DEPLOY_password);            
-            String domain = PlatformUI.getPreferenceStore().getString(BpmProjectNature.PREFERENCE_DEPLOY_domain);                     
-            
+
+            String realm = PlatformUI.getPreferenceStore().getString(BpmProjectNature.PREFERENCE_DEPLOY_realm);
+            String partition = PlatformUI.getPreferenceStore().getString(BpmProjectNature.PREFERENCE_DEPLOY_partition);
+            String user = PlatformUI.getPreferenceStore().getString(BpmProjectNature.PREFERENCE_DEPLOY_id);
+            String password = PlatformUI.getPreferenceStore().getString(BpmProjectNature.PREFERENCE_DEPLOY_password);
+            String domain = PlatformUI.getPreferenceStore().getString(BpmProjectNature.PREFERENCE_DEPLOY_domain);
+
             StringBuilder programAttributes = new StringBuilder();
             boolean separator = false;
             for (IResource resource : resources)
             {
-               //addArgument(programAttributes, "filename64", resource.getLocation().toOSString(), true, separator);            
+               //addArgument(programAttributes, "filename64", resource.getLocation().toOSString(), true, separator);
                //separator = true;
                try
                {
@@ -103,31 +107,31 @@ public class DeployUtil
             {
                addArgument(programAttributes, "version", Boolean.TRUE.toString(), false, true); //$NON-NLS-1$ //$NON-NLS-2$
             }
-            
+
             if (!StringUtils.isEmpty(user) && !StringUtils.isEmpty(password))
             {
-               addArgument(programAttributes, "user", user, true, true); //$NON-NLS-1$            
-               addArgument(programAttributes, "password", password, true, true); //$NON-NLS-1$            
-               
+               addArgument(programAttributes, "user", user, true, true); //$NON-NLS-1$
+               addArgument(programAttributes, "password", password, true, true); //$NON-NLS-1$
+
                if (!StringUtils.isEmpty(realm))
                {
-                  addArgument(programAttributes, "realm", realm, true, true); //$NON-NLS-1$            
+                  addArgument(programAttributes, "realm", realm, true, true); //$NON-NLS-1$
                }
-               
+
                if (!StringUtils.isEmpty(partition))
                {
-                  addArgument(programAttributes, "partition", partition, true, true); //$NON-NLS-1$            
+                  addArgument(programAttributes, "partition", partition, true, true); //$NON-NLS-1$
                }
-               
+
                if (!StringUtils.isEmpty(domain))
                {
-                  addArgument(programAttributes, "domain", domain, true, true); //$NON-NLS-1$            
+                  addArgument(programAttributes, "domain", domain, true, true); //$NON-NLS-1$
                }
             }
-            
+
             wc.setAttribute(
                         IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, programAttributes.toString());
-                        
+
             wc.setAttribute(CarnotToolClasspathProvider.ATTR_HOME_LOCATION, carnotHome);
             wc.setAttribute(CarnotToolClasspathProvider.ATTR_WORK_LOCATION, carnotWork);
 
@@ -218,14 +222,14 @@ public class DeployUtil
       }
       return project;
    }
-   
+
    /**
     * Reads the given file and returns a byte array.
-    * 
+    *
     * @param fileName
     *           - file to be read
     * @return - byte array of the file read.
-    * 
+    *
     * @throws IOException
     *            - in case the file is too large (greater than Integer.MAX_VALUE number of
     *            bytes) or some other IOException occurs.
@@ -263,7 +267,7 @@ public class DeployUtil
       }
       finally
       {
-         
+
          if (ipStream != null)
          {
             try
