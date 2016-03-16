@@ -3,6 +3,7 @@ package org.eclipse.stardust.modeling.common.projectnature.classpath;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +49,8 @@ public class DeployModelNLClasspathProvider extends CarnotToolClasspathProvider
             URI location = null;
             try
             {
-               location = FileLocator.toFileURL(fragment.getEntry("/")).toURI(); //$NON-NLS-1$
+               URL fragmentURL = FileLocator.toFileURL(fragment.getEntry("/")); //$NON-NLS-1$
+               location = URIUtil.toURI(fragmentURL);
                if (fragment.getEntry(SRC_FOLDER) != null)
                {
                   location = location.resolve(SRC_FOLDER);
