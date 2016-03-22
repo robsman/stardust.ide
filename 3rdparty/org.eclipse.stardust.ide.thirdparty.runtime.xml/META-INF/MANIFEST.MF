@@ -69,4 +69,4 @@ Export-Package: org.apache.commons.jxpath,
  org.jdom.transform,
  org.jdom.xpath,
  org.w3c.dom.html
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

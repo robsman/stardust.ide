@@ -15,4 +15,4 @@ Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.jdt.core;resolution:=optional,
  org.eclipse.emf.ecore,
  org.eclipse.stardust.model.xpdl
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

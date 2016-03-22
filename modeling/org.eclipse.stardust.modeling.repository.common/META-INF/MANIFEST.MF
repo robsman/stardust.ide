@@ -18,4 +18,4 @@ Export-Package: org.eclipse.stardust.modeling.repository.common,
  org.eclipse.stardust.modeling.repository.common.ui,
  org.eclipse.stardust.modeling.repository.common.util
 Bundle-Vendor: %providerName
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

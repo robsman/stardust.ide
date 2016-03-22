@@ -6,4 +6,5 @@ Bundle-Version: 9.9.9.qualifier
 Bundle-Vendor: Eclipse Stardust
 Fragment-Host: org.eclipse.stardust.modeling.validation
 Bundle-Localization: fragment
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 

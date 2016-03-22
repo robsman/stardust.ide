@@ -37,4 +37,4 @@ Require-Bundle: org.eclipse.ui.ide,
  org.eclipse.jdt.core,
  org.eclipse.jdt.ui
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

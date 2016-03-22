@@ -17,4 +17,4 @@ Eclipse-AutoStart: true
 Eclipse-ExtensibleAPI: true
 Export-Package: org.eclipse.stardust.modeling.validation,
  org.eclipse.stardust.modeling.validation.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

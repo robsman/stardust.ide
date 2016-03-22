@@ -17,4 +17,4 @@ Export-Package: javax.ejb,
  javax.xml.rpc.handler
 Require-Bundle: org.eclipse.core.runtime
 Bundle-Vendor: %providerName
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

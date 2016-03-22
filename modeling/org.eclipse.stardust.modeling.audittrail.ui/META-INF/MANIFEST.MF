@@ -13,4 +13,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.stardust.modeling.audittrail,
  org.eclipse.stardust.ide.engine.base
 Export-Package: org.eclipse.stardust.modeling.audittrail.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

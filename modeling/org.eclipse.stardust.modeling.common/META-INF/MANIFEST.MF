@@ -10,6 +10,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.stardust.ide.thirdparty.runtime.xml,
  org.eclipse.stardust.ide.engine.core;visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.eclipse.stardust.modeling.common,
  org.eclipse.stardust.modeling.common.worktime

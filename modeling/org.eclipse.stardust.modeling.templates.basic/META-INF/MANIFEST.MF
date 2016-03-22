@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.stardust.modeling.templates.basic;singleton:=tr
 Bundle-Version: 9.9.9.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface,
  org.eclipse.emf.ecore,

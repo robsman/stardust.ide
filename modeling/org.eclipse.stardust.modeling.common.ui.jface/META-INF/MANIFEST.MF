@@ -17,4 +17,4 @@ Export-Package: org.eclipse.stardust.modeling.common.ui.jface,
  org.eclipse.stardust.modeling.common.ui.jface.widgets
 Bundle-Activator: org.eclipse.stardust.modeling.common.ui.jface.CarnotUiPlugin
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

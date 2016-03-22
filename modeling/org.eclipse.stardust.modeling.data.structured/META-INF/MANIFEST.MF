@@ -28,4 +28,4 @@ Export-Package: org.eclipse.stardust.modeling.data.structured,
  org.eclipse.stardust.modeling.data.structured.properties,
  org.eclipse.stardust.modeling.data.structured.validation,
  org.eclipse.stardust.modeling.data.structured.wizards
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

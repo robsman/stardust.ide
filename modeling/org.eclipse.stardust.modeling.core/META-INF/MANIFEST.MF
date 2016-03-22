@@ -107,5 +107,5 @@ Require-Bundle: org.eclipse.xsd,
  org.eclipse.stardust.ide.thirdparty.cxf,
  org.eclipse.stardust.ide.thirdparty.runtime.xml
 Eclipse-AutoStart: true
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 
