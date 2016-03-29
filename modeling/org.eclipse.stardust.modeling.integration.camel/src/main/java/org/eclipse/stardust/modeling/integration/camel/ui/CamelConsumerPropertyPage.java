@@ -2,6 +2,7 @@ package org.eclipse.stardust.modeling.integration.camel.ui;
 
 import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.*;
 
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 //import org.eclipse.stardust.modeling.integration.camel.CamelConstants;
 //import org.eclipse.jface.viewers.ArrayContentProvider;
 //import org.eclipse.jface.viewers.ComboViewer;
@@ -76,6 +77,7 @@ public class CamelConsumerPropertyPage extends AbstractModelElementPropertyPage
       setAttributeValue(CONSUMER_ROUTE_ATT, null, consumerRoute);
       setAttributeValue(TRANSACTED_ROUTE_EXT_ATT, null, transactedRoute);
       setBooleanAttributeValue(AUTO_STARTUP_ROUTE_EXT_ATT, null, autoStartupRoute);
+      AttributeUtil.setAttribute(extensibleElement,  PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_RESPONSIBILITY, "application");
    }
 
    /**
