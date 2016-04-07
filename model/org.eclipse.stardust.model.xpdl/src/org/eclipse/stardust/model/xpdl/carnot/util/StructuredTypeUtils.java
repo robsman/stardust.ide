@@ -186,7 +186,7 @@ public class StructuredTypeUtils
       }
       else
       {
-      String message = Model_Messages.EXC_NEITHER_EXTERNAL_REFERENCE_NOR_SCHEME_TYPE_IS_SET_FOR_NULL;
+         String message = Model_Messages.EXC_NEITHER_EXTERNAL_REFERENCE_NOR_SCHEME_TYPE_IS_SET_FOR_NULL;
          throw new RuntimeException(MessageFormat.format(message, new Object[]{typeDeclaration.getId()}));
       }
       return new ClientXPathMap(allXPaths);
