@@ -36,6 +36,7 @@ public class WebserviceApplicationBuilder extends AbstractModelElementBuilder<Ap
          applicationMetaType.setId(ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID);
          applicationMetaType.setName("Web Service Application");
          applicationMetaType.setIsPredefined(true);
+         applicationMetaType.setSynchronous(true);
          AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance", "org.eclipse.stardust.engine.extensions.jaxws.app.WebserviceApplicationInstance");
          AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.jaxws.app.WebserviceApplicationValidator");
          model.getApplicationType().add(applicationMetaType);

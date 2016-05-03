@@ -2,6 +2,7 @@ package org.eclipse.stardust.modeling.integration.camel.ui;
 
 import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.*;
 
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 //import org.eclipse.stardust.engine.extensions.camel.CamelConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -70,6 +71,7 @@ public class CamelProducerSpringBeanPropertyPage extends AbstractModelElementPro
       setAttributeValue(PROCESS_CONTEXT_HEADERS_EXT_ATT, null, includeProcessContextHeaders);
       setAttributeValue(TRANSACTED_ROUTE_EXT_ATT, null, transactedRoute);
       setBooleanAttributeValue(AUTO_STARTUP_ROUTE_EXT_ATT, null, autoStartupRoute);
+      AttributeUtil.setAttribute(extensibleElement,  PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_RESPONSIBILITY, "application");
       
    }
 

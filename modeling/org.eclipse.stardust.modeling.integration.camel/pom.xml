@@ -9,74 +9,170 @@
     Contributors:
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.eclipse.stardust.modeling.core</groupId>
-    <artifactId>modeling-core-parent</artifactId>
-    <version>9.9.9-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+   xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <groupId>org.eclipse.stardust.modeling.core</groupId>
+      <artifactId>modeling-core-parent</artifactId>
+      <version>9.9.9-SNAPSHOT</version>
+      <relativePath>../pom.xml</relativePath>
+   </parent>
 
-  <artifactId>org.eclipse.stardust.modeling.integration.camel</artifactId>
+   <artifactId>org.eclipse.stardust.modeling.integration.camel</artifactId>
 
-  <packaging>eclipse-plugin</packaging>
+   <packaging>eclipse-plugin</packaging>
 
-  <properties>
-    <skipLibFolderOnCleanup>false</skipLibFolderOnCleanup>
-  </properties>
+   <properties>
+      <skipLibFolderOnCleanup>false</skipLibFolderOnCleanup>
+   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.eclipse.stardust.engine</groupId>
-      <artifactId>stardust-engine-camel</artifactId>
-      <version>${ipp.version}</version>
-    </dependency>
+   <dependencies>
+      <dependency>
+         <groupId>org.eclipse.stardust.engine</groupId>
+         <artifactId>stardust-engine-camel</artifactId>
+         <version>${ipp.version}</version>
+      </dependency>
       <dependency>
          <groupId>org.eclipse.stardust.engine</groupId>
          <artifactId>stardust-engine-camel</artifactId>
          <version>${ipp.version}</version>
          <classifier>config</classifier>
       </dependency>
-    <dependency>
-        <groupId>jdom</groupId>
-        <artifactId>jdom</artifactId>
-        <version>${jdom.version}</version>
-    </dependency>
-  </dependencies>
-  
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>embed-jars-no-version</id>
+      <dependency>
+         <groupId>org.eclipse.stardust.engine.camel</groupId>
+         <artifactId>stardust-json-utils</artifactId>
+         <version>${ipp.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.eclipse.stardust.engine.camel</groupId>
+         <artifactId>stardust-camel-itext-convertor</artifactId>
+         <version>${ipp.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.eclipse.stardust.ui.web</groupId>
+         <artifactId>stardust-web-camel-templating</artifactId>
+         <version>${ipp.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.lowagie</groupId>
+         <artifactId>itext</artifactId>
+         <version>${itext.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>fr.opensagres.xdocreport</groupId>
+         <artifactId>fr.opensagres.xdocreport.core</artifactId>
+         <version>${fr.opensagres.xdocreport.core.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>fr.opensagres.xdocreport</groupId>
+         <artifactId>fr.opensagres.xdocreport.document</artifactId>
+         <version>${fr.opensagres.xdocreport.document.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>fr.opensagres.xdocreport</groupId>
+         <artifactId>fr.opensagres.xdocreport.document.docx</artifactId>
+         <version>${fr.opensagres.xdocreport.document.docx.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>fr.opensagres.xdocreport</groupId>
+         <artifactId>fr.opensagres.xdocreport.template</artifactId>
+         <version>${fr.opensagres.xdocreport.template.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>fr.opensagres.xdocreport</groupId>
+         <artifactId>fr.opensagres.xdocreport.template.velocity</artifactId>
+         <version>${fr.opensagres.xdocreport.template.velocity.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>fr.opensagres.xdocreport</groupId>
+         <artifactId>fr.opensagres.xdocreport.converter</artifactId>
+         <version>${fr.opensagres.xdocreport.converter.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>fr.opensagres.xdocreport</groupId>
+         <artifactId>fr.opensagres.xdocreport.itext.extension</artifactId>
+         <version>${fr.opensagres.xdocreport.itext.extension.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>fr.opensagres.xdocreport</groupId>
+         <artifactId>org.apache.poi.xwpf.converter.core</artifactId>
+         <version>${org.apache.poi.xwpf.converter.core.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>fr.opensagres.xdocreport</groupId>
+         <artifactId>org.apache.poi.xwpf.converter.pdf</artifactId>
+         <version>${org.apache.poi.xwpf.converter.pdf.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.poi</groupId>
+         <artifactId>ooxml-schemas</artifactId>
+         <version>${ooxml-schemas.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>dom4j</groupId>
+         <artifactId>dom4j</artifactId>
+         <version>${dom4j.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>oro</groupId>
+         <artifactId>oro</artifactId>
+         <version>${oro.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>jdom</groupId>
+         <artifactId>jdom</artifactId>
+         <version>${jdom.version}</version>
+      </dependency>
+   </dependencies>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>embed-jars</id>
+                  <configuration>
+                     <includeArtifactIds>
+                        itext,fr.opensagres.xdocreport.core,fr.opensagres.xdocreport.document,
+                        fr.opensagres.xdocreport.document.docx,fr.opensagres.xdocreport.template,
+                        fr.opensagres.xdocreport.template.velocity,fr.opensagres.xdocreport.converter,
+                        fr.opensagres.xdocreport.itext.extension,org.apache.poi.xwpf.converter.core,
+                        org.apache.poi.xwpf.converter.pdf,ooxml-schemas,dom4j,oro
+                     </includeArtifactIds>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>embed-jars-no-version</id>
+                  <configuration>
+                     <includeArtifactIds>
+                        stardust-engine-camel,stardust-engine-camel-config,
+                        stardust-json-utils,stardust-camel-itext-convertor,stardust-web-camel-templating,
+                        jdom
+                     </includeArtifactIds>
+                     <outputDirectory>${basedir}/lib</outputDirectory>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>target-platform-configuration</artifactId>
             <configuration>
-              <includeArtifactIds>stardust-engine-camel,stardust-engine-camel-config, jdom</includeArtifactIds>
-              <outputDirectory>${basedir}/lib</outputDirectory>
+               <dependency-resolution>
+                  <extraRequirements>
+                     <requirement>
+                        <type>eclipse-plugin</type>
+                        <id>org.eclipse.stardust.modeling.validation.ide</id>
+                        <versionRange>0.0.0</versionRange>
+                     </requirement>
+                  </extraRequirements>
+               </dependency-resolution>
             </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>target-platform-configuration</artifactId>
-        <configuration>
-          <dependency-resolution>
-            <extraRequirements>
-              <requirement>
-                <type>eclipse-plugin</type>
-                <id>org.eclipse.stardust.modeling.validation.ide</id>
-                <versionRange>0.0.0</versionRange>
-              </requirement>
-            </extraRequirements>
-          </dependency-resolution>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-  
+         </plugin>
+      </plugins>
+   </build>
+
 </project>

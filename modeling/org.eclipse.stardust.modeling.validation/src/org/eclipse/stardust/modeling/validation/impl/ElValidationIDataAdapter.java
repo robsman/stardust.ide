@@ -225,12 +225,6 @@ public class ElValidationIDataAdapter implements IData
 
    }
 
-   public void setElementOID(int arg0)
-   {
-      // TODO Auto-generated method stub
-
-   }
-
    public void setParent(ModelElement arg0)
    {
       // TODO Auto-generated method stub
@@ -340,4 +334,11 @@ public class ElValidationIDataAdapter implements IData
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+   @Override
+   public String getQualifiedId()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }

@@ -82,6 +82,11 @@
       <version>${camel-script.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-velocity</artifactId>
+      <version>${camel-velocity.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.quartz-scheduler</groupId>
       <artifactId>quartz</artifactId>
       <version>${quartz.version}</version>
@@ -90,7 +95,17 @@
       <groupId>jdom</groupId>
       <artifactId>jdom</artifactId>
       <version>${jdom.version}</version>
-    </dependency>   
+    </dependency>
+    <dependency>
+       <groupId>org.apache.velocity</groupId>
+       <artifactId>velocity</artifactId>
+       <version>${velocity.version}</version>
+    </dependency>
+    <dependency>
+       <groupId>org.apache.velocity</groupId>
+       <artifactId>velocity-tools</artifactId>
+       <version>${velocity-tools.version}</version>
+    </dependency>
   </dependencies>
   
   <build>
@@ -104,7 +119,7 @@
             <configuration>
               <includeArtifactIds>
                 jdom,camel-core,camel-spring,camel-jms,camel-quartz,camel-sql,camel-script,
-                quartz,camel-mail,camel-http
+                quartz,camel-mail,camel-http,camel-velocity,velocity,velocity-tools
               </includeArtifactIds>
             </configuration>
           </execution>

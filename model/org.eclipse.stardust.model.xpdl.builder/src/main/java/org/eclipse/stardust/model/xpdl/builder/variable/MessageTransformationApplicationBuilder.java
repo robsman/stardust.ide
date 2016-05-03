@@ -35,11 +35,11 @@ public class MessageTransformationApplicationBuilder extends AbstractModelElemen
             model.getApplicationType(), ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID);
       if (null == applicationMetaType)
       {
-
          applicationMetaType = AbstractElementBuilder.F_CWM.createApplicationTypeType();
          applicationMetaType.setId(ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID);
          applicationMetaType.setName("Message Transformation Bean");
-         applicationMetaType.setIsPredefined(true);
+         applicationMetaType.setIsPredefined(true);  
+         applicationMetaType.setSynchronous(true);
          AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance", "org.eclipse.stardust.engine.extensions.transformation.runtime.transformation.MessageTransformationApplicationInstance");
          AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.transformation.runtime.transformation.MessageProcessingValidator");
 
