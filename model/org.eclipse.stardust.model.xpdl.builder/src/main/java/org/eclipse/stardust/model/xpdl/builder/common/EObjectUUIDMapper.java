@@ -11,10 +11,7 @@
 
 package org.eclipse.stardust.model.xpdl.builder.common;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -28,6 +25,7 @@ public class EObjectUUIDMapper
     *
     */
    protected Map<UUID, EObject> uuidEObjectMap = new HashMap<UUID, EObject>();
+   protected List<EObject> unmappedObjects = new ArrayList<EObject>();
 
    /**
     * @param obj
@@ -36,8 +34,37 @@ public class EObjectUUIDMapper
    {
       UUID uuid = UUID.randomUUID();
       uuidEObjectMap.put(uuid, obj);
-
+      //In case method call originated from Undo operation - make sure object no longer marked as "unmapped" - otherwise
+      //cleanup operation will delete it!
+      unmappedObjects.remove(obj);
       return uuid.toString();
+   }
+   
+   /**
+    * @param obj
+    */
+   public void unmap(EObject obj, boolean checkForExistence)
+   {
+      if (checkForExistence)
+      {
+         UUID uuid = getRealUUID(obj);
+         if (uuid == null)
+         {
+            return;
+         }
+      }
+      unmappedObjects.add(obj);
+   }
+   
+   public void cleanup()
+   {
+      for (Iterator<EObject> i = unmappedObjects.iterator(); i.hasNext();)
+      {
+         EObject element = i.next();
+         UUID uuid = getRealUUID(element);         
+         uuidEObjectMap.remove(uuid);
+      }
+      unmappedObjects.clear();
    }
 
    /**
@@ -74,6 +101,23 @@ public class EObjectUUIDMapper
             if (obj.equals(e.getValue()))
             {
                return e.getKey().toString();
+            }
+         }
+      }
+
+      return null;
+   }
+   
+   private UUID getRealUUID(EObject obj)
+   {
+      if (null != obj)
+      {
+         Set<Map.Entry<UUID, EObject>> entrySet = uuidEObjectMap.entrySet();
+         for (Map.Entry<UUID, EObject> e : entrySet)
+         {
+            if (obj.equals(e.getValue()))
+            {
+               return e.getKey();
             }
          }
       }
