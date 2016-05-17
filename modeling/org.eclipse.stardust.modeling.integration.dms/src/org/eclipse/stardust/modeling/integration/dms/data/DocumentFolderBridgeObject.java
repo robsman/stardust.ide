@@ -18,19 +18,16 @@ import org.eclipse.stardust.modeling.validation.util.PathEntry;
 
 public class DocumentFolderBridgeObject extends StructBridgeObject
 {
-
    public DocumentFolderBridgeObject(IType accessPointType, DirectionType direction,
          PathEntry entry)
    {
       super(accessPointType, direction, entry);
-      // TODO Auto-generated constructor stub
    }
 
    @Override
    public boolean acceptAssignmentFrom(BridgeObject rhs)
    {
       actualTypeName = null;
-      return super.acceptAssignmentFrom(rhs);
+      return isList || super.acceptAssignmentFrom(rhs);
    }
-
 }

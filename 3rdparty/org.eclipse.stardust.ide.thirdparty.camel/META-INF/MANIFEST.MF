@@ -15,4 +15,7 @@ Bundle-ClassPath: lib/jdom.jar,
  lib/camel-sql.jar,
  lib/camel-http.jar,
  lib/camel-mail.jar,
+ lib/camel-velocity.jar,
+ lib/velocity.jar,
+ lib/velocity-tools.jar,
  lib/quartz.jar

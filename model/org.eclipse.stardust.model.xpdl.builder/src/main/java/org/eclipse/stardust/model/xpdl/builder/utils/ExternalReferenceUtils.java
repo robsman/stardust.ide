@@ -1162,7 +1162,7 @@ public class ExternalReferenceUtils
                {
                   String uri = i.next();
                   ModelType modelType = ModelUtils.getReferencedModelByURI((ModelType) model, uri);
-                  if (modelType != null)
+                  if (modelType != null && modelType.getId().equals(refModelID))
                   {
                      referingModels.add((ModelType) model);
                   }

@@ -57,7 +57,7 @@ public class DataValidator implements IModelElementValidator
          }
          else
          {
-            if(TypeDeclarationUtils.isEnumeration(type, true))
+            if (TypeDeclarationUtils.isEnumeration(type, true))
             {
                issues.add(new Issue(Issue.ERROR, element, Structured_Messages.MSG_TypeDeclarationJavaBoundEnum,
                      StructuredDataConstants.TYPE_DECLARATION_ATT));

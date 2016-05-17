@@ -51,5 +51,4 @@ public class DmsDocumentBridgeDescriptor extends BridgeObject
       // TODO Auto-generated method stub
       return super.acceptAssignmentFrom(rhs);
    }
-   
 }

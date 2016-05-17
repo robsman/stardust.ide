@@ -133,9 +133,9 @@ public class DataMappingValidator implements IModelElementValidator
       DataType data = dataMapping.getData();
       if(data.eIsProxy())
       {
-         data = (DataType) WorkspaceManager.getInstance().findElement(data);         
+         data = (DataType) WorkspaceManager.getInstance().findElement(data);
       }
-      
+
       if (PredefinedConstants.STRUCTURED_DATA.equals(data.getMetaType().getId()))
       {
          String dataPath = dataMapping.getDataPath();
@@ -151,9 +151,6 @@ public class DataMappingValidator implements IModelElementValidator
                   if (transformerKey != null)
                   {
                      dataPath = dataPath.substring(ix + 1, dataPath.length() - 1);
-                     System.err.println(MessageFormat.format(
-                           Validation_Messages.MSG_REMOVED_TRANSFORMATION,
-                           transformerKey, dataPath));
                   }
                }
             }

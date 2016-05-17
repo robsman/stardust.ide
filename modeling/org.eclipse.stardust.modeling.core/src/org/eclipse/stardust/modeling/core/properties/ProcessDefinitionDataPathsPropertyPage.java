@@ -23,7 +23,6 @@ import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -43,16 +42,16 @@ public class ProcessDefinitionDataPathsPropertyPage
       extends AbstractModelElementPropertyPage implements IButtonManager
 {
    public static final String DATA_PATHS_ID = "_cwm_data_paths_"; //$NON-NLS-1$
-   
+
    private static final int[] elementFeatureIds = {
       CarnotWorkflowModelPackage.DATA_PATH_TYPE__ID,
       CarnotWorkflowModelPackage.DATA_PATH_TYPE__NAME,
       CarnotWorkflowModelPackage.DATA_PATH_TYPE__DATA,
       CarnotWorkflowModelPackage.DATA_PATH_TYPE__DATA_PATH
    };
-   
+
    private static final String[] labelProperties = {"id"};//$NON-NLS-1$
-   
+
    private Button[] buttons;
    private Object selection;
 
@@ -146,7 +145,7 @@ public class ProcessDefinitionDataPathsPropertyPage
       viewer.setContentProvider(new ModelElementsTableContentProvider(
             CarnotWorkflowModelPackage.eINSTANCE.getProcessDefinitionType_DataPath(),
             elementFeatureIds, labelProperties));
-      
+
       outlineSynchronizer = new ModelElementsOutlineSynchronizer(
             new DefaultOutlineProvider(this,
                CarnotWorkflowModelPackage.eINSTANCE.getProcessDefinitionType_DataPath(),
@@ -154,8 +153,8 @@ public class ProcessDefinitionDataPathsPropertyPage
                CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Name(),
                DATA_PATHS_ID,
                DataPathPropertyPage.class.getName()));
-      
-      addModelElementsOutlineSynchronizer(outlineSynchronizer);      
+
+      addModelElementsOutlineSynchronizer(outlineSynchronizer);
       return composite;
    }
 
@@ -253,7 +252,7 @@ public class ProcessDefinitionDataPathsPropertyPage
    private void performUp(Button[] buttons)
    {
       DataPathType dataPath = (DataPathType) getSelection();
-      EList paths = getProcess().getDataPath();
+      EList<DataPathType> paths = getProcess().getDataPath();
       int index = paths.indexOf(dataPath);
       if (index > 0)
       {
@@ -265,7 +264,7 @@ public class ProcessDefinitionDataPathsPropertyPage
    private void performDown(Button[] buttons)
    {
       DataPathType dataPath = (DataPathType) getSelection();
-      EList paths = getProcess().getDataPath();
+      EList<DataPathType> paths = getProcess().getDataPath();
       int index = paths.indexOf(dataPath);
       if (index >= 0 && index < paths.size() - 1)
       {

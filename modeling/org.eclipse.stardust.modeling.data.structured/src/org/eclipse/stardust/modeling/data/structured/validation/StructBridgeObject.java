@@ -31,6 +31,7 @@ public class StructBridgeObject extends BridgeObject
 //   private PathEntry entry;
    protected String actualTypeName;
    private String label;
+   protected boolean isList;
 
    public StructBridgeObject(IType accessPointType, DirectionType direction, PathEntry entry)
    {
@@ -39,6 +40,7 @@ public class StructBridgeObject extends BridgeObject
       String[] labels = computeActualTypeName(entry);
       label = labels[0];
       actualTypeName = labels[1];
+      isList = isList(entry);
    }
 
    public boolean acceptAssignmentFrom(BridgeObject rhs)
@@ -48,10 +50,10 @@ public class StructBridgeObject extends BridgeObject
          StructBridgeObject other = (StructBridgeObject) rhs;
          if (actualTypeName != null && other.actualTypeName != null)
          {
-            return actualTypeName.equals(other.actualTypeName);
+            return actualTypeName.equals(other.actualTypeName) || isList;
          }
       }
-      return super.acceptAssignmentFrom(rhs);
+      return isList || super.acceptAssignmentFrom(rhs);
    }
 
    public static String[] computeActualTypeName(PathEntry entry)
@@ -73,49 +75,7 @@ public class StructBridgeObject extends BridgeObject
       }
       else if (element instanceof DataType || element instanceof AccessPointType)
       {
-         TypeDeclarationType declaration = null;
-         if(element instanceof DataType)
-         {
-            ExternalReferenceType ref = ((DataType) element).getExternalReference();
-            if (ref != null)
-            {
-               ModelType model = ModelUtils.findContainingModel((DataType) element);
-               ExternalPackages packages = model.getExternalPackages();
-               ExternalPackage pkg = packages == null ? null : packages.getExternalPackage(ref.getLocation());
-               IConnectionManager manager = model.getConnectionManager();
-               ModelType externalModel = manager == null ? null : manager.find(pkg);
-               if (externalModel != null)
-               {
-                  TypeDeclarationsType declarations = externalModel.getTypeDeclarations();
-                  if (declarations != null)
-                  {
-                     declaration = declarations.getTypeDeclaration(ref.getXref());
-                  }
-               }
-            }
-         }
-
-         if (declaration == null)
-         {
-            declaration = (TypeDeclarationType) AttributeUtil.getIdentifiable(
-               (IExtensibleElement) element, StructuredDataConstants.TYPE_DECLARATION_ATT);
-         }
-
-         if (declaration == null)
-         {
-            String typeDeclarationId = AttributeUtil.getAttributeValue(
-                  (IExtensibleElement) element, StructuredDataConstants.TYPE_DECLARATION_ATT);
-            ModelType model = ModelUtils.findContainingModel(element);
-            if (model != null)
-            {
-               TypeDeclarationsType typeDeclarations = model.getTypeDeclarations();
-               if (typeDeclarations != null)
-               {
-                  declaration = typeDeclarations.getTypeDeclaration(typeDeclarationId);
-               }
-            }
-         }
-
+         TypeDeclarationType declaration = findTypeDeclaration(element);
          if (declaration != null)
          {
             XpdlTypeType dataType = declaration.getDataType();
@@ -136,6 +96,82 @@ public class StructBridgeObject extends BridgeObject
       }
 
       return result;
+   }
+
+   public static boolean isList(PathEntry entry)
+   {
+      ITypedElement element = entry.getElement();
+      if (element instanceof StructAccessPointType)
+      {
+         StructAccessPointType struct = (StructAccessPointType) element;
+         TypedXPath xpath = struct.getXPath();
+         return xpath.isList();
+      }
+      else if (element instanceof DataType || element instanceof AccessPointType)
+      {
+         TypeDeclarationType declaration = findTypeDeclaration(element);
+         if (declaration != null)
+         {
+            try
+            {
+               IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(declaration);
+               return xPathMap.getRootXPath().isList();
+            }
+            catch (Exception ex)
+            {
+               // (fh) we do nothing, since we may have at some points incomplete defined models
+            }
+         }
+      }
+
+      return false;
+   }
+
+   protected static TypeDeclarationType findTypeDeclaration(ITypedElement element)
+   {
+      TypeDeclarationType declaration = null;
+      if (element instanceof DataType)
+      {
+         ExternalReferenceType ref = ((DataType) element).getExternalReference();
+         if (ref != null)
+         {
+            ModelType model = ModelUtils.findContainingModel((DataType) element);
+            ExternalPackages packages = model.getExternalPackages();
+            ExternalPackage pkg = packages == null ? null : packages.getExternalPackage(ref.getLocation());
+            IConnectionManager manager = model.getConnectionManager();
+            ModelType externalModel = manager == null ? null : manager.find(pkg);
+            if (externalModel != null)
+            {
+               TypeDeclarationsType declarations = externalModel.getTypeDeclarations();
+               if (declarations != null)
+               {
+                  declaration = declarations.getTypeDeclaration(ref.getXref());
+               }
+            }
+         }
+      }
+
+      if (declaration == null)
+      {
+         declaration = (TypeDeclarationType) AttributeUtil.getIdentifiable(
+            (IExtensibleElement) element, StructuredDataConstants.TYPE_DECLARATION_ATT);
+      }
+
+      if (declaration == null)
+      {
+         String typeDeclarationId = AttributeUtil.getAttributeValue(
+               (IExtensibleElement) element, StructuredDataConstants.TYPE_DECLARATION_ATT);
+         ModelType model = ModelUtils.findContainingModel(element);
+         if (model != null)
+         {
+            TypeDeclarationsType typeDeclarations = model.getTypeDeclarations();
+            if (typeDeclarations != null)
+            {
+               declaration = typeDeclarations.getTypeDeclaration(typeDeclarationId);
+            }
+         }
+      }
+      return declaration;
    }
 
    public String toString()
