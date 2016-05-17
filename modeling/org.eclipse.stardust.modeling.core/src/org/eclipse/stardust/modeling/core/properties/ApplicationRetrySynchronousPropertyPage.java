@@ -191,8 +191,7 @@ public class ApplicationRetrySynchronousPropertyPage extends AbstractModelElemen
          time.getText().setText(timeAttribute.getValue());
       }
 
-      AttributeType retryApplicationAttribute = AttributeUtil.getAttribute((ApplicationType) element,
-            PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_RESPONSIBILITY);
+      AttributeType retryApplicationAttribute = null;
       if(retryApplicationAttribute != null && retryApplicationAttribute.getValue().equals(PredefinedConstants.APPLICATION_CONTEXT))
       {
          retryApplicationButton.setSelection(true);
@@ -223,7 +222,7 @@ public class ApplicationRetrySynchronousPropertyPage extends AbstractModelElemen
                && retryAttribute != null && AttributeUtil.getBooleanValue(retryAttribute))
          {
             retryApplicationButton.setEnabled(false);            
-            retryApplicationButton.setSelection(false);
+            retryApplicationButton.setSelection(true);
          }            
       }               
    }
@@ -238,11 +237,11 @@ public class ApplicationRetrySynchronousPropertyPage extends AbstractModelElemen
          AttributeUtil.setBooleanAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_ENABLE, retryButton.getSelection());
          if(retryApplicationButton.getSelection())
          {
-            AttributeUtil.setAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_RESPONSIBILITY, PredefinedConstants.APPLICATION_CONTEXT);         
+            //AttributeUtil.setAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_RESPONSIBILITY, PredefinedConstants.APPLICATION_CONTEXT);         
          }
          else
          {
-            AttributeUtil.setAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_RESPONSIBILITY, null);
+            //AttributeUtil.setAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_RESPONSIBILITY, null);
          }
       }
    }
