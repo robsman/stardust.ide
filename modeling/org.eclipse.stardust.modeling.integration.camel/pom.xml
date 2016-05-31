@@ -119,11 +119,6 @@
          <artifactId>oro</artifactId>
          <version>${oro.version}</version>
       </dependency>
-      <dependency>
-         <groupId>jdom</groupId>
-         <artifactId>jdom</artifactId>
-         <version>${jdom.version}</version>
-      </dependency>
    </dependencies>
 
    <build>
@@ -149,8 +144,7 @@
                   <configuration>
                      <includeArtifactIds>
                         stardust-engine-camel,stardust-engine-camel-config,
-                        stardust-json-utils,stardust-camel-itext-convertor,stardust-web-camel-templating,
-                        jdom
+                        stardust-json-utils,stardust-camel-itext-convertor,stardust-web-camel-templating
                      </includeArtifactIds>
                      <outputDirectory>${basedir}/lib</outputDirectory>
                   </configuration>

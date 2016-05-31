@@ -6,8 +6,7 @@ Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.camel;singleton:=true
 Bundle-Version: 2.13.1.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-ClassPath: lib/jdom.jar,
- lib/camel-core.jar,
+Bundle-ClassPath: lib/camel-core.jar,
  lib/camel-spring.jar,
  lib/camel-jms.jar,
  lib/camel-quartz.jar,
