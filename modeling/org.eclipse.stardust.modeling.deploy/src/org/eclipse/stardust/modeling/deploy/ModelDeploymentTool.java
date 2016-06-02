@@ -262,30 +262,6 @@ public class ModelDeploymentTool
    private boolean deployModel(List<File> modelFiles, List<IModel> models)
    {
       boolean deployed = false;
-      for (IModel model : models)
-      {
-         @SuppressWarnings("unchecked")
-         List<Inconsistency> inconsistencies = model.checkConsistency();
-         if (inconsistencies.size() > 0)
-         {
-            Inconsistency inc = inconsistencies.get(0);
-            String message = inc.getMessage();
-            if (inc.getError() != null)
-            {
-               message = ValidationExceptionDialog.getMessageFromErrorCase(inc.getError());
-            }
-            int dialogResult = JOptionPane.showConfirmDialog(null,
-               /*Internal_ExportMessages.getString("MSG_InconsistentVersion")*/ //$NON-NLS-1$
-                  message + " " //$NON-NLS-1$
-                  + Deploy_Messages.getString("MSG_Continue"), //$NON-NLS-1$
-                  Deploy_Messages.getString("MSG_ModelVersionDeployment"), //$NON-NLS-1$
-               JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            if (dialogResult != JOptionPane.OK_OPTION)
-            {
-               return false;
-            }
-         }
-      }
 
       try
       {
