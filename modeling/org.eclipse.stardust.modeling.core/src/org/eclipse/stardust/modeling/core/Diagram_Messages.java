@@ -2047,4 +2047,6 @@ public class Diagram_Messages extends NLS {
    public static String LBL_DTD;
    
    public static String LBL_FILE;
+   
+   public static String LBL_KIND;
 }
