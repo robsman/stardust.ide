@@ -2039,4 +2039,12 @@ public class Diagram_Messages extends NLS {
    public static String LBL_Properties;
 
    public static String LBL_Volatile_Data;
+   
+   public static String LBL_XSD;
+   
+   public static String LBL_WSDL_XSD_ENVELOPE;
+   
+   public static String LBL_DTD;
+   
+   public static String LBL_FILE;
 }

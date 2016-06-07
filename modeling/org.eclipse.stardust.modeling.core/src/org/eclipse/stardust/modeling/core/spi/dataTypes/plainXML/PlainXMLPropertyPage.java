@@ -46,10 +46,10 @@ public class PlainXMLPropertyPage extends AbstractModelElementPropertyPage
       implements IDataPropertyPage
 {
    private static final String[][] SCHEMA_TYPES = {
-         {PredefinedConstants.PLAINXML_SCHEMA_TYPE_NONE, "None"}, //$NON-NLS-1$
-         {PredefinedConstants.PLAINXML_SCHEMA_TYPE_XSD, "XSD"}, //$NON-NLS-1$
-         {PredefinedConstants.PLAINXML_SCHEMA_TYPE_WSDL, "WSDL (XSD Envelope)"}, //$NON-NLS-1$
-         {PredefinedConstants.PLAINXML_SCHEMA_TYPE_DTD, "DTD"} //$NON-NLS-1$
+         {PredefinedConstants.PLAINXML_SCHEMA_TYPE_NONE, Diagram_Messages.MSG_DIA_NONE}, 
+         {PredefinedConstants.PLAINXML_SCHEMA_TYPE_XSD, Diagram_Messages.LBL_XSD},
+         {PredefinedConstants.PLAINXML_SCHEMA_TYPE_WSDL, Diagram_Messages.LBL_WSDL_XSD_ENVELOPE},
+         {PredefinedConstants.PLAINXML_SCHEMA_TYPE_DTD, Diagram_Messages.LBL_DTD}
    };
 
    private Combo schemaTypeCombo;
