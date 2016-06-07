@@ -69,6 +69,10 @@ public class Camel_Messages extends NLS
    public static String label_Primittive_Type;
 
    public static String label_Parameters_Definition;
+   
+   public static String label_Camel_Consumer_Route;
+   
+   public static String label_Camel_Producer_Route;
 
    static
    {
