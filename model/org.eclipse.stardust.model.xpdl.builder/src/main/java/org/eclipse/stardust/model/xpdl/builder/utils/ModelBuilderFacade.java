@@ -2423,7 +2423,9 @@ public class ModelBuilderFacade
             model.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST);
       DataType data = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
       data.setId(DmsConstants.DATA_ID_ATTACHMENTS);
-      data.setName("Process Attachments"); //$NON-NLS-1$
+      ResourceBundle rb = ResourceBundle.getBundle("bpm-modeler-messages"); //$NON-NLS-1$
+      String name = rb.getString("modeler.processDefinition.propertyPages.processAttachments.heading"); //$NON-NLS-1$
+      data.setName(name);
       data.setType(dataTypeType);
       model.getData().add(data);
 
