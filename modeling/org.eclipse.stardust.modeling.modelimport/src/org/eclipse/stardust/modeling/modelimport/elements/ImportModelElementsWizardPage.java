@@ -29,31 +29,28 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.CarnotWorkflowModelResourceFactoryImpl;
-import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
-import org.eclipse.stardust.modeling.modelimport.IImportModelWizardPage;
-import org.eclipse.stardust.modeling.modelimport.ISourceGroupProvider;
-import org.eclipse.stardust.modeling.modelimport.ImportPlugin;
-import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.dialogs.WizardDataTransferPage;
 import org.eclipse.ui.internal.IWorkbenchGraphicConstants;
 import org.eclipse.ui.internal.WorkbenchImages;
+
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotWorkflowModelResourceFactoryImpl;
+import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
+import org.eclipse.stardust.modeling.core.Diagram_Messages;
+import org.eclipse.stardust.modeling.modelimport.IImportModelWizardPage;
+import org.eclipse.stardust.modeling.modelimport.ISourceGroupProvider;
+import org.eclipse.stardust.modeling.modelimport.ImportPlugin;
+import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 
 
 @SuppressWarnings("restriction")
@@ -326,18 +323,21 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
 
       modelTypsCombo.addSelectionListener(listener);
 
+      modelTypsCombo.add(Diagram_Messages.LBL_FILE);
+      modelTypsCombo.add(Diagram_Messages.LBL_AUDIT_TRAIL_DATABASE);
+      
       @SuppressWarnings("unchecked")
       Map<String, IConfigurationElement> extensions = ImportPlugin.getExtensions();
-      IConfigurationElement firstConfig = (IConfigurationElement) extensions.get("File"); //$NON-NLS-1$
-      modelTypsCombo.add(firstConfig.getAttribute(SpiConstants.NAME));
+      IConfigurationElement fileConfig = (IConfigurationElement) extensions.get("File"); //$NON-NLS-1$
+      IConfigurationElement auditTrailConfig = (IConfigurationElement) extensions.get("Audit Trail Database"); //$NON-NLS-1$
       for (IConfigurationElement config : extensions.values())
       {
-         if (!config.equals(firstConfig))
+         if (!config.equals(fileConfig) && !config.equals(auditTrailConfig))
          {
             modelTypsCombo.add(config.getAttribute(SpiConstants.NAME));
          }
       }
-
+      
       modelTypsCombo.select(0);
    }
 
@@ -369,6 +369,15 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
    private void onModelTypeSelection()
    {
       String selectionIds = modelTypsCombo.getText();
+      
+      if (modelTypsCombo.getSelectionIndex() == 0)
+      {
+         selectionIds = "File";
+      }
+      if (modelTypsCombo.getSelectionIndex() == 1)
+      {
+         selectionIds = "Audit Trail Database";
+      }
 
       // iterate over all cached source group controls to set the new visibility
       Iterator<String> _iterator = sourceGroupControls.keySet().iterator();
