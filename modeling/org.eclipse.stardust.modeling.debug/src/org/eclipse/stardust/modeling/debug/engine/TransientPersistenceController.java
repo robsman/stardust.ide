@@ -133,10 +133,8 @@ public class TransientPersistenceController implements PersistenceController
       return false;
    }
 
-   @Override
    public boolean isDeleted()
    {
-      // TODO Auto-generated method stub
       return false;
    }
 
