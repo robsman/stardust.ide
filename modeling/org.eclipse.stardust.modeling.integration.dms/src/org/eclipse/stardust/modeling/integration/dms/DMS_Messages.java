@@ -74,7 +74,9 @@ public static String DmsResourcePropertyPage_DefaultPropertiesSchema;
    
    public static String DMSApplicationValidator_NoAccessPoint;
 
-   public static String DMS_PropertyPage_ShowTypes;   
+   public static String DMS_PropertyPage_ShowTypes;  
+
+   public static String DMS_PropertyPage_Process_Attachments;
    
    static
    {

@@ -199,7 +199,7 @@ public class ProcessAttachmentsPropertyPage extends AbstractModelElementProperty
       {
          data = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
          data.setId(DmsConstants.DATA_ID_ATTACHMENTS);
-         data.setName("Process Attachments"); //$NON-NLS-1$
+         data.setName(DMS_Messages.DMS_PropertyPage_Process_Attachments);
          data.setType(findDocumentSetDataType(process));
 
          ModelUtils.findContainingModel(process).getData().add(data);
@@ -218,7 +218,7 @@ public class ProcessAttachmentsPropertyPage extends AbstractModelElementProperty
    {
       DataPathType path = CarnotWorkflowModelFactory.eINSTANCE.createDataPathType();
       path.setId(DmsConstants.PATH_ID_ATTACHMENTS);
-      path.setName("Process Attachments"); //$NON-NLS-1$
+      path.setName(DMS_Messages.DMS_PropertyPage_Process_Attachments);
       path.setDirection(direction);
       
       path.setData(attachments);
