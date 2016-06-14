@@ -2045,13 +2045,9 @@ public class Diagram_Messages extends NLS {
    public static String LBL_WSDL_XSD_ENVELOPE;
    
    public static String LBL_DTD;
-   
-   public static String LBL_FILE;
-   
+      
    public static String LBL_KIND;
-   
-   public static String LBL_AUDIT_TRAIL_DATABASE;
-   
+     
    public static String COLOR_BLACK;
    
    public static String COLOR_DARK_BLUE;
