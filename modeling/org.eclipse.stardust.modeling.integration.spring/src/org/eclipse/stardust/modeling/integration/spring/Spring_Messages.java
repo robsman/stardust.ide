@@ -34,4 +34,6 @@ public class Spring_Messages extends NLS
    public static String LB_BrowseBeans;
 
    public static String MSG_FailedLoadingBeanDef;
+   
+   public static String LB_SpringBeanApplicationClass;
 }
