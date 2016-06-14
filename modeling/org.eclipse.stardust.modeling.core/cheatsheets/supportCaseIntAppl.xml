@@ -17,12 +17,12 @@
     applications.
       </description>
    </intro>
-   <item title="Download Example Source Files" dialog="true" skip="true" href="/org.eclipse.stardust.docs.dev/html/examples/tutorials/support-case/support-case.zip">
+   <item title="Download Example Source Files" dialog="true" skip="true" href="/org.eclipse.stardust.docs.dev/html/examples/tutorials/all-tutorials.zip">
       <description>
          To use this tutorial you need some example classes, which
          are provided in a zipped file.<br/><br/>
 	1. Click the <b>?</b> in the upper right corner of this task to download the example zip file
-		<b>support-case.zip</b>.<br/>
+		<b>all-tutorials.zip</b>.<br/>
 	2. Specify a location to unzip the example sources.
       </description>
    </item>
