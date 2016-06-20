@@ -865,5 +865,27 @@ public class XPDLFinderUtils
       return XPDLFinderUtils.findSymbolRecursively(oid, EndEventSymbol.class, diagram,
             PKG_CWM.getISymbolContainer_EndEventSymbols());
    }
+   
+   /**
+    *
+    * @param processDefinition
+    * @param id
+    * @return
+    */
+   public static DataPathType findDataPath(ProcessDefinitionType processDefinition,
+         String id)
+   {
+      List<DataPathType> dataPaths = processDefinition.getDataPath();
+      DataPathType dataPath = null;
+      for (Iterator<DataPathType> i = dataPaths.iterator(); i.hasNext();)
+      {
+         DataPathType foundType = i.next();
+         if (foundType.getId().equals(id))
+         {
+            dataPath = foundType;
+         }
+      }
+      return dataPath;
+   }
 
 }
