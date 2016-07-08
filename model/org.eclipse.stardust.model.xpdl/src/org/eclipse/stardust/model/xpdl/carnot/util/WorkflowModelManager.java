@@ -211,7 +211,14 @@ public class WorkflowModelManager
       }
       else
       {
-         resource.load(is, options);
+         try
+         {
+            resource.load(is, options);
+         }
+         catch (Exception e)
+         {
+            throw new IOException(e);
+         }
       }
       // List errors = resource.getErrors();
       // List warnings = resource.getWarnings();
