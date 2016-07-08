@@ -293,4 +293,5 @@ public class ModelerConstants
 
    public static final String IS_REFERENCED_LITERAL = "isReferencedModel";
    public static final String IS_UPGRADE_NEEDED = "isUpgradeNeeded";   
+   public static final String FAILURE_EXCEPTION = "failureException";      
 }
