@@ -103,20 +103,27 @@ public class VariableContext
          // In case that the initialization fails the model should still be loadable
       }
    }
+   
+   
+   public void removeVariable(ModelVariable variable, String newValue)
+   {
+      replaceVariable(variable, newValue);
+      variable.setRemoved(true);
+      saveVariables();
+      variables.remove(variable);
+   }
 
    public void saveVariables()
    {
       int j = 0;
-      for (Iterator<ModelVariable> i = getVariables().iterator(); i
-            .hasNext();)
+      for (Iterator<ModelVariable> i = getVariables().iterator(); i.hasNext();)
       {
          ModelVariable modelVariable = i.next();
          removeAttributeSet(modelVariable, j);
          j++;
       }
       j = 0;
-      for (Iterator<ModelVariable> i = getVariables().iterator(); i
-            .hasNext();)
+      for (Iterator<ModelVariable> i = getVariables().iterator(); i.hasNext();)
       {
          ModelVariable modelVariable = i.next();
          createAttributeSet(modelVariable, j);
@@ -268,7 +275,7 @@ public class VariableContext
       }
       variables.removeAll(invalidVariables);
    }
-
+   
    public void refreshVariables(EObject modelElement)
    {
       Matcher matcher = pattern.matcher(modelElement.toString());
