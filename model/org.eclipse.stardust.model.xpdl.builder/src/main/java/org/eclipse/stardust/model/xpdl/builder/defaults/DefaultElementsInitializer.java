@@ -108,7 +108,7 @@ public class DefaultElementsInitializer implements ModelInitializer
       if (!existsData(model, PredefinedConstants.BUSINESS_DATE))
       {
          data = facade.createPrimitiveData(model, PredefinedConstants.BUSINESS_DATE, "Business Date",
-               ModelerConstants.TIMESTAMP_PRIMITIVE_DATA_TYPE);
+               ModelerConstants.CALENDAR_PRIMITIVE_DATA_TYPE);
          data.setPredefined(true);
       }
    }

@@ -202,7 +202,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
    private void createModelUUID(ModelType model)
    {
       String modelUUID = UUID.randomUUID().toString();
-      AttributeUtil.setAttribute(model, "carnot:model:uuid", modelUUID);      
+      AttributeUtil.setAttribute(model, "carnot:model:uuid", modelUUID);
    }
 
    private void createDefaultProcess(ModelType model)
@@ -353,7 +353,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
             PredefinedConstants.BUSINESS_DATE, Diagram_Messages.NAME_BusinessDate,
             Diagram_Messages.DESC_BusinessDate);
       createAttribute(businessDate, PredefinedConstants.TYPE_ATT,
-            "ag.carnot.workflow.spi.providers.data.java.Type", "Timestamp"); //$NON-NLS-1$ //$NON-NLS-2$
+            "ag.carnot.workflow.spi.providers.data.java.Type", "Calendar"); //$NON-NLS-1$ //$NON-NLS-2$
 
       DataType currentLocale = createData(model, primitiveDataType,
             PredefinedConstants.CURRENT_LOCALE, Diagram_Messages.NAME_CurrentLocale,

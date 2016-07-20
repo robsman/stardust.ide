@@ -908,6 +908,10 @@ public class ModelBuilderFacade
       {
          type = Type.Calendar;
       }
+      else if (primitiveTypeID.equals(ModelerConstants.CALENDAR_PRIMITIVE_DATA_TYPE))
+      {
+         type = Type.Calendar;
+      }
       else if (primitiveTypeID.equals(ModelerConstants.TIMESTAMP_PRIMITIVE_DATA_TYPE))
       {
          type = Type.Timestamp;
@@ -1389,13 +1393,13 @@ public class ModelBuilderFacade
          return newWebserviceApplication(model).withIdAndName(applicationID,
                applicationName).build();
       }
-      
+
       if (applicationTypeID.equalsIgnoreCase(ModelerConstants.DECORATOR_APP_CONTEXT_TYPE_KEY))
       {
-         return newDecoratorApplication(model).withIdAndName(applicationID, 
+         return newDecoratorApplication(model).withIdAndName(applicationID,
                applicationName).build();
       }
-      
+
       if (applicationTypeID.equalsIgnoreCase(ModelerConstants.CAMEL_APPLICATION_TYPE_ID))
       {
          return newCamelApplication(model).withIdAndName(applicationID, applicationName)
@@ -2651,7 +2655,7 @@ public class ModelBuilderFacade
       dataSymbol.getDataMappings().add(dataMappingConnection);
       dataMappingConnection.setSourceAnchor(fromAnchor);
       dataMappingConnection.setTargetAnchor(toAnchor);
-                 
+
       if (null == dataMapping.getApplicationAccessPoint()
             && activity.getImplementation().getLiteral().equals("Application"))
       {
