@@ -17,6 +17,7 @@ public class ModelerConstants
    public static final String RULE_SET_CONTEXT = "ruleSet";
    public static final String DATA_ID_PROPERTY = "dataId";
    public static final String DATAMAPPINGS_PROPERTY = "dataMappings";
+   public static final String CONSTANTS_DATAMAPPINGS_PROPERTY = "constantDataMappings";
    public static final String DATAMAPPING_IN = "IN";
    public static final String DATAMAPPING_OUT = "OUT";
    
