@@ -542,7 +542,7 @@ public class UpgradeModelAction extends SelectionAction
       createMissingPrimitiveDataCmd(command, model, PredefinedConstants.PROCESS_PRIORITY,
             "Process Priority", "Priority assigned to the current process.", "int");
       createMissingPrimitiveDataCmd(command, model, PredefinedConstants.BUSINESS_DATE,
-            Diagram_Messages.NAME_BusinessDate, Diagram_Messages.DESC_BusinessDate, "Timestamp");
+            Diagram_Messages.NAME_BusinessDate, Diagram_Messages.DESC_BusinessDate, "Calendar");
    }
 
    protected void createMissingPrimitiveDataCmd(CompoundCommand command, ModelType model,
@@ -569,6 +569,16 @@ public class UpgradeModelAction extends SelectionAction
             command.add(new SetValueCmd(data,
                   CarnotWorkflowModelPackage.eINSTANCE.getDataType_Type(),
                   primitiveDataType));
+         }
+      }
+      else
+      {
+         AttributeType attribute = AttributeUtil.getAttribute(data, PredefinedConstants.TYPE_ATT);
+         if (attribute != null && !subtype.equals(attribute.getValue()))
+         {
+            command.add(new SetValueCmd(attribute,
+                  CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value(),
+                  subtype));
          }
       }
    }
