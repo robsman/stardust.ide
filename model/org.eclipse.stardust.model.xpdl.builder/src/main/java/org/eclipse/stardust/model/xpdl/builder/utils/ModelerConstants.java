@@ -139,6 +139,7 @@ public class ModelerConstants
    public static final String INPUT_DATA_MAPPING_PROPERTY = "inputDataMapping";
    public static final String OUTPUT_DATA_MAPPING_PROPERTY = "outputDataMapping";
    public static final String DESCRIPTOR_USE_SERVERTIME = "useServerTime";
+   public static final String DESCRIPTOR_HIDE_TIME = "hideTime";
    public static final String DEFAULT_LITERAL = "default";
    public static final String DATA_PATH_PROPERTY = "dataPath";
    public static final String APPLICATION_PATH_PROPERTY = "applicationPath";
