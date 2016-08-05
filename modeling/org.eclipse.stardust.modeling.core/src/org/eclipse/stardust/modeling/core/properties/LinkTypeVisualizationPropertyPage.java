@@ -11,6 +11,8 @@
 package org.eclipse.stardust.modeling.core.properties;
 
 import org.eclipse.emf.common.util.Enumerator;
+import org.eclipse.jface.viewers.LabelProvider;
+
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.LinkColor;
@@ -90,13 +92,152 @@ public class LinkTypeVisualizationPropertyPage extends AbstractModelElementPrope
       lineViewer = FormBuilder.createComboViewer(composite,
             Diagram_Messages.LB_LineType, LinkLineStyle.VALUES.subList(1,
                   LinkLineStyle.VALUES.size()));
+      lineViewer.getViewer().setLabelProvider(new LabelProvider()
+      {
+
+         @Override
+         public String getText(Object element)
+         {
+            String value = super.getText(element);
+            if (value.equals(LinkLineStyle.LONG_STROKES_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.LINESTYLE_LONG_STROKES;
+            }
+            if (value.equals(LinkLineStyle.SHORT_STROKES_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.LINESTYLE_SHORT_STROKES;
+            }
+            if (value.equals(LinkLineStyle.NORMAL_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.LINESTYLE_NORMAL_LINE;
+            }
+            return value;
+         }
+
+      });
+      
+      
       FormBuilder.createLabel(composite, " ", 2); //$NON-NLS-1$
       startSymbolViewer = FormBuilder.createComboViewer(composite,
             Diagram_Messages.LB_StartSymbol, LinkEndStyle.VALUES.subList(1,
                   LinkEndStyle.VALUES.size()));
+      
+      startSymbolViewer.getViewer().setLabelProvider(new LabelProvider()
+      {
+
+         @Override
+         public String getText(Object element)
+         {
+            String value = super.getText(element);
+            if (value.equals(LinkEndStyle.EMPTY_RHOMBUS_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.ENDSTYLE_EMPTY_RHOMBUS;
+            }
+            if (value.equals(LinkEndStyle.EMPTY_TRIANGLE_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.ENDSTYLE_EMPTY_TRIANGLE;
+            }
+            if (value.equals(LinkEndStyle.FILLED_RHOMBUS_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.ENDSTYLE_FILLED_RHOMBUS;
+            }
+            if (value.equals(LinkEndStyle.FILLED_TRIANGLE_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.ENDSTYLE_FILLED_TRIANGLE;
+            }
+            if (value.equals(LinkEndStyle.OPEN_TRIANGLE_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.ENDSTYLE_OPEN_TRIANGLE;
+            }
+            if (value.equals(LinkEndStyle.NO_ARROW_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.ENDSTYLE_WITHOUT_SYMBOL;
+            }
+            return value;
+         }
+
+      });
+      
+      
       endSymbolViewer = FormBuilder.createComboViewer(composite,
             Diagram_Messages.LB_EndSymbol, LinkEndStyle.VALUES.subList(1,
                   LinkEndStyle.VALUES.size())); //$NON-NLS-1$
+      
+      endSymbolViewer.getViewer().setLabelProvider(new LabelProvider()
+      {
+
+         @Override
+         public String getText(Object element)
+         {
+            String value = super.getText(element);
+            if (value.equals(LinkEndStyle.EMPTY_RHOMBUS_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.ENDSTYLE_EMPTY_RHOMBUS;
+            }
+            if (value.equals(LinkEndStyle.EMPTY_TRIANGLE_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.ENDSTYLE_EMPTY_TRIANGLE;
+            }
+            if (value.equals(LinkEndStyle.FILLED_RHOMBUS_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.ENDSTYLE_FILLED_RHOMBUS;
+            }
+            if (value.equals(LinkEndStyle.FILLED_TRIANGLE_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.ENDSTYLE_FILLED_TRIANGLE;
+            }
+            if (value.equals(LinkEndStyle.OPEN_TRIANGLE_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.ENDSTYLE_OPEN_TRIANGLE;
+            }
+            if (value.equals(LinkEndStyle.NO_ARROW_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.ENDSTYLE_WITHOUT_SYMBOL;
+            }
+            return value;
+         }
+
+      });
+      
+      colorViewer.getViewer().setLabelProvider(new LabelProvider()
+      {
+
+         @Override
+         public String getText(Object element)
+         {
+            String value = super.getText(element);
+            if (value.equals(LinkColor.BLACK_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.COLOR_BLACK;
+            }
+            if (value.equals(LinkColor.DARK_BLUE_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.COLOR_DARK_BLUE;
+            }
+            if (value.equals(LinkColor.DARK_GRAY_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.COLOR_DARK_GRAY;
+            }
+            if (value.equals(LinkColor.BLUE_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.COLOR_BLUE;
+            }
+            if (value.equals(LinkColor.LIGHT_GRAY_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.COLOR_LIGHT_GRAY;
+            }
+            if (value.equals(LinkColor.RED_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.COLOR_RED;
+            }
+            if (value.equals(LinkColor.YELLOW_LITERAL.getLiteral()))
+            {
+               return Diagram_Messages.COLOR_YELLOW;
+            }
+            return value;
+         }
+
+      });
 
       return composite;
    }

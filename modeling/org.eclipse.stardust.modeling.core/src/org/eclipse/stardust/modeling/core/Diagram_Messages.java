@@ -2039,4 +2039,46 @@ public class Diagram_Messages extends NLS {
    public static String LBL_Properties;
 
    public static String LBL_Volatile_Data;
+   
+   public static String LBL_XSD;
+   
+   public static String LBL_WSDL_XSD_ENVELOPE;
+   
+   public static String LBL_DTD;
+      
+   public static String LBL_KIND;
+     
+   public static String COLOR_BLACK;
+   
+   public static String COLOR_DARK_BLUE;
+   
+   public static String COLOR_DARK_GRAY;
+   
+   public static String COLOR_BLUE;
+   
+   public static String COLOR_LIGHT_GRAY;
+   
+   public static String COLOR_RED;
+   
+   public static String COLOR_YELLOW;
+   
+   public static String LINESTYLE_NORMAL_LINE;
+   
+   public static String LINESTYLE_SHORT_STROKES;
+   
+   public static String LINESTYLE_LONG_STROKES;
+   
+   public static String ENDSTYLE_WITHOUT_SYMBOL;
+   
+   public static String ENDSTYLE_OPEN_TRIANGLE;
+   
+   public static String ENDSTYLE_EMPTY_TRIANGLE;
+   
+   public static String ENDSTYLE_FILLED_TRIANGLE;
+   
+   public static String ENDSTYLE_EMPTY_RHOMBUS;
+   
+   public static String ENDSTYLE_FILLED_RHOMBUS;
+   
+   
 }

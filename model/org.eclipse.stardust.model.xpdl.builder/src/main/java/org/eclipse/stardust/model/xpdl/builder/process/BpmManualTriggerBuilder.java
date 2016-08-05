@@ -13,6 +13,7 @@ package org.eclipse.stardust.model.xpdl.builder.process;
 import static org.eclipse.stardust.common.StringUtils.isEmpty;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.xpdl.builder.utils.XPDLFinderUtils;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -64,6 +65,7 @@ public class BpmManualTriggerBuilder
       {
          AttributeUtil.setAttribute(element,
                PredefinedConstants.MANUAL_TRIGGER_PARTICIPANT_ATT, participantId);
+         AttributeUtil.setReference(element, PredefinedConstants.PARTICIPANT_ATT, null);
       }
       else
       {
@@ -77,13 +79,35 @@ public class BpmManualTriggerBuilder
 
       return this;
    }
+   
 
    public BpmManualTriggerBuilder accessibleTo(IModelParticipant participant)
    {
-      if((participant != null && !(participant instanceof ConditionalPerformerType))
+      if ((participant != null && !(participant instanceof ConditionalPerformerType))
             || participant == null)
       {
-         accessibleTo((null != participant) ? participant.getId() : null);
+         String participantId = null;
+         if (participant != null)
+         {
+            participantId = participant.getId();
+         }
+         if (!isEmpty(participantId))
+         {
+            AttributeUtil.setReference(element, PredefinedConstants.PARTICIPANT_ATT,
+                  participant);
+            AttributeUtil.setAttribute(element,
+                  PredefinedConstants.MANUAL_TRIGGER_PARTICIPANT_ATT, participantId);
+
+         }
+         else
+         {
+            AttributeType participantAttr = AttributeUtil.getAttribute(element,
+                  PredefinedConstants.MANUAL_TRIGGER_PARTICIPANT_ATT);
+            if (null != participantAttr)
+            {
+               element.getAttribute().remove(participantAttr);
+            }
+         }
       }
 
       return this;

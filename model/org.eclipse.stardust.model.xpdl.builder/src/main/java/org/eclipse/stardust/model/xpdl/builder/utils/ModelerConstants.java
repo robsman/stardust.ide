@@ -19,6 +19,10 @@ public class ModelerConstants
    public static final String DATAMAPPINGS_PROPERTY = "dataMappings";
    public static final String DATAMAPPING_IN = "IN";
    public static final String DATAMAPPING_OUT = "OUT";
+   
+   public static final String DATAMAPPING_CONSTANT_TYPE = "dataMappingConstantType";
+   public static final String DATAMAPPING_CONSTANT_VALUE = "dataMappingConstantValue";
+      
    public static final String DATA_NAME_PROPERTY = "dataName";
    public static final String DATA_FULL_ID_PROPERTY = "dataFullId";
    public static final String DATA_PROPERTY = "data";
@@ -289,4 +293,5 @@ public class ModelerConstants
 
    public static final String IS_REFERENCED_LITERAL = "isReferencedModel";
    public static final String IS_UPGRADE_NEEDED = "isUpgradeNeeded";   
+   public static final String FAILURE_EXCEPTION = "failureException";      
 }

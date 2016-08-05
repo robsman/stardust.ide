@@ -339,7 +339,7 @@ public class TransformationConfigurationTab extends AbstractLaunchConfigurationT
    }
    public String getName()
    {
-      return "Message Transformation Test Configuration"; //$NON-NLS-1$
+      return Modeling_Messages.LBL_MESSAGE_TRANSFORMATION_TEST_CONFIGURATION;
    }
 
    public void initializeFrom(ILaunchConfiguration configuration)

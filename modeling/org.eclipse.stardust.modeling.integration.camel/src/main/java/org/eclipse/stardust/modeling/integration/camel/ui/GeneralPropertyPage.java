@@ -711,9 +711,9 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
       {
          super(ConfigurationElement.CFG_PAGE);
          attributes.put(SpiConstants.ID, CONSUMER_NODE); //$NON-NLS-1$
-         attributes.put(SpiConstants.NAME, "Consumer Route"); //$NON-NLS-1$
+         attributes.put(SpiConstants.NAME, Camel_Messages.label_Camel_Consumer_Route); 
          attributes.put(SpiConstants.ICON, null);
-         attributes.put(SpiConstants.PROPERTY_PAGE_CLASS, CamelConsumerPropertyPage.class.getName());//
+         attributes.put(SpiConstants.PROPERTY_PAGE_CLASS, CamelConsumerPropertyPage.class.getName());
       }
 
       public Object createExecutableExtension(String propertyName) throws CoreException
@@ -739,10 +739,10 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
       public ProducerConfigurationElement()
       {
          super(ConfigurationElement.CFG_PAGE);
-         attributes.put(SpiConstants.ID, PRODUCER_NODE); //$NON-NLS-1$
-         attributes.put(SpiConstants.NAME, "Producer Route"); //$NON-NLS-1$
+         attributes.put(SpiConstants.ID, PRODUCER_NODE); 
+         attributes.put(SpiConstants.NAME, Camel_Messages.label_Camel_Producer_Route); 
          attributes.put(SpiConstants.ICON, null);
-         attributes.put(SpiConstants.PROPERTY_PAGE_CLASS, CamelProducerSpringBeanPropertyPage.class.getName());//
+         attributes.put(SpiConstants.PROPERTY_PAGE_CLASS, CamelProducerSpringBeanPropertyPage.class.getName());
       }
 
       public Object createExecutableExtension(String propertyName) throws CoreException

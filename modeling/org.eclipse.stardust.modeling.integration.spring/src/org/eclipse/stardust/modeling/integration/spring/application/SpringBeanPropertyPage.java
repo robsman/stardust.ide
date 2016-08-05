@@ -26,7 +26,9 @@ import org.eclipse.stardust.modeling.core.editors.ui.TypeSelectionComposite;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.stardust.modeling.integration.spring.SpringConstants;
+import org.eclipse.stardust.modeling.integration.spring.Spring_Messages;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
+
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
@@ -83,7 +85,7 @@ public class SpringBeanPropertyPage extends AbstractModelElementPropertyPage
       LabelWithStatus classLabel = FormBuilder.createLabelWithRightAlignedStatus(
          composite, Diagram_Messages.LB_Class);
       classBrowser = new TypeSelectionComposite(composite,
-            Diagram_Messages.PlainJavaPropertyPage_LB_Plain_Java, 2);
+            Spring_Messages.LB_SpringBeanApplicationClass, 2);
       classText = new LabeledText(classBrowser.getText(), classLabel);
 
       LabelWithStatus methodLabel = FormBuilder.createLabelWithRightAlignedStatus(

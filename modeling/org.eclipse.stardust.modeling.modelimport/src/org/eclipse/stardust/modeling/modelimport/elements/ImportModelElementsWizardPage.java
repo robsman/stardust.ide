@@ -328,8 +328,10 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
 
       @SuppressWarnings("unchecked")
       Map<String, IConfigurationElement> extensions = ImportPlugin.getExtensions();
-      IConfigurationElement firstConfig = (IConfigurationElement) extensions.get("File"); //$NON-NLS-1$
+      IConfigurationElement firstConfig = (IConfigurationElement) extensions.get(Import_Messages.LB_From_File); //$NON-NLS-1$
       modelTypsCombo.add(firstConfig.getAttribute(SpiConstants.NAME));
+      
+            
       for (IConfigurationElement config : extensions.values())
       {
          if (!config.equals(firstConfig))
@@ -339,6 +341,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
       }
 
       modelTypsCombo.select(0);
+      
    }
 
    public boolean isPageComplete()

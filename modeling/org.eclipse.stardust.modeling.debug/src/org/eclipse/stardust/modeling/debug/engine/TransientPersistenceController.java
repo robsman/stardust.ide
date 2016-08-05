@@ -22,9 +22,9 @@ import org.eclipse.stardust.engine.core.persistence.Session;
 import org.eclipse.stardust.engine.core.persistence.jdbc.SessionFactory;
 
 /**
- * This class is adapted from 
+ * This class is adapted from
  * {@link ag.carnot.workflow.tools.defdesk.debugger.TransientPersistenceController}.
- * 
+ *
  * @author sborn
  * @version $Revision$
  */
@@ -72,11 +72,11 @@ public class TransientPersistenceController implements PersistenceController
    {
       markDeleted(false);
    }
-   
+
    /**
-    * This implementation deletes the persistent object administrated by this 
+    * This implementation deletes the persistent object administrated by this
     * PersistenceController with no regard to the parameter writeThrough.
-    * 
+    *
     * @param writeThrough not yet evaluated
     */
    public void markDeleted(boolean writeThrough)
@@ -104,7 +104,7 @@ public class TransientPersistenceController implements PersistenceController
       // ignore hint on modified fields
       markModified();
    }
-   
+
    public void markCreated()
    {
    }
@@ -133,12 +133,17 @@ public class TransientPersistenceController implements PersistenceController
       return false;
    }
 
+   public boolean isDeleted()
+   {
+      return false;
+   }
+
    public void close()
    {
    }
 
    public Session getSession()
-   {      
+   {
       return SessionFactory.getSession(SessionFactory.AUDIT_TRAIL);
    }
 

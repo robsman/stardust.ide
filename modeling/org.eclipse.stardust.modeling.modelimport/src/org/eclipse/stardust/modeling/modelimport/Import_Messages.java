@@ -164,5 +164,7 @@ public class Import_Messages extends NLS
    public static String MSG_CannotCreateDocFromNull;
 
    public static String MSG_ErrRetrievingChild;
+   
+   public static String LB_From_File;
 
 }

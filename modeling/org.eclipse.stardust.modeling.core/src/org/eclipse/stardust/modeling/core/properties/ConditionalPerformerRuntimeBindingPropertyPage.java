@@ -175,7 +175,7 @@ public class ConditionalPerformerRuntimeBindingPropertyPage
    {
       Composite composite = FormBuilder.createComposite(parent, 2);
       LabelWithStatus kindLabel = FormBuilder.createLabelWithRightAlignedStatus(
-            composite, "Kind: "); //$NON-NLS-1$
+            composite, Diagram_Messages.LBL_KIND);
       ((GridLayout) kindLabel.getLayout()).marginRight = 28;
       kindCombo = FormBuilder.createCombo(composite);
       for (int i = 0; i < labels.length; i++)
