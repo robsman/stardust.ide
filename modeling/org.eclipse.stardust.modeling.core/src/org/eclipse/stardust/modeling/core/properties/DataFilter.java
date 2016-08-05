@@ -75,6 +75,10 @@ public class DataFilter extends ViewerFilter
          return false;
       }
       DataType dataType = (DataType) element;
+      if (dataType.getType() == null)
+      {
+         return false;
+      }
       String typeId = dataType.getType().getId();
 
       if ((PredefinedConstants.PRIMITIVE_DATA.equals(typeId) || PredefinedConstants.STRUCTURED_DATA
