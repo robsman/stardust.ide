@@ -122,11 +122,7 @@ public class AccessPathBrowserComposite
    private void enableControls()
    {
       boolean enable = enabled && accessPoint != null;
-      if(accessPoint != null && accessPoint.eIsProxy())
-      {
-         enable = false;
-      }
-      
+           
       if (enable)
       {
          if (accessPoint instanceof DataType)
