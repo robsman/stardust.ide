@@ -811,7 +811,7 @@ public class WebModelerConnectionManager implements IConnectionManager
             attribute.setValue("project:/" + filename); //$NON-NLS-1$
             connection.getAttributes().add(attribute);
 
-            AttributeType modelUUID = AttributeUtil.getAttribute(referencedModel, "carnot:model:uuid");
+            AttributeType modelUUID = AttributeUtil.getAttribute(referencedModel, PredefinedConstants.MODEL_ELEMENT_UUID);
             if (modelUUID != null)
             {
                attribute = factory.createAttribute();

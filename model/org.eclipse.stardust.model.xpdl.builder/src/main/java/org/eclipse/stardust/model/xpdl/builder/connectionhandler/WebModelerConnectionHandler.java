@@ -27,6 +27,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.runtime.DocumentManagementService;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.utils.ExternalReferenceUtils;
@@ -83,7 +84,7 @@ public class WebModelerConnectionHandler implements ConnectionHandler
          {
             for (ModelType uuidModel : strategy.getModels().values())
             {
-               AttributeType attribute = AttributeUtil.getAttribute(uuidModel, "carnot:model:uuid");
+               AttributeType attribute = AttributeUtil.getAttribute(uuidModel, PredefinedConstants.MODEL_ELEMENT_UUID);
                if (attribute != null)
                {
                   if (attribute.getValue().equals(uuid))

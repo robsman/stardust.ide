@@ -15,6 +15,11 @@ import java.util.*;
 
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+
 /**
  * @author Shrikant.Gangal
  *
@@ -33,6 +38,18 @@ public class EObjectUUIDMapper
    public String map(EObject obj)
    {
       UUID uuid = UUID.randomUUID();
+      
+      if (obj instanceof IExtensibleElement)
+      {
+         IExtensibleElement extensibleElement = (IExtensibleElement) obj;
+         String modelUUID = AttributeUtil.getAttributeValue(extensibleElement,
+               PredefinedConstants.MODEL_ELEMENT_UUID);
+         if (modelUUID != null)
+         {
+            uuid = UUID.fromString(modelUUID);
+         }
+      }
+      
       uuidEObjectMap.put(uuid, obj);
       //In case method call originated from Undo operation - make sure object no longer marked as "unmapped" - otherwise
       //cleanup operation will delete it!

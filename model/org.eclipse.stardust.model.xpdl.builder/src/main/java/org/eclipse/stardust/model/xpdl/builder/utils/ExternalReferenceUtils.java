@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.xsd.XSDImport;
 
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.EObjectProxyHandler;
@@ -85,7 +86,7 @@ public class ExternalReferenceUtils
             providerModel));
       activity.setExternalRef(idRef);
       AttributeType uuidAttribute = AttributeUtil.getAttribute(
-            (IIdentifiableModelElement) application, "carnot:model:uuid");
+            (IIdentifiableModelElement) application, PredefinedConstants.MODEL_ELEMENT_UUID);
       if (uuidAttribute != null)
       {
          AttributeUtil.setAttribute((IIdentifiableModelElement) activity,
@@ -123,7 +124,7 @@ public class ExternalReferenceUtils
          activity.setSubProcessMode(SubProcessModeType.SYNC_SEPARATE_LITERAL);
 
          AttributeType uuidAttribute = AttributeUtil.getAttribute(
-               (IIdentifiableModelElement) process, "carnot:model:uuid");
+               (IIdentifiableModelElement) process, PredefinedConstants.MODEL_ELEMENT_UUID);
          if (uuidAttribute != null)
          {
             AttributeUtil.setAttribute((IIdentifiableModelElement) activity,
@@ -170,7 +171,7 @@ public class ExternalReferenceUtils
       reference.setXref(typeDeclaration.getId());
 
       String uuid = ExtendedAttributeUtil.getAttributeValue(
-            typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+            typeDeclaration.getExtendedAttributes(), PredefinedConstants.MODEL_ELEMENT_UUID);
       if (uuid != null)
       {
          reference.setUuid(uuid);
@@ -218,7 +219,7 @@ public class ExternalReferenceUtils
       }
       reference.setXref(typeDeclaration.getId());
       String uuid = ExtendedAttributeUtil.getAttributeValue(
-            typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+            typeDeclaration.getExtendedAttributes(), PredefinedConstants.MODEL_ELEMENT_UUID);
       if (uuid != null)
       {
          reference.setUuid(uuid);
@@ -244,7 +245,7 @@ public class ExternalReferenceUtils
       TypeDeclarationType typeDeclaration = providerModel.getTypeDeclarations()
             .getTypeDeclaration(declarationID);
       String uuid = ExtendedAttributeUtil.getAttributeValue(
-            typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+            typeDeclaration.getExtendedAttributes(), PredefinedConstants.MODEL_ELEMENT_UUID);
       if (uuid != null)
       {
          extRef.setUuid(uuid);
@@ -262,10 +263,10 @@ public class ExternalReferenceUtils
       if (typeDeclaration != null)
       {
          String uuid = ExtendedAttributeUtil.getAttributeValue(
-               typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+               typeDeclaration.getExtendedAttributes(), PredefinedConstants.MODEL_ELEMENT_UUID);
          if (uuid != null)
          {
-            AttributeUtil.setAttribute(accessPoint, "carnot:connection:uuid",
+            AttributeUtil.setAttribute(accessPoint, PredefinedConstants.MODEL_ELEMENT_UUID,
                   uuid);
          }
       }
@@ -312,7 +313,7 @@ public class ExternalReferenceUtils
          }
          reference.setXref(declarationID);
          String uuid = ExtendedAttributeUtil.getAttributeValue(
-               typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+               typeDeclaration.getExtendedAttributes(), PredefinedConstants.MODEL_ELEMENT_UUID);
          if (uuid != null)
          {
             reference.setUuid(uuid);
@@ -345,10 +346,10 @@ public class ExternalReferenceUtils
          if (typeDeclaration != null)
          {
             String uuid = ExtendedAttributeUtil.getAttributeValue(
-                  typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+                  typeDeclaration.getExtendedAttributes(), PredefinedConstants.MODEL_ELEMENT_UUID);
             if (uuid != null)
             {
-               ModelBuilderFacade.setAttribute(data, "carnot:connection:uuid", uuid);
+               ModelBuilderFacade.setAttribute(data, PredefinedConstants.MODEL_ELEMENT_UUID, uuid);
             }
          }
       }
@@ -723,7 +724,7 @@ public class ExternalReferenceUtils
       {
          ModelType uuidModel = j.next();
          AttributeType attribute = AttributeUtil.getAttribute(uuidModel,
-               "carnot:model:uuid");
+               PredefinedConstants.MODEL_ELEMENT_UUID);
          if (attribute != null)
          {
             if (attribute.getValue().equals(connectionUUID))
@@ -737,7 +738,7 @@ public class ExternalReferenceUtils
 
    private static void fixConnection(Connection connection, ModelType refModel)
    {
-      AttributeType attribute = AttributeUtil.getAttribute(refModel, "carnot:model:uuid");
+      AttributeType attribute = AttributeUtil.getAttribute(refModel, PredefinedConstants.MODEL_ELEMENT_UUID);
       String connectionUUID = connection.getAttribute("connectionUUID");
       if (null != connectionUUID)
       {
@@ -1040,7 +1041,7 @@ public class ExternalReferenceUtils
       {
          ApplicationType application = i.next();
          AttributeType uuidAttribute = AttributeUtil.getAttribute(
-               (IIdentifiableModelElement) application, "carnot:model:uuid");
+               (IIdentifiableModelElement) application, PredefinedConstants.MODEL_ELEMENT_UUID);
          if (uuidAttribute != null)
          {
             if (uuidAttribute.getAttributeValue().equals(uuid))
@@ -1060,7 +1061,7 @@ public class ExternalReferenceUtils
       {
          ProcessDefinitionType process = i.next();
          AttributeType uuidAttribute = AttributeUtil.getAttribute(
-               (IIdentifiableModelElement) process, "carnot:model:uuid");
+               (IIdentifiableModelElement) process, PredefinedConstants.MODEL_ELEMENT_UUID);
          if (uuidAttribute != null)
          {
             if (uuidAttribute.getAttributeValue().equals(uuid))
@@ -1080,7 +1081,7 @@ public class ExternalReferenceUtils
       {
          TypeDeclarationType declaration = i.next();
          ExtendedAttributeType uuidAttribute = ExtendedAttributeUtil.getAttribute(
-               declaration.getExtendedAttributes(), "carnot:model:uuid");
+               declaration.getExtendedAttributes(), PredefinedConstants.MODEL_ELEMENT_UUID);
          if (uuidAttribute != null)
          {
             if (uuidAttribute.getValue().equals(uuid))

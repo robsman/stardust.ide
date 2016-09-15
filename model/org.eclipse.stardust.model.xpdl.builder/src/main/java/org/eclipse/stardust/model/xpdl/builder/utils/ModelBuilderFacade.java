@@ -223,7 +223,7 @@ public class ModelBuilderFacade
 
       model.getTypeDeclarations().getTypeDeclaration().add(structuredDataType);
 
-      setAttribute(structuredDataType, "carnot:model:uuid", UUID.randomUUID().toString());
+      setAttribute(structuredDataType, PredefinedConstants.MODEL_ELEMENT_UUID, UUID.randomUUID().toString());
 
 
 

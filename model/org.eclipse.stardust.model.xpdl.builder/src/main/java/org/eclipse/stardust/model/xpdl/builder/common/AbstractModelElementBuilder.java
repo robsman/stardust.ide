@@ -17,6 +17,7 @@ import java.util.UUID;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
 import org.eclipse.stardust.model.xpdl.builder.utils.ElementBuilderUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.NameIdUtilsExtension;
@@ -70,7 +71,7 @@ public abstract class AbstractModelElementBuilder<T extends IIdentifiableElement
             || (element instanceof IModelParticipant)
             || (element instanceof ProcessDefinitionType))
       {
-         AttributeUtil.setAttribute((IIdentifiableModelElement) element, "carnot:model:uuid", UUID
+         AttributeUtil.setAttribute((IIdentifiableModelElement) element, PredefinedConstants.MODEL_ELEMENT_UUID, UUID
                .randomUUID().toString());
       }
       if (element instanceof IdRefOwner || element instanceof DataType)
