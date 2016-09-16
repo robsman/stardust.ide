@@ -266,7 +266,7 @@ public class ExternalReferenceUtils
                typeDeclaration.getExtendedAttributes(), PredefinedConstants.MODEL_ELEMENT_UUID);
          if (uuid != null)
          {
-            AttributeUtil.setAttribute(accessPoint, PredefinedConstants.MODEL_ELEMENT_UUID,
+            AttributeUtil.setAttribute(accessPoint, "carnot:connection:uuid",
                   uuid);
          }
       }
@@ -349,7 +349,7 @@ public class ExternalReferenceUtils
                   typeDeclaration.getExtendedAttributes(), PredefinedConstants.MODEL_ELEMENT_UUID);
             if (uuid != null)
             {
-               ModelBuilderFacade.setAttribute(data, PredefinedConstants.MODEL_ELEMENT_UUID, uuid);
+               ModelBuilderFacade.setAttribute(data, "carnot:connection:uuid", uuid);
             }
          }
       }

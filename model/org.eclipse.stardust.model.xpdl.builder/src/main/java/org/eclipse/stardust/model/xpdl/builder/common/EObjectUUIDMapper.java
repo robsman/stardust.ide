@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 
 /**
